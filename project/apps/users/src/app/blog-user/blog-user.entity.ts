@@ -9,7 +9,8 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
   public id?: string;
   public email: string;
   public username: string;
-  public name:string;
+  public name: string;
+  public avatar: string;
   public birthDate: Date;
   public role: UserRole;
   public registerDate: Date;
@@ -25,6 +26,7 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
       email: this.email,
       username: this.username,
       name: this.name,
+      avatar: this.avatar,
       birthDate: this.birthDate,
       role: this.role,
       registerDate: this.registerDate,
@@ -36,6 +38,7 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
     this.email = data.email;
     this.username = data.username;
     this.name = data.name;
+    this.avatar = data.avatar;
     this.birthDate = data.birthDate;
     this.role = data.role;
     this.registerDate = data.registerDate;

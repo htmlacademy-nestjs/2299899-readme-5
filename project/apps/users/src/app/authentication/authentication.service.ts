@@ -20,11 +20,11 @@ export class AuthneticationService {
   ) {}
 
   public async register(dto: CreateUserDto) {
-    const { email, username, name, birthDate, registerDate, password } = dto;
+    const { email, username, name, birthDate, password } = dto;
     const blogUser = {
       email, username, name, role: UserRole.User,
       avatar: '', birthDate: dayjs(birthDate).toDate(),
-      registerDate: dayjs(registerDate).toDate(),
+      registerDate: dayjs().toDate(),
       passwordHash: '',
     };
     const existUser = await this.blogUserRepository.findByEmail(email);
