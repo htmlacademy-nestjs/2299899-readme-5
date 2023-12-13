@@ -7,4 +7,5 @@ export interface User {
   name:string;
   birthDate: Date;
   role: UserRole;
+  registerDate: Date;
 }
