@@ -14,7 +14,6 @@
         "outputPath": "dist/apps/file-storage",
         "main": "apps/file-storage/src/main.ts",
         "tsConfig": "apps/file-storage/tsconfig.app.json",
-        "assets": ["apps/file-storage/src/assets"],
         "isolatedConfig": true,
         "webpackConfig": "apps/file-storage/webpack.config.js"
       },
