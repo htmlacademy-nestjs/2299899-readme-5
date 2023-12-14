@@ -6,7 +6,7 @@ import { AuthUser, UserRole } from '@project/types';
 import { SALT_ROUNDS } from './blog-user.const';
 
 export class BlogUserEntity implements AuthUser, Entity<string> {
-  public id?: string;
+  public id: string;
   public email: string;
   public username: string;
   public name: string;
