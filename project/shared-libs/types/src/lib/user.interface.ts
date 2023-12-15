@@ -8,5 +8,4 @@ export interface User {
   avatar: string;
   birthDate: Date;
   role: UserRole;
-  registerDate: Date;
 }
