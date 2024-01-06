@@ -18,6 +18,9 @@
       "@project/config-users": ["shared-libs/config/users/src/index.ts"],
       "@project/core": ["shared-libs/core/src/index.ts"],
       "@project/helpers": ["shared-libs/helpers/src/index.ts"],
+      "@project/shared-libs/blog/models": [
+        "shared-libs/blog/models/src/index.ts"
+      ],
       "@project/types": ["shared-libs/types/src/index.ts"]
     }
   },
