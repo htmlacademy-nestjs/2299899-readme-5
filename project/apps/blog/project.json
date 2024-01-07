@@ -50,6 +50,34 @@
       "options": {
         "jestConfig": "apps/blog/jest.config.ts"
       }
+    },
+    "db:lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma validate --schema ./schema.prisma",
+        "cwd": "shared-libs/blog/models/prisma"
+      }
+    },
+    "db:migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma migrate reset --schema ./schema.prisma --force --skip-generate --skip-seed",
+        "cwd": "shared-libs/blog/models/prisma"
+      }
+    },
+    "db:reset": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma migrate reset --schema ./schema.prisma --force --skip-generate --skip-seed",
+        "cwd": "shared-libs/blog/models/prisma"
+      }
+    },
+    "db:generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma generate --schema ./schema.prisma",
+        "cwd": "shared-libs/blog/models/prisma"
+      }
     }
   },
   "tags": []
