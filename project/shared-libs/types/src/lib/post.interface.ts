@@ -1,14 +1,15 @@
-import { User } from './user.interface';
+import { PostType } from './post-type.interface';
 
 export interface Post {
   id?: string;
+  type: PostType;
   title: string;
-  description: string;
-  tags: string[];
   url: string;
   photo: string;
-  videoLink: string;
-  creationData: Date;
-  publicationDate: Date;
-  author: User;
+  anons: string;
+  content: string;
+  tags: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  comments: Comment[];
 }
