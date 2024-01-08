@@ -47,4 +47,17 @@ export class PostTypeService {
       throw new NotFoundException(`Post type with id ${id} not found`);
     }
   }
+
+  public async getPostTypesByIds(postTypesIds: string[]): Promise<PostTypeEntity[]> {
+    const postTypes = await this.postTypeRepository.findByIds(postTypesIds);
+
+    if (postTypes.length !== postTypesIds.length) {
+      const foundPostTypesIds = postTypes.map((postType) => postType.id);
+      const notFoundPostTypesIds = postTypesIds.filter((postTypeId) => !foundPostTypesIds.includes(postTypeId));
+
+      if (notFoundPostTypesIds.length > 0) throw new NotFoundException(`Post types with ids ${notFoundPostTypesIds.join(', ')} not found`);
+    }
+
+    return postTypes;
+  }
 }

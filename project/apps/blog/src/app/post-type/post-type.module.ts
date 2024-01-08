@@ -9,5 +9,6 @@ import { PostTypeService } from './post-type.service';
   imports: [PrismaClientModule],
   providers: [PostTypeRepository, PostTypeService],
   controllers: [PostTypeController],
+  exports: [PostTypeService],
 })
 export class PostTypeModule {}
