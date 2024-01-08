@@ -1,8 +1,8 @@
-import { User } from './user.interface';
-
-export interface Comment {
+export interface Comment_p {
   id?: string;
-  text: string;
-  author: User;
-  date: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  postId?: string;
+  message: string;
+  userId: string;
 }
