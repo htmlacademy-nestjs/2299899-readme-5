@@ -1,3 +1,4 @@
+import { Comment } from './comment.interface';
 import { PostType } from './post-type.interface';
 
 export interface Post {

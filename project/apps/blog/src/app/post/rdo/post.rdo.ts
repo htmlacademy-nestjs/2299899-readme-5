@@ -2,7 +2,7 @@ import { Expose, Type } from 'class-transformer';
 
 import { PostTypeRdo } from '../../post-type/rdo/post-type.rdo';
 
-export class CreatePostDto {
+export class PostRdo {
   @Expose()
   public id: string;
 
