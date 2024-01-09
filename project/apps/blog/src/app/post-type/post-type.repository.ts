@@ -59,12 +59,4 @@ export class PostTypeRepository extends BasePostgresRepository<PostTypeEntity, P
 
     return this.createEntityFromDocument(updatedPostType);
   }
-
-  public async findByIds(ids: string[]): Promise<PostTypeEntity[]> {
-    const records = await this.client.type.findMany({
-      where: { id: { in: ids } }
-    });
-
-    return records.map((record) => this.createEntityFromDocument(record));
-  }
 }

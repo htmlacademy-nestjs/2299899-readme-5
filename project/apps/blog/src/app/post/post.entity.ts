@@ -56,9 +56,9 @@ export class PostEntity implements Post, Entity<string, Post> {
     return new PostEntity().populate(data);
   }
 
-  static fromDto(dto: CreatePostDto): PostEntity {
+  static fromDto(dto: CreatePostDto, postType: PostTypeEntity): PostEntity {
     const entity = new PostEntity();
-    entity.type = new PostTypeEntity({ title: dto.type});
+    entity.type = postType;
     entity.title = dto.title;
     entity.url = dto.url;
     entity.photo = dto.photo;

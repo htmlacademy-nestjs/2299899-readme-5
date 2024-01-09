@@ -19,7 +19,7 @@ export class PostController {
   @Get('/:id')
   public async show(@Param('id') id: string) {
     const post = await this.postService.getPost(id);
-    return fillDto(PostRdo, post.toPojo());
+    return fillDto(PostRdo, post.toPOJO());
   }
 
   @Get('/')
@@ -27,7 +27,7 @@ export class PostController {
     const postsPagination = await this.postService.getAllPosts(query);
     const result = {
       ...postsPagination,
-      entities: postsPagination.entities.map((post) => post.toPojo()),
+      entities: postsPagination.entities.map((post) => post.toPOJO()),
     }
     return fillDto(PostPaginationRdo, result);
   }
@@ -35,7 +35,7 @@ export class PostController {
   @Post('/')
   public async create(@Body() dto: CreatePostDto) {
     const newPost = await this.postService.createPost(dto);
-    return fillDto(PostRdo, newPost.toPojo());
+    return fillDto(PostRdo, newPost.toPOJO());
   }
 
   @Delete('/:id')
@@ -47,6 +47,6 @@ export class PostController {
   @Patch('/:id')
   public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.postService.updatePost(id, dto);
-    return fillDto(PostRdo, updatedPost.toPojo());
+    return fillDto(PostRdo, updatedPost.toPOJO());
   }
 }

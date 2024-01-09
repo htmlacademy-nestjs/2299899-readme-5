@@ -20,8 +20,8 @@ export class PostService {
   }
 
   public async createPost(dto: CreatePostDto): Promise<PostEntity> {
-    const postTypes = await this.postTypeRepository.findByIds(dto.type);
-    const newPost = PostEntity.fromDto(dto, postTypes);
+    const postType = await this.postTypeRepository.findById(dto.type);
+    const newPost = PostEntity.fromDto(dto, postType);
     await this.postRepository.save(newPost);
 
     return newPost;
@@ -51,10 +51,10 @@ export class PostService {
       }
 
       if (key === 'type' && value) {
-        const currentPostTypeIds = postExists.type.map((postType) => postType.id);
-        isSamePostTypes = currentPostTypeIds.length === value.length && currentPostTypeIds.some((postTypeId) => value.includes(postTypeId));
+        const postTypeId = postExists.type.id;
+        const postTypeExists = await this.postTypeRepository.findById(postTypeId);
 
-        if (!isSamePostTypes) postExists.type = await this.postTypeRepository.findByIds(dto.type);
+        if (!postTypeExists) postExists.type = postTypeExists;
       }
 
       if (isSamePostTypes && !hasChanges) return postExists;

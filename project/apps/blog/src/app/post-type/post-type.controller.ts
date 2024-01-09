@@ -8,7 +8,7 @@ import { UpdatePostTypeDto } from './dto/update-post-type.dto';
 import { PostTypeService } from './post-type.service';
 import { PostTypeRdo } from './rdo/post-type.rdo';
 
-@Controller('PostType')
+@Controller('post_types')
 export class PostTypeController {
   constructor(
     private readonly postTypeService: PostTypeService,

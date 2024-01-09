@@ -5,7 +5,7 @@ GET http://localhost:3000/api/post_types HTTP/1.1
 
 # Get post type by Id
 
-GET http://localhost:3000/api/post_types/3ee2cc3b-81cc-4789-bb50-d20b73ec2c34 HTTP/1.1
+GET http://localhost:3000/api/post_types/39614113-7ad5-45b6-8093-06455437e1e2 HTTP/1.1
 
 ###
 
@@ -15,24 +15,24 @@ POST http://localhost:3000/api/post_types HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Журналы"
+  "title": "Новый тип"
+}
+
+###
+
+# Update a category by id
+
+PATCH http://localhost:3000/api/post_types/015a8d9e-ce1e-4ee4-8d65-54b0f5c0c378 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Пропатченный тип"
 }
 
 ###
 
 # Delete a post type by id
 
-DELETE http://localhost:3000/api/post_types/3ee2cc3b-81cc-4789-bb50-d20b73ec2c34 HTTP/1.1
-
-###
-
-# Update a category by id
-
-PATCH http://localhost:3000/api/post_types/f39ed0ab-5129-4984-bd69-2ca375b55605 HTTP/1.1
-Content-Type: application/json
-
-{
-  "title": "This is new title"
-}
+DELETE http://localhost:3000/api/post_types/015a8d9e-ce1e-4ee4-8d65-54b0f5c0c378 HTTP/1.1
 
 ###
