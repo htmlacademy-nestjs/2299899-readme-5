@@ -1,7 +1,7 @@
 import { Entity } from '@project/core';
 import { PostType } from '@project/types';
 
-export class BlogTypeEntity implements PostType, Entity<string> {
+export class PostTypeEntity implements PostType, Entity<string, PostType> {
   public id?: string;
   public title: string;
   public createdAt?: Date;
@@ -16,18 +16,22 @@ export class BlogTypeEntity implements PostType, Entity<string> {
   }
 
   public populate(data: PostType): void {
-    this.id = data.id ?? '';
+    this.id = data.id ?? undefined;
     this.title = data.title;
     this.createdAt = data.createdAt ?? undefined;
     this.updatedAt = data.updatedAt ?? undefined;
   }
 
-  public toPOJO(): Record<string, unknown> {
+  public toPOJO(): PostType {
     return {
       id: this.id,
       title: this.title,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     }
+  }
+
+  static fromObject(data: PostType): PostTypeEntity {
+    return new PostTypeEntity(data);
   }
 }

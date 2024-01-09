@@ -1,0 +1,38 @@
+# Get all post types
+GET http://localhost:3000/api/post_types HTTP/1.1
+
+###
+
+# Get post type by Id
+
+GET http://localhost:3000/api/post_types/3ee2cc3b-81cc-4789-bb50-d20b73ec2c34 HTTP/1.1
+
+###
+
+# Create a new post type
+
+POST http://localhost:3000/api/post_types HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Журналы"
+}
+
+###
+
+# Delete a post type by id
+
+DELETE http://localhost:3000/api/post_types/3ee2cc3b-81cc-4789-bb50-d20b73ec2c34 HTTP/1.1
+
+###
+
+# Update a category by id
+
+PATCH http://localhost:3000/api/post_types/f39ed0ab-5129-4984-bd69-2ca375b55605 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "This is new title"
+}
+
+###

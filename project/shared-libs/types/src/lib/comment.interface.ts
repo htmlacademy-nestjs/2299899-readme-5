@@ -1,4 +1,4 @@
-export interface Comment_p {
+export interface Comment {
   id?: string;
   createdAt: Date;
   updatedAt: Date;
