@@ -1,6 +1,9 @@
 import 'multer';
 
+import dayjs from 'dayjs';
 import { ensureDir } from 'fs-extra';
+import { extension } from 'mime-types';
+import { randomUUID } from 'node:crypto';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
@@ -18,7 +21,8 @@ export class UploaderService {
   ) {}
 
   private getUploadDirectoryPath(): string {
-    return this.config.uploadDirectory;
+    const [year, month] = dayjs().format("YYYY MM").split(' ');
+    return join(this.config.uploadDirectory, year, month);
   }
 
   private getDestinationFilePath(filename: string): string {
@@ -28,7 +32,9 @@ export class UploaderService {
   public async saveFile(file: Express.Multer.File): Promise<string> {
     try {
       const uploadDirectoryPath = this.getUploadDirectoryPath();
-      const destinationFile = this.getDestinationFilePath(file.originalname);
+      const filename = randomUUID();
+      const fileExtension = extension(file.mimetype);
+      const destinationFile = this.getDestinationFilePath(`${filename}.${fileExtension}`);
 
       await ensureDir(uploadDirectoryPath);
       await writeFile(destinationFile, file.buffer);
