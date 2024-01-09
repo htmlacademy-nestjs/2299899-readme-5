@@ -1,12 +1,12 @@
 import { Entity } from '@project/core';
-import { Comment, Post, PostType } from '@project/types';
+import { Comment, Post } from '@project/types';
 
 import { PostTypeEntity } from '../post-type/post-type.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 
 export class PostEntity implements Post, Entity<string, Post> {
-  public id: string;
-  public type: PostTypeEntity[];
+  public id?: string;
+  public type: PostTypeEntity;
   public title: string;
   public url: string;
   public photo: string;
@@ -15,11 +15,13 @@ export class PostEntity implements Post, Entity<string, Post> {
   public tags: string[];
   public userId: string;
   public comments: Comment[];
+  public createdAt?: Date;
+  public updatedAt?: Date;
 
   public populate(data: Post): PostEntity {
     this.id = data.id ?? undefined;
-    this.type = data.type.map((type) => PostTypeEntity.fromObject(type));
     this.title = data.title;
+    this.type = new PostTypeEntity(data.type);
     this.url = data.url;
     this.photo = data.url;
     this.anons = data.anons;
@@ -27,22 +29,26 @@ export class PostEntity implements Post, Entity<string, Post> {
     this.tags = data.tags;
     this.userId = data.userId;
     this.comments = [];
+    this.createdAt = data.createdAt ?? undefined;
+    this.updatedAt = data.updatedAt ?? undefined;
 
     return this;
   }
 
-  public toPojo(): Post {
+  public toPOJO(): Post {
     return {
       id: this.id,
-      type: this.type.map((postTypeEntity) => postTypeEntity.toPOJO()),
+      type: this.type,
       title: this.title,
       url: this.url,
       photo: this.photo,
       anons: this.anons,
       content: this.content,
-      tags: this.tags,
       userId: this.userId,
+      tags: this.tags,
       comments: this.comments,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
     }
   }
 
@@ -50,9 +56,9 @@ export class PostEntity implements Post, Entity<string, Post> {
     return new PostEntity().populate(data);
   }
 
-  static fromDto(dto: CreatePostDto, postTypes: PostTypeEntity[]): PostEntity {
+  static fromDto(dto: CreatePostDto): PostEntity {
     const entity = new PostEntity();
-    entity.type = postTypes;
+    entity.type = new PostTypeEntity({ title: dto.type});
     entity.title = dto.title;
     entity.url = dto.url;
     entity.photo = dto.photo;
@@ -60,7 +66,6 @@ export class PostEntity implements Post, Entity<string, Post> {
     entity.content = dto.content;
     entity.tags = dto.tags;
     entity.userId = dto.userId;
-    entity.comments = dto.comments;
 
     return entity;
   }

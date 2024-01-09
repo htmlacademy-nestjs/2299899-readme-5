@@ -3,7 +3,7 @@ import { ArrayNotEmpty, IsArray, IsNotEmpty, IsString, IsUUID } from 'class-vali
 export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
-  public type: string[];
+  public type: string;
 
   @IsString()
   @IsNotEmpty()

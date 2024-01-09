@@ -1,10 +1,9 @@
 import { ArrayNotEmpty, IsArray, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class UpdatePostDto {
-  @IsArray()
-  @ArrayNotEmpty()
+  @IsString()
   @IsOptional()
-  public type?: string[];
+  public type?: string;
 
   @IsString()
   @IsNotEmpty()

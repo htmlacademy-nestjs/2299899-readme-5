@@ -8,9 +8,7 @@ export class PostTypeEntity implements PostType, Entity<string, PostType> {
   public updatedAt?: Date;
 
   constructor(data: PostType) {
-    if (!data.title) {
-      throw new Error('PostType is required');
-    }
+    if (!data.title) throw new Error('PostType is required');
 
     this.populate(data);
   }

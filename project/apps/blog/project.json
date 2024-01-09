@@ -58,10 +58,17 @@
         "cwd": "shared-libs/blog/models/prisma"
       }
     },
+    "db:format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma format --schema ./schema.prisma",
+        "cwd": "shared-libs/blog/models/prisma"
+      }
+    },
     "db:migrate": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx prisma migrate reset --schema ./schema.prisma --force --skip-generate --skip-seed",
+        "command": "npx prisma migrate dev --schema ./schema.prisma --skip-generate --skip-seed",
         "cwd": "shared-libs/blog/models/prisma"
       }
     },

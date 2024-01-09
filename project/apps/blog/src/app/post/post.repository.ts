@@ -24,11 +24,11 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
   }
 
   public async save(entity: PostEntity): Promise<PostEntity> {
-    const pojoEntity = entity.toPojo();
+    const pojoEntity = entity.toPOJO();
     const record = await this.client.post.create({
       data: {
         ...pojoEntity,
-        type: { connect: pojoEntity.type.map(({ id }) => ({ id }))},
+        type: { connect: { id: pojoEntity.type.id } },
         comments: { connect: [] }
       },
     });
@@ -58,11 +58,10 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
   }
 
   public async update(id: string, entity: PostEntity): Promise<PostEntity> {
-    const pojoEntity = entity.toPojo();
+    const pojoEntity = entity.toPOJO();
     const updatedPost = await this.client.post.update({
       where: { id },
       data: {
-        type: pojoEntity.type.map((postType) => ({ id: postType.id })),
         title: pojoEntity.title,
         url: pojoEntity.url,
         photo: pojoEntity.photo,
@@ -76,13 +75,13 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     return this.createEntityFromDocument(updatedPost);
   }
 
-  public async find(query?: PostQuery): Promsie<PaginationResult<PostEntity>> {
+  public async find(query?: PostQuery): Promise<PaginationResult<PostEntity>> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
     const where: Prisma.PostWhereInput = {};
     const orderBy: Prisma.PostOrderByWithRelationInput = {};
 
-    if (query?.type) where.type = { some: { id: { in: query.type } } };
+    if (query?.type) where.type = { id: { in: query.type } };
 
     if (query?.sortDirection) orderBy.createdAt = query.sortDirection;
 
