@@ -61,7 +61,11 @@ export class AuthneticationService {
   }
 
   public async getUser(id: string) {
-    return this.blogUserRepository.findById(id);
+    const existedUser = await this.blogUserRepository.findById(id);
+
+    if (!existedUser) throw new NotFoundException(`User with id ${id} not found`);
+
+    return existedUser;
   }
 
   public async createUserToken(user: User): Promise<Token> {
