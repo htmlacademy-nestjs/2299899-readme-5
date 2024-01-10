@@ -1,11 +1,11 @@
-import { File } from '@project/shared/app/types';
-import { Entity } from '@project/shared/core';
+import { Entity } from '@project/core';
+import { File } from '@project/types';
 
 export class FileEntity implements File, Entity<string> {
   public id?: string;
   public originalName: string;
   public size: number;
-  public mimetype: string;
+  public mimeType: string;
   public hashName: string;
   public path: string;
   public createdAt?: Date;
@@ -17,7 +17,7 @@ export class FileEntity implements File, Entity<string> {
       id: this.id,
       originalName: this.originalName,
       size: this.size,
-      mimetype: this.mimetype,
+      mimetype: this.mimeType,
       hashName: this.hashName,
       path: this.path,
       createdAt: this.createdAt,
@@ -30,7 +30,7 @@ export class FileEntity implements File, Entity<string> {
     this.id = data.id ?? undefined;
     this.originalName = data.originalName;
     this.size = data.size;
-    this.mimetype = data.mimetype;
+    this.mimeType = data.mimeType;
     this.hashName = data.hashName;
     this.subDirectory = data.subDirectory;
     this.path = data.path;
