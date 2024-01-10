@@ -3,7 +3,7 @@ export interface File {
   originalName: string;
   subDirectory: string;
   size: number;
-  mimeType;
+  mimetype: string;
   hashName: string;
   path: string;
   createdAt?: Date;

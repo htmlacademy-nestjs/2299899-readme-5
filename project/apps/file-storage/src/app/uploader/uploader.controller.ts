@@ -2,8 +2,9 @@ import 'multer';
 
 import { Express } from 'express';
 
-import { Controller, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { MongoIdValidationPipe } from '@project/core';
 import { fillDto } from '@project/helpers';
 
 import { UploadedFileRdo } from './rdo/uploaded-file.rdo';

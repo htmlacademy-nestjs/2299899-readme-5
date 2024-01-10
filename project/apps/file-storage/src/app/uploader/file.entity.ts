@@ -5,7 +5,7 @@ export class FileEntity implements File, Entity<string> {
   public id?: string;
   public originalName: string;
   public size: number;
-  public mimeType: string;
+  public mimetype: string;
   public hashName: string;
   public path: string;
   public createdAt?: Date;
@@ -17,7 +17,7 @@ export class FileEntity implements File, Entity<string> {
       id: this.id,
       originalName: this.originalName,
       size: this.size,
-      mimetype: this.mimeType,
+      mimetype: this.mimetype,
       hashName: this.hashName,
       path: this.path,
       createdAt: this.createdAt,
@@ -30,7 +30,7 @@ export class FileEntity implements File, Entity<string> {
     this.id = data.id ?? undefined;
     this.originalName = data.originalName;
     this.size = data.size;
-    this.mimeType = data.mimeType;
+    this.mimetype = data.mimetype;
     this.hashName = data.hashName;
     this.subDirectory = data.subDirectory;
     this.path = data.path;

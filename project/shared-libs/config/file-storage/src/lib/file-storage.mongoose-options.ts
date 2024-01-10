@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { MongooseModuleAsyncOptions } from '@nestjs/mongoose';
-import { getMongoConnectionString } from '@project/shared/helpers';
+import { getMongoConnectionString } from '@project/helpers';
 
 export function getMongooseOptions(): MongooseModuleAsyncOptions {
   return {

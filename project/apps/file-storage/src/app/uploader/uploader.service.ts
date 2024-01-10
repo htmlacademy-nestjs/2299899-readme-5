@@ -51,7 +51,7 @@ export class UploaderService {
       await writeFile(path, file.buffer);
 
       return {
-        fileExtension,
+        fileExtension: fileExtension || '',
         filename,
         path,
         subDirectory,
@@ -62,7 +62,7 @@ export class UploaderService {
     }
   }
 
-  public async saveFile(file: Express.Multer.File): Promise<string> {
+  public async saveFile(file: Express.Multer.File): Promise<FileEntity> {
     const storedFile = await this.writeFile(file);
     const fileEntity = FileEntity.fromObject({
       hashName: storedFile.filename,
