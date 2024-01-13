@@ -1,5 +1,5 @@
 # Create a new user
-POST http://localhost:3000/api/auth/register HTTP/1.1
+POST http://localhost:5433/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
@@ -13,18 +13,19 @@ Content-Type: application/json
 
 ###
 
-# Get user by ID
-GET http://localhost:3000/api/auth/102ec6fc-ae6c-446f-b0fc-b9b86bba9185 HTTP/1.1
-
-###
-
 # Login user by email and password
-POST http://localhost:3000/api/auth/login HTTP/1.1
+POST http://localhost:5433/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
   "email": "user@notfound.local",
   "password": "123456"
 }
+
+###
+
+# Get user by ID
+GET http://localhost:5433/api/auth/659e60d1958624cdbd371859 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsInVzZXJuYW1lIjoia2VrcyIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA0ODc4NTY2LCJleHAiOjE3MDQ4Nzg2MjZ9.Dzqm6jT4tLWMbm0WUpZ1jmwyzjhUo3cve6gM2L3cZvc
 
 ###

@@ -58,6 +58,48 @@
       "options": {
         "jestConfig": "apps/users/jest.config.ts"
       }
+    },
+    "db:lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma validate --schema ./schema.prisma",
+        "cwd": "shared-libs/users/models/prisma"
+      }
+    },
+    "db:format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma format --schema ./schema.prisma",
+        "cwd": "shared-libs/users/models/prisma"
+      }
+    },
+    "db:migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma migrate dev --schema ./schema.prisma --skip-generate --skip-seed",
+        "cwd": "shared-libs/users/models/prisma"
+      }
+    },
+    "db:reset": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma migrate reset --schema ./schema.prisma --force --skip-generate --skip-seed",
+        "cwd": "shared-libs/users/models/prisma"
+      }
+    },
+    "db:generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma generate --schema ./schema.prisma",
+        "cwd": "shared-libs/users/models/prisma"
+      }
+    },
+    "db:seed": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx ts-node seed.ts",
+        "cwd": "shared-libs/users/models/prisma"
+      }
     }
   },
   "tags": []

@@ -1,3 +1,4 @@
+import { Comment } from './comment.interface';
 import { PostType } from './post-type.interface';
 
 export interface Post {
@@ -8,8 +9,9 @@ export interface Post {
   photo: string;
   anons: string;
   content: string;
+  userId: string;
   tags: string[];
-  createdAt: Date;
-  updatedAt: Date;
   comments: Comment[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }

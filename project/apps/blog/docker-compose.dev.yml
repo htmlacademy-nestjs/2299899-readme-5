@@ -1,8 +1,8 @@
 version: '3.9'
 services:
-  readme.blog.postgres:
+  readme.postgres:
     image: postgres:14-alpine
-    container_name: readme.blog.postgres
+    container_name: readme.postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -22,9 +22,9 @@ services:
     networks:
       - readme.blog
 
-  readme.blog.pgadmin:
+  readme.pgadmin:
     image: dpage/pgadmin4
-    container_name: readme.blog.pgadmin
+    container_name: readme.pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
@@ -32,7 +32,7 @@ services:
     ports:
       - ${PGADMIN_PORT}:80
     depends_on:
-      - readme.blog.postgres
+      - readme.postgres
     networks:
       - readme.blog
 
