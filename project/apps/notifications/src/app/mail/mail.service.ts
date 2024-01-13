@@ -12,7 +12,7 @@ export class MailService {
     await this.mailerService.sendMail({
       to: subscriber.email,
       subject: EMAIL_ADD_SUBSCRIBER_SUBJECT,
-      template: './add-subscriber',
+      template: '../../assets/add-subscriber.hbs',
       context: {
         user: `${subscriber.name}`,
         email: `${subscriber.email}`,
