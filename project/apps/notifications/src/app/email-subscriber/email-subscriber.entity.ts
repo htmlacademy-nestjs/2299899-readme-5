@@ -1,12 +1,12 @@
 import { Entity } from '@project/core';
 import { Subscriber } from '@project/types';
 
-export class EmailSubscriberEntity implements Subscriber, Entity<string, Subscriber> {
+export class EmailSubscriberEntity implements Subscriber, Entity<string> {
   public id?: string;
   public email: string;
   public name: string;
 
-  public toPOJO(): Subscriber {
+  public toPOJO() {
     return {
       id: this.id,
       email: this.email,

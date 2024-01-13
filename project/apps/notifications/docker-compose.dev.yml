@@ -10,7 +10,7 @@ services:
 
   readme_notifications_rabbitmq:
     image: rabbitmq:3.11-management
-    container_name: readme.notifications.rabbitmq
+    container_name: readme_notifications_rabbitmq
     ports:
       - '1088:15672'
       - '5672:5672'
@@ -19,7 +19,7 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     healthcheck:
       test: rabbitmq-diagnostics -q ping
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 5
 

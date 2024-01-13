@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { getJwtOptions } from '@project/config-users';
 
 import { BlogUserModule } from '../blog-user/blog-user.module';
+import { NotificationsModule } from '../notifications/notifications.module';
 import { AuthenticationController } from './authentication.controller';
 import { AuthneticationService } from './authentication.service';
 import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
@@ -12,8 +13,14 @@ import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
   imports: [
     BlogUserModule,
     JwtModule.registerAsync({ inject: [ConfigService], useFactory: getJwtOptions }),
+    NotificationsModule,
   ],
-  controllers: [AuthenticationController],
-  providers: [AuthneticationService, JwtAccessStrategy],
+  controllers: [
+    AuthenticationController,
+  ],
+  providers: [
+    AuthneticationService,
+    JwtAccessStrategy,
+  ],
 })
 export class AuthenticationModule {}
