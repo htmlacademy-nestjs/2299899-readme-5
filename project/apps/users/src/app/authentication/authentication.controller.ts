@@ -29,6 +29,7 @@ export class AuthenticationController {
     const newUser = await this.authService.register(dto);
     const { email, name } = newUser;
     await this.notificationsService.registerSubscriber({ email, name });
+
     return fillDto(UserRdo, newUser.toPOJO());
   }
 

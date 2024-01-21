@@ -1,3 +1,3 @@
 export enum RabbitRouting {
-  AddSubscriber = 'notify.addSubscriber',
+  AddSubscriber = 'notifications.addSubscriber',
 }
