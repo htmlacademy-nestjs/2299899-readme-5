@@ -1,4 +1,4 @@
-import * as path from 'node:path';
+import { resolve } from 'node:path';
 
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import {
@@ -23,7 +23,7 @@ export function getMailerAsyncOptions(optionSpace: string): MailerAsyncOptions {
           from: configService.get<string>('mail.from'),
         },
         template: {
-          dir: path.resolve(__dirname, 'assets'),
+          dir: resolve(__dirname, 'assets'),
           adapter: new HandlebarsAdapter(),
           options: { strict: true },
         },
