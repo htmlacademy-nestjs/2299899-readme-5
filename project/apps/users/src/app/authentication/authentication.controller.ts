@@ -3,6 +3,7 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { fillDto } from '@project/helpers';
+import { RequestWithTokenPayload } from '@project/types';
 
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -76,5 +77,11 @@ export class AuthenticationController {
   })
   public async refreshToken(@Req() { user }: RequestWithUser) {
     return this.authService.createUserToken(user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('check')
+  public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
+    return payload;
   }
 }
