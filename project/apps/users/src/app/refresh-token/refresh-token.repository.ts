@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-import { Inject } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { RefreshToken } from '@project/types';
 
 import { RefreshTokenEntity } from './refresh-token.entity';
@@ -8,7 +8,7 @@ import { RefreshTokenModel } from './refresh-token.model';
 
 export class RefreshTokenRepository {
   constructor(
-    @Inject(RefreshTokenModel.name) private readonly refreshTokenModel: Model<RefreshTokenModel>,
+    @InjectModel(RefreshTokenModel.name) private readonly refreshTokenModel: Model<RefreshTokenModel>,
   ) {}
 
   public async create(item: RefreshTokenEntity): Promise<RefreshToken> {
