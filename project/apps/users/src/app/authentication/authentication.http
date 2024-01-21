@@ -10,7 +10,6 @@ Content-Type: application/json
   "password": "123456"
 }
 
-
 ###
 
 # Login user by email and password
@@ -25,7 +24,13 @@ Content-Type: application/json
 ###
 
 # Get user by ID
-GET http://localhost:3004/api/auth/659e60d1958624cdbd371859 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsInVzZXJuYW1lIjoia2VrcyIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA0ODc4NTY2LCJleHAiOjE3MDQ4Nzg2MjZ9.Dzqm6jT4tLWMbm0WUpZ1jmwyzjhUo3cve6gM2L3cZvc
+GET http://localhost:3004/api/auth/65ad0523608aa38470cde18c HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsInVzZXJuYW1lIjoia2VrcyIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1ODQwNTY1LCJleHAiOjE3MDU4NDA2MjV9.ReaP4mkiII5OTgvcxip7pjCuNVFAk2uK9fX5K66Q5A4
+
+###
+
+# Get new JWT pair
+POST http://localhost:3004/api/auth/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsInVzZXJuYW1lIjoia2VrcyIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1ODQyMjU1LCJleHAiOjE3MDU4NDIzMTV9.htZ_Gr_lGeFkPZfGL2pjxLJ_KDX0nZPq3BtzaxAesVc
 
 ###
