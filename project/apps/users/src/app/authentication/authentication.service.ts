@@ -1,6 +1,5 @@
-import { error } from 'console';
 import dayjs from 'dayjs';
-import { use } from 'passport';
+import * as crypto from 'node:crypto';
 
 import {
     ConflictException, HttpException, HttpStatus, Inject, Injectable, Logger, NotFoundException,
@@ -9,10 +8,12 @@ import {
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConfig } from '@project/config-users';
-import { Token, TokenPayload, User, UserRole } from '@project/types';
+import { createJWTPayload } from '@project/helpers';
+import { Token, User, UserRole } from '@project/types';
 
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { BlogUserRepository } from '../blog-user/blog-user.repository';
+import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 import {
     AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG
 } from './authentication.const';
@@ -27,6 +28,7 @@ export class AuthneticationService {
     private readonly blogUserRepository: BlogUserRepository,
     private readonly jwtService: JwtService,
     @Inject(jwtConfig.KEY) private readonly jwtOptions: ConfigType<typeof jwtConfig>,
+    private readonly refreshTokenService: RefreshTokenService,
   ) {}
 
   public async register(dto: CreateUserDto) {
@@ -80,17 +82,13 @@ export class AuthneticationService {
   }
 
   public async createUserToken(user: User): Promise<Token> {
-    const payload: TokenPayload = {
-      sub: user.id,
-      email: user.email,
-      role: user.role,
-      username: user.username,
-      name: user.name,
-    }
+    const accessTokenPayload = createJWTPayload(user);
+    const refreshTokenPayload = { ...accessTokenPayload, tokenId: crypto.randomUUID() };
+    await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
 
     try {
-      const accessToken = await this.jwtService.signAsync(payload);
-      const refreshToken = await this.jwtService.signAsync(payload, {
+      const accessToken = await this.jwtService.signAsync(accessTokenPayload);
+      const refreshToken = await this.jwtService.signAsync(refreshTokenPayload, {
         secret: this.jwtOptions.refreshTokenSecret,
         expiresIn: this.jwtOptions.refreshTokenExpiresIn,
       });

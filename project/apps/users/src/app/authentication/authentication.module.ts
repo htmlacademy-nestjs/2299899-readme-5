@@ -5,6 +5,7 @@ import { getJwtOptions } from '@project/config-users';
 
 import { BlogUserModule } from '../blog-user/blog-user.module';
 import { NotificationsModule } from '../notifications/notifications.module';
+import { RefreshTokenModule } from '../refresh-token/refresh-token.module';
 import { AuthenticationController } from './authentication.controller';
 import { AuthneticationService } from './authentication.service';
 import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
@@ -16,6 +17,7 @@ import { LocalStrategy } from './strategies/local.strategy';
     BlogUserModule,
     JwtModule.registerAsync({ inject: [ConfigService], useFactory: getJwtOptions }),
     NotificationsModule,
+    RefreshTokenModule,
   ],
   controllers: [
     AuthenticationController,
