@@ -14,9 +14,7 @@ import { Token, User, UserRole } from '@project/types';
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { BlogUserRepository } from '../blog-user/blog-user.repository';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
-import {
-    AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG
-} from './authentication.const';
+import { AuthUserErrorMessage } from './authentication.const';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 
@@ -32,17 +30,19 @@ export class AuthneticationService {
   ) {}
 
   public async register(dto: CreateUserDto) {
-    const { email, username, name, birthDate, password } = dto;
+    const { email, name, password } = dto;
     const blogUser = {
-      email, username, name, role: UserRole.User,
-      avatar: '', birthDate: dayjs(birthDate).toDate(),
+      email,
+      name,
+      role: UserRole.User,
+      avatar: '',
       registerDate: dayjs().toDate(),
       passwordHash: '',
     };
     const existUser = await this.blogUserRepository.findByEmail(email);
 
     if (existUser) {
-      throw new ConflictException(AUTH_USER_EXISTS);
+      throw new ConflictException(AuthUserErrorMessage.UserExists);
     }
 
     const userEntity = await new BlogUserEntity(blogUser).setPassword(password);
@@ -55,11 +55,11 @@ export class AuthneticationService {
     const existUser = await this.blogUserRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(AuthUserErrorMessage.UserNotFound);
     }
 
     if (!await existUser.comparePassword(password)) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
+      throw new UnauthorizedException(AuthUserErrorMessage.WrongPassword);
     }
 
     return existUser;
@@ -68,7 +68,9 @@ export class AuthneticationService {
   public async getUser(id: string) {
     const existedUser = await this.blogUserRepository.findById(id);
 
-    if (!existedUser) throw new NotFoundException(`User with id ${id} not found`);
+    if (!existedUser) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
 
     return existedUser;
   }
@@ -76,7 +78,9 @@ export class AuthneticationService {
   public async getUserByEmail(email: string) {
     const existedUser = await this.blogUserRepository.findByEmail(email);
 
-    if (!existedUser) throw new NotFoundException(`User with email ${email} not found`);
+    if (!existedUser) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
 
     return existedUser;
   }

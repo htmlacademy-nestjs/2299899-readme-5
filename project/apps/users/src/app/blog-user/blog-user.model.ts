@@ -16,22 +16,11 @@ export class BlogUserModel extends Document implements AuthUser {
 
   @Prop({
     required: true,
-    unique: true,
-  })
-  username: string;
-
-  @Prop({
-    required: true,
   })
   name: string;
 
   @Prop()
   avatar: string;
-
-  @Prop({
-    required: true,
-  })
-  birthDate: Date;
 
   @Prop({
     required: true,

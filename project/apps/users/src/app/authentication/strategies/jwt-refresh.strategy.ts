@@ -24,7 +24,9 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
   }
 
   public async validate(payload: RefreshTokenPayload) {
-    if (!(await this.refreshTokenService.isExists(payload.tokenId))) throw new TokenNotExistsException(payload.tokenId);
+    if (!(await this.refreshTokenService.isExists(payload.tokenId))) {
+      throw new TokenNotExistsException(payload.tokenId);
+    }
 
     await this.refreshTokenService.deleteRefreshSession(payload.tokenId);
 

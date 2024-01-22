@@ -6,12 +6,10 @@ import { AuthUser, UserRole } from '@project/types';
 import { SALT_ROUNDS } from './blog-user.const';
 
 export class BlogUserEntity implements AuthUser, Entity<string> {
-  public id: string;
+  public _id: string;
   public email: string;
-  public username: string;
   public name: string;
   public avatar: string;
-  public birthDate: Date;
   public role: UserRole;
   public passwordHash: string;
 
@@ -21,23 +19,20 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
 
   public toPOJO() {
     return {
-      id: this.id,
+      _id: this._id,
       email: this.email,
-      username: this.username,
       name: this.name,
       avatar: this.avatar,
-      birthDate: this.birthDate,
       role: this.role,
       passwordHash: this.passwordHash,
     }
   }
 
   public populate(data: AuthUser): void {
+    this._id = data.id;
     this.email = data.email;
-    this.username = data.username;
     this.name = data.name;
     this.avatar = data.avatar;
-    this.birthDate = data.birthDate;
     this.role = data.role;
     this.passwordHash = data.passwordHash;
   }

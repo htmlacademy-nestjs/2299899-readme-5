@@ -16,7 +16,7 @@ export class RefreshTokenEntity implements Entity<string, RefreshToken> {
 
   public populate(data: RefreshToken): void {
     this.id = data.id || undefined;
-    this.tokenId = data.id;
+    this.tokenId = data.tokenId;
     this.userId = data.userId;
     this.createdAt = data.createdAt;
     this.expiresIn = data.expiresIn;
