@@ -18,6 +18,6 @@ export enum UsernameLength {
 }
 
 export enum PasswordLength {
-  Min = 3,
+  Min = 6,
   Max = 12,
 }

@@ -17,23 +17,37 @@ Content-Type: application/json
 
 {
   "email": "user@notfound.local",
-  "password": "123456"
+  "password": "qwerty"
 }
 
 ###
 
 # Get user by ID
-GET http://localhost:3004/api/auth/65ad0523608aa38470cde18c HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlNzUxYzBjMzA4MWUxOTNjMDI5Y2YiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1OTMzOTIwLCJleHAiOjE3MDU5MzM5ODB9.X-LDnDXymc2nooUAyNkfOIT7r1xdfmbvbkhGVAqTJaw
+GET http://localhost:3004/api/auth/65ae751c0c3081e193c029cf HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlNzUxYzBjMzA4MWUxOTNjMDI5Y2YiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1OTM4ODA1LCJleHAiOjE3MDU5Mzg4NjV9.4vu3C5NHp82w1oGMbPmJXgVTLTU-JJhr4zAe05RUJxs
 
 ###
 
 # Get new JWT pair
 POST http://localhost:3004/api/auth/refresh HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlNzUxYzBjMzA4MWUxOTNjMDI5Y2YiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1OTMzOTIwLCJleHAiOjE3MDU5MzM5ODB9.X-LDnDXymc2nooUAyNkfOIT7r1xdfmbvbkhGVAqTJaw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlNzUxYzBjMzA4MWUxOTNjMDI5Y2YiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwidG9rZW5JZCI6ImNkYzdkZGYzLThhMGUtNDMwNS05OTE0LWFlMzczYmFiM2YzNyIsImlhdCI6MTcwNTkzODc4OCwiZXhwIjoxNzA1OTM4ODQ4fQ.gycdaKMtI9M1yPJAaQJ-WUQZmhOWD9CD_VrylHJEvgE
 
 ###
 
 # Check user token
 POST http://localhost:3004/api/auth/check HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlNzUxYzBjMzA4MWUxOTNjMDI5Y2YiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1OTMzOTIwLCJleHAiOjE3MDU5MzM5ODB9.X-LDnDXymc2nooUAyNkfOIT7r1xdfmbvbkhGVAqTJaw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlNzUxYzBjMzA4MWUxOTNjMDI5Y2YiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1OTQxNTE4LCJleHAiOjE3MDU5NDE1Nzh9.lCk5ypgCKRSvQ71nsPsRRifEsNK-g-SVvxamXpdOYKc
+
+###
+
+# Change user password
+POST http://localhost:3004/api/auth/change_password HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlNzUxYzBjMzA4MWUxOTNjMDI5Y2YiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1OTQyNzYxLCJleHAiOjE3MDU5NDI4MjF9.LnKNE0AygXfGc_W6Zb6iNSXhaPUDbDhiF35cSr_i3g0
+Content-Type: application/json
+
+{
+  "currentPassword": "123456",
+  "newPassword": "qwerty"
+}
+
+###

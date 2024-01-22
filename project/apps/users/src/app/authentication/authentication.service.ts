@@ -15,12 +15,13 @@ import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { BlogUserRepository } from '../blog-user/blog-user.repository';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 import { AuthUserErrorMessage } from './authentication.const';
+import { ChangeUserPasswordDto } from './dto/change-user-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
-export class AuthneticationService {
-  private readonly logger = new Logger(AuthneticationService.name);
+export class AuthenticationService {
+  private readonly logger = new Logger(AuthenticationService.name);
 
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
@@ -101,5 +102,16 @@ export class AuthneticationService {
       this.logger.error(`[Token generation error]: ${error.message}`);
       throw new HttpException('Token creation error.', HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  public async changeUserPassword(id: string, dto: ChangeUserPasswordDto): Promise<BlogUserEntity> {
+    const userData = await this.getUser(id);
+
+    if (!await userData.comparePassword(dto.currentPassword)) {
+      throw new UnauthorizedException(AuthUserErrorMessage.WrongPassword);
+    }
+
+    await userData.setPassword(dto.newPassword);
+    return await this.blogUserRepository.update(id, userData);
   }
 }

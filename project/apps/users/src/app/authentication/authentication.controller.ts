@@ -8,7 +8,8 @@ import { RequestWithTokenPayload } from '@project/types';
 
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { NotificationsService } from '../notifications/notifications.service';
-import { AuthneticationService } from './authentication.service';
+import { AuthenticationService } from './authentication.service';
+import { ChangeUserPasswordDto } from './dto/change-user-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { OnlyAnonymousException } from './exceptions/only-anonymous.exception';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -25,7 +26,7 @@ interface RequestWithUser {
 @Controller('auth')
 export class AuthenticationController {
   constructor(
-    private readonly authService: AuthneticationService,
+    private readonly authService: AuthenticationService,
     private readonly notificationsService: NotificationsService,
   ) {}
 
@@ -75,20 +76,34 @@ export class AuthenticationController {
     return fillDto(UserRdo, existUser.toPOJO());
   }
 
-  @UseGuards(JwtRefreshGuard)
-  @Post('refresh')
-  @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Get a new access/refresh tokens',
   })
+  @UseGuards(JwtRefreshGuard)
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
   public async refreshToken(@Req() { user }: RequestWithUser) {
     return this.authService.createUserToken(user);
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Check user token',
+  })
   @UseGuards(JwtAuthGuard)
   @Post('check')
   public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
     return payload;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Change user\'s password',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Post('change_password')
+  public async changePassword(@Req() { user }: RequestWithTokenPayload, @Body() dto: ChangeUserPasswordDto) {
+    return this.authService.changeUserPassword(user.userId, dto);
   }
 }

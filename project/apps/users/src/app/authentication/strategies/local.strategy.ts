@@ -4,13 +4,13 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { User } from '@project/types';
 
-import { AuthneticationService } from '../authentication.service';
+import { AuthenticationService } from '../authentication.service';
 
 const USERNAME_FIELD_NAME = 'email';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly authService: AuthneticationService) {
+  constructor(private readonly authService: AuthenticationService) {
     super({ usernameField: USERNAME_FIELD_NAME });
   }
 

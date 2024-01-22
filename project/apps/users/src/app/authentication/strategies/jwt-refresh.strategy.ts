@@ -7,14 +7,14 @@ import { jwtConfig } from '@project/config-users';
 import { RefreshTokenPayload } from '@project/types';
 
 import { RefreshTokenService } from '../../refresh-token/refresh-token.service';
-import { AuthneticationService } from '../authentication.service';
+import { AuthenticationService } from '../authentication.service';
 import { TokenNotExistsException } from '../exceptions/token-not-exists.exception';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(
     @Inject(jwtConfig.KEY) private readonly jwtOptions: ConfigType<typeof jwtConfig>,
-    private readonly authService: AuthneticationService,
+    private readonly authService: AuthenticationService,
     private readonly refreshTokenService: RefreshTokenService,
   ) {
     super({

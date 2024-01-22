@@ -20,6 +20,7 @@ export abstract class BaseMongoRepository<EntityType extends Entity<EntityIdType
 
   public async findById(id: EntityType['id']): Promise<EntityType | null> {
     const document = await this.model.findById(id).exec();
+    document.id = document._id.toString();
     return this.createEntityFromDocument(document);
   }
 
