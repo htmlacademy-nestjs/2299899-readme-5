@@ -1,6 +1,7 @@
 import {
     Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, UseGuards
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { fillDto } from '@project/helpers';
 import { RequestWithTokenPayload } from '@project/types';
@@ -9,6 +10,7 @@ import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { NotificationsService } from '../notifications/notifications.service';
 import { AuthneticationService } from './authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { OnlyAnonymousException } from './exceptions/only-anonymous.exception';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -31,8 +33,13 @@ export class AuthenticationController {
     status: HttpStatus.CREATED,
     description: 'New user has been successfully created.'
   })
+  @UseGuards(AuthGuard(['jwt', 'anonymous']))
   @Post('register')
-  public async create(@Body() dto: CreateUserDto) {
+  public async create(@Req() { user }: RequestWithUser, @Body() dto: CreateUserDto) {
+    if (user.email) {
+      throw new OnlyAnonymousException();
+    }
+
     const newUser = await this.authService.register(dto);
     const { email, name } = newUser;
     await this.notificationsService.registerSubscriber({ email, name });

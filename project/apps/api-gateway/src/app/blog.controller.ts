@@ -8,7 +8,7 @@ import { apiGatewayConfig } from '@project/shared-libs/config/api-gateway';
 import { AddNewPostDto } from './dto/add-new-post.dto';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CheckAuthGuard } from './guards/check-auth.guard';
-import { UserIdInterceptor } from './interceptors/userid.interceptor';
+import { UserIdInterceptor } from './interceptors/user-id.interceptor';
 
 @Controller('blog')
 @UseFilters(AxiosExceptionFilter)

@@ -8,6 +8,7 @@ import { NotificationsModule } from '../notifications/notifications.module';
 import { RefreshTokenModule } from '../refresh-token/refresh-token.module';
 import { AuthenticationController } from './authentication.controller';
 import { AuthneticationService } from './authentication.service';
+import { AnonymousStrategy } from './strategies/anonymous.strategy';
 import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
@@ -27,6 +28,7 @@ import { LocalStrategy } from './strategies/local.strategy';
     JwtAccessStrategy,
     LocalStrategy,
     JwtRefreshStrategy,
+    AnonymousStrategy,
   ],
 })
 export class AuthenticationModule {}
