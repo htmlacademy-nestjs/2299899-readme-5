@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { ENV_FILE_PATH } from '../const';
 import notificationsConfig from './notifications.config';
-
-const ENV_FILE_PATH = 'apps/notifications/notifications.env';
 
 @Module({
   imports: [

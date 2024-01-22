@@ -1,8 +1,9 @@
 import * as Joi from 'joi';
 
 import { registerAs } from '@nestjs/config';
+import { Environment } from '@project/types';
 
-import { DefaultPorts, Environment, HttpClientDefaults } from './api-gateway.const';
+import { DefaultPorts, HttpClientDefaults } from '../const';
 
 export interface ApiGatewayConfig {
   environment: string;

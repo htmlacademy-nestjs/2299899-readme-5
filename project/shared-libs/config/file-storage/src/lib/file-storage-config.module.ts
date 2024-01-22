@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { ENV_FILE_PATH } from '../const';
 import fileStorageConfig from './file-storage.config';
-
-const ENV_FILE_PATH = 'apps/file-storage/file-storage.env';
 
 @Module({
   imports: [

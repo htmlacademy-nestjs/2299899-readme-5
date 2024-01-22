@@ -2,7 +2,7 @@ import * as Joi from 'joi';
 
 import { registerAs } from '@nestjs/config';
 
-const DEFAULT_RABBIT_PORT = 5672;
+import { DefaultPort } from '../const';
 
 export interface RabbitConfig {
   host: string;
@@ -16,7 +16,7 @@ export interface RabbitConfig {
 const validationSchema = Joi.object({
   host: Joi.string().valid().hostname().required(),
   password: Joi.string().required(),
-  port: Joi.number().port().default(DEFAULT_RABBIT_PORT),
+  port: Joi.number().port().default(DefaultPort.Rabbit),
   user: Joi.string().required(),
   queue: Joi.string().required(),
   exchange: Joi.string().required(),
@@ -25,14 +25,14 @@ const validationSchema = Joi.object({
 function validateConfig(config: RabbitConfig): void {
   const { error } = validationSchema.validate(config, { abortEarly: true });
 
-  if (error) throw new Error(`[Rabbit config validation error]: ${error.message}`);
+  if (error) throw new Error(`[Users Rabbit config validation error]: ${error.message}`);
 }
 
 function getConfig(): RabbitConfig {
   const config: RabbitConfig = {
     host: process.env.RABBIT_HOST,
     password: process.env.RABBIT_PASSWORD,
-    port: parseInt(process.env.RABBIT_PORT ?? DEFAULT_RABBIT_PORT.toString(), 10),
+    port: parseInt(process.env.RABBIT_PORT ?? DefaultPort.Rabbit.toString(), 10),
     user: process.env.RABBIT_USER,
     queue: process.env.RABBIT_QUEUE,
     exchange: process.env.RABBIT_EXCHANGE,

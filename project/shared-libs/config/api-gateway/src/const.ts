@@ -1,11 +1,5 @@
 export const ENV_FILE_PATH = 'apps/api-gateway/.api-gateway.env';
 
-export enum Environment {
-  Development = 'development',
-  Production = 'production',
-  Stage = 'stage',
-};
-
 export enum DefaultPorts {
   App = 3000,
   Blog = 3001,
