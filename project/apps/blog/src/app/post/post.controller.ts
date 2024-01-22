@@ -27,7 +27,7 @@ export class PostController {
     const postsPagination = await this.postService.getAllPosts(query);
     const result = {
       ...postsPagination,
-      entities: postsPagination.entities.map((post) => post.toPOJO()),
+      entities: postsPagination.entities.map((post) => fillDto(PostRdo, post.toPOJO())),
     }
     return fillDto(PostPaginationRdo, result);
   }

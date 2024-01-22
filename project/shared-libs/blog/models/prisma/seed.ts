@@ -1,68 +1,38 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { PrismaClient } from '@prisma/client';
 
-const TYPE_UUID_1 = '39614113-7ad5-45b6-8093-06455437e1e2';
-const TYPE_UUID_2 = 'efd775e2-df55-4e0e-a308-58249f5ea202';
-const TYPE_UUID_3 = '39614113-df55-45b6-a308-06455437e1e2';
-const TYPE_UUID_4 = 'efd775e2-df55-4e0e-a308-06455437e1e2';
-const TYPE_UUID_5 = '39614113-7ad5-4e0e-8093-06455437e1e2';
+const TYPE_TITLES = ['Видео', 'Текст', 'Цитата', 'Фото', 'Ссылка'];
 
-const POST_UUID_1 = '6d308040-96a2-4162-bea6-2338e9976540';
-const POST_UUID_2 = 'ab04593b-da99-4fe3-8b4b-e06d82e2efdd';
+const MOCK_USER_IDS = ['65aeb270b4b011262dfa6ca5', '65aeb275b4b011262dfa6ca9'];
 
-const USER_ID_1 = 'ab04593b-96a2-4fe3-bea6-e06d82e2efdd';
-const USER_ID_2 = '6d308040-da99-4162-8b4b-2338e9976540';
-
-function getTypes() {
-  return [
-    { id: TYPE_UUID_1, title: 'Видео' },
-    { id: TYPE_UUID_2, title: 'Текст' },
-    { id: TYPE_UUID_3, title: 'Цитата' },
-    { id: TYPE_UUID_4, title: 'Фото' },
-    { id: TYPE_UUID_5, title: 'Ссылка' },
-  ];
+function getMockTypes() {
+  return TYPE_TITLES.map((title) => ({ id: uuidv4(), title }));
 }
 
-function getPosts() {
-  return [
-    {
-      id: POST_UUID_1,
-      title: 'Title_1',
-      url: 'url_1',
-      photo: 'photo_1',
-      anons: 'anons_1',
-      content: 'content_1',
+function getMockPosts(mockTypes: Record<string, string>[]) {
+  const posts: Record<string, string | any>[] = [];
+
+  for (let i = 1; i < 27; ++i) {
+    posts.push({
+      id: uuidv4(),
+      title: `Title_${i}`,
+      url: `url_${i}`,
+      photo: `photo_${i}`,
+      anons: `anons_${i}`,
+      content: `content_${i}`,
       tags: ['tag_1', 'tag_2'],
-      userId: USER_ID_1,
-      description: 'Description_1.',
-      type: { connect: { id: TYPE_UUID_1 } },
-    },
-    {
-      id: POST_UUID_2,
-      title: 'Title_2',
-      url: 'url_2',
-      photo: 'photo_2',
-      anons: 'anons_2',
-      content: 'content_2',
-      tags: ['tag_3'],
-      userId: USER_ID_2,
-      description: 'description_2',
-      type: { connect: { id: TYPE_UUID_2 } },
-      comments: [
-          {
-            message: 'Message_1.',
-            userId: USER_ID_1,
-          },
-          {
-            message: 'Message_2.',
-            userId: USER_ID_2,
-          }
-      ]
-    }
-  ]
+      userId: MOCK_USER_IDS[Math.floor(Math.random() * MOCK_USER_IDS.length)],
+      description: `Description_${i}.`,
+      type: { connect: { id: mockTypes[Math.floor(Math.random() * mockTypes.length)].id } },
+    });
+  }
+
+  return posts;
 }
 
 async function seedDb(prismaClient: PrismaClient) {
-  const mockTypes = getTypes();
+  const mockTypes = getMockTypes();
   for (const type of mockTypes) {
     await prismaClient.type.upsert({
       where: { id: type.id },
@@ -74,7 +44,7 @@ async function seedDb(prismaClient: PrismaClient) {
     });
   }
 
-  const mockPosts = getPosts();
+  const mockPosts = getMockPosts(mockTypes);
   for (const post of mockPosts) {
     await prismaClient.post.create({
       data: {
@@ -94,7 +64,7 @@ async function seedDb(prismaClient: PrismaClient) {
     })
   }
 
-  console.info('🤘️ Database was filled');
+  console.info('🤘️ Database readme_blog was filled');
 }
 
 async function bootstrap() {

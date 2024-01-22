@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsArray, IsIn, IsNumber, IsOptional, IsUUID } from 'class-validator';
+import { IsArray, IsIn, IsMongoId, IsNumber, IsOptional, IsUUID } from 'class-validator';
 
 import { SortDirection } from '@project/types';
 
@@ -13,16 +13,20 @@ export class PostQuery {
   @IsOptional()
   public limit = DEFAULT_POST_COUNT_LIMIT;
 
-@IsUUID('all', { each: true })
-@IsArray()
-@IsOptional()
-public type?: string[];
+  @IsUUID('all', { each: true })
+  @IsArray()
+  @IsOptional()
+  public type?: string[];
 
-@IsIn(Object.values(SortDirection))
-@IsOptional()
-public sortDirection: SortDirection = DEFAULT_SORT_DIRECTION;
+  @IsMongoId()
+  @IsOptional()
+  public userId?: string;
 
-@Transform(({ value }) => +value || DEFAULT_PAGE_COUNT)
-@IsOptional()
-public page: number = DEFAULT_PAGE_COUNT;
+  @IsIn(Object.values(SortDirection))
+  @IsOptional()
+  public sortDirection: SortDirection = DEFAULT_SORT_DIRECTION;
+
+  @Transform(({ value }) => +value || DEFAULT_PAGE_COUNT)
+  @IsOptional()
+  public page: number = DEFAULT_PAGE_COUNT;
 }

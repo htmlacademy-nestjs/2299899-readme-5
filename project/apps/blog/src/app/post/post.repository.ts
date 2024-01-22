@@ -83,6 +83,8 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
 
     if (query?.type) where.type = { id: { in: query.type } };
 
+    if (query?.userId) where.userId = query.userId;
+
     if (query?.sortDirection) orderBy.createdAt = query.sortDirection;
 
     const [records, postCount] = await Promise.all([
