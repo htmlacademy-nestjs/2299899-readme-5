@@ -13,6 +13,7 @@
         "compiler": "tsc",
         "outputPath": "dist/apps/notifications",
         "main": "apps/notifications/src/main.ts",
+        "assets": ["apps/notifications/src/assets"],
         "tsConfig": "apps/notifications/tsconfig.app.json",
         "isolatedConfig": true,
         "webpackConfig": "apps/notifications/webpack.config.js"
@@ -42,13 +43,6 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/notifications/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/notifications/jest.config.ts"
       }
     }
   },

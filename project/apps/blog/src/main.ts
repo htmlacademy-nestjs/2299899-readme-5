@@ -13,8 +13,8 @@ import { GLOBAL_PREFIX } from './const';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('The "Users" service')
-    .setDescription('Users service API')
+    .setTitle('The "Blog" service')
+    .setDescription('Blog service API')
     .setVersion('1.0')
     .build();
 
@@ -24,12 +24,10 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-  const port = process.env.PORT;
+  const port = process.env.APP_PORT;
   await app.listen(port);
 
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${GLOBAL_PREFIX}`
-  );
+  Logger.log(`🚀 Application "Blog" is running on: http://localhost:${port}/${GLOBAL_PREFIX}`);
 }
 
 bootstrap();
