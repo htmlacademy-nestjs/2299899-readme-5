@@ -13,7 +13,7 @@ Content-Type: application/json
 ###
 
 # Login user by email and password
-POST http://localhost:3000/api/auth/login HTTP/1.1
+POST http://localhost:3000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
@@ -24,7 +24,7 @@ Content-Type: application/json
 ###
 
 # Get new JWT pair
-POST http://localhost:3000/api/auth/refresh HTTP/1.1
+POST http://localhost:3000/api/users/refresh HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsInVzZXJuYW1lIjoia2VrcyIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1ODQyMjU1LCJleHAiOjE3MDU4NDIzMTV9.htZ_Gr_lGeFkPZfGL2pjxLJ_KDX0nZPq3BtzaxAesVc
 
 ###
