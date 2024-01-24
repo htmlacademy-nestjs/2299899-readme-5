@@ -2,7 +2,9 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { Prisma } from '@prisma/client';
 import { BasePostgresRepository } from '@project/core';
 import { PrismaClientService } from '@project/shared-libs/blog/models';
-import { PaginationResult, Post, PostStatus, PostType, SortOption } from '@project/types';
+import {
+    PaginationResult, Post, PostStatus, PostType, SortDirection, SortOption
+} from '@project/types';
 
 import { PostEntity } from './post.entity';
 import { PostQuery } from './query/post.query';
@@ -123,8 +125,6 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
 
     if (query.sortOption === SortOption.PublishDate) {
       orderBy.publishDate = query.sortDirection;
-    } else if (query.sortOption === SortOption.Likes) {
-      orderBy.publishDate = query.sortDirection;
     } else if (query.sortOption === SortOption.Discussed) {
       orderBy.comments = { _count: query.sortDirection };
     }
@@ -134,7 +134,15 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
         include: { tags: true, comments: true },
       }),
       this.getPostCount(where),
-    ])
+    ]);
+
+    if (query.sortOption === SortOption.Likes) {
+      records.sort((recordA, recordB) => {
+        const lengthA = recordA.likesUserIds.length;
+        const lengthB = recordB.likesUserIds.length;
+        return query.sortDirection === SortDirection.Desc ? lengthB - lengthA : lengthA - lengthB;
+      });
+    }
 
     return {
       entities: records.map((record) => this.createEntityFromDocument(record)),
