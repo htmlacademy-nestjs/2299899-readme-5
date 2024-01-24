@@ -13,6 +13,7 @@ CREATE TABLE "posts" (
     "url" TEXT,
     "url_description" TEXT,
     "user_id" TEXT NOT NULL,
+    "likes_user_ids" TEXT[],
     "publish_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "is_repost" BOOLEAN NOT NULL DEFAULT false,
     "status" TEXT NOT NULL,
@@ -47,27 +48,6 @@ CREATE TABLE "comments" (
 );
 
 -- CreateTable
-CREATE TABLE "favorites" (
-    "id" TEXT NOT NULL,
-    "post_id" TEXT NOT NULL,
-    "user_id" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "favorites_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "tags_on_posts" (
-    "postId" TEXT NOT NULL,
-    "tagId" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "tags_on_posts_pkey" PRIMARY KEY ("postId","tagId")
-);
-
--- CreateTable
 CREATE TABLE "_PostToTag" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
@@ -87,15 +67,6 @@ CREATE INDEX "_PostToTag_B_index" ON "_PostToTag"("B");
 
 -- AddForeignKey
 ALTER TABLE "comments" ADD CONSTRAINT "comments_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "favorites" ADD CONSTRAINT "favorites_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "tags_on_posts" ADD CONSTRAINT "tags_on_posts_postId_fkey" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "tags_on_posts" ADD CONSTRAINT "tags_on_posts_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "tags"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_PostToTag" ADD CONSTRAINT "_PostToTag_A_fkey" FOREIGN KEY ("A") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;

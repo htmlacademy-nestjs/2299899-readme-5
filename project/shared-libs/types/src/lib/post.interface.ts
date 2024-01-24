@@ -18,6 +18,8 @@ export interface Post {
   tags: PostTag[];
   comments: Comment[];
   commentsCount?: number;
+  likesUserIds: string[];
+  likesCount?: number;
   createdAt?: Date;
   updatedAt?: Date;
   publishDate?: Date;

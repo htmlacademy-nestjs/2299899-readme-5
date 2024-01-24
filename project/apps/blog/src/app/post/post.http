@@ -35,7 +35,7 @@ GET http://localhost:3001/api/posts?userId=65aeb270b4b011262dfa6ca5 HTTP/1.1
 ###
 
 # Get post by id
-GET http://localhost:3001/api/posts/5562f2a9-dd9c-4601-b10f-9a09c6a1b497 HTTP/1.1
+GET http://localhost:3001/api/posts/166fd1b8-6348-42c3-88bd-a3ac5ca6b6bd HTTP/1.1
 
 ###
 
@@ -129,6 +129,12 @@ Content-Type: application/json
 
 # Repost
 POST http://localhost:3001/api/posts/f4111e59-774e-4dde-80ff-321e4480ec9d/repost HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
+
+###
+
+# Toggle like on post
+POST http://localhost:3001/api/posts/166fd1b8-6348-42c3-88bd-a3ac5ca6b6bd/likes HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
 
 ###

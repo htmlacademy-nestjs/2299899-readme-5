@@ -12,41 +12,39 @@ datasource db {
 }
 
 model Post {
-  id             String        @id @default(uuid()) @map("id")
+  id             String    @id @default(uuid()) @map("id")
   type           String
-  videoTitle     String?       @map("video_title")
-  videoUrl       String?       @map("video_url")
-  textTitle      String?       @map("text_title")
-  textAnons      String?       @map("text_anons")
+  videoTitle     String?   @map("video_title")
+  videoUrl       String?   @map("video_url")
+  textTitle      String?   @map("text_title")
+  textAnons      String?   @map("text_anons")
   text           String?
   cite           String?
-  citeAuthor     String?       @map("cite_author")
+  citeAuthor     String?   @map("cite_author")
   photo          String?
   url            String?
-  urlDescription String?       @map("url_description")
+  urlDescription String?   @map("url_description")
   tags           Tag[]
-  userId         String        @map("user_id")
+  userId         String    @map("user_id")
   comments       Comment[]
-  favorite       Favorite[]
-  publishDate    DateTime      @default(now()) @map("publish_date")
-  isRepost       Boolean       @default(false) @map("is_repost")
+  likesUserIds   String[]  @map("likes_user_ids")
+  publishDate    DateTime  @default(now()) @map("publish_date")
+  isRepost       Boolean   @default(false) @map("is_repost")
   status         String
-  repostedUserId String?       @map("reposted_user_id")
-  repostedPostId String?       @map("reposted_post_id")
-  createdAt      DateTime      @default(now()) @map("created_at")
-  updatedAt      DateTime      @updatedAt @map("updated_at")
-  TagsOnPosts    TagsOnPosts[]
+  repostedUserId String?   @map("reposted_user_id")
+  repostedPostId String?   @map("reposted_post_id")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
 
   @@map("posts")
 }
 
 model Tag {
-  id          String        @id @default(uuid())
-  title       String        @unique
-  posts       Post[]
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
-  TagsOnPosts TagsOnPosts[]
+  id        String   @id @default(uuid())
+  title     String   @unique
+  posts     Post[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([title])
   @@map("tags")
@@ -62,27 +60,4 @@ model Comment {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("comments")
-}
-
-model Favorite {
-  id        String   @id @default(uuid())
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  postId    String   @map("post_id")
-  userId    String   @map("user_id")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("favorites")
-}
-
-model TagsOnPosts {
-  post      Post     @relation(fields: [postId], references: [id])
-  postId    String
-  tag       Tag      @relation(fields: [tagId], references: [id])
-  tagId     String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@id([postId, tagId])
-  @@map("tags_on_posts")
 }

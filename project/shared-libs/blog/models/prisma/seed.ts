@@ -75,6 +75,7 @@ async function seedDb(prismaClient: PrismaClient) {
         urlDescription: post.urlDescription,
         userId: post.userId,
         status: post.status,
+        likesUserIds: [],
         // tags: post.tags.length ? {
         //   create: post.tags,
         // } : undefined,

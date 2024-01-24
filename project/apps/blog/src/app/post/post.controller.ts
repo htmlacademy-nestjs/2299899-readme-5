@@ -78,4 +78,11 @@ export class PostController {
     const repostedPost = await this.postService.repostPost(id, user.userId);
     return fillDto(PostRdo, repostedPost.toPOJO());
   }
+
+  @Post('/:id/likes')
+  @UseGuards(JwtAuthGuard)
+  public async toggleLike(@Param('id') id: string, @Req() { user }: RequestWithTokenPayload) {
+    const updatedPost = await this.postService.toggleLike(id, user.userId);;
+    return fillDto(PostRdo, updatedPost.toPOJO());
+  }
 }

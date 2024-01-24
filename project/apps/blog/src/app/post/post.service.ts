@@ -1,4 +1,6 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+    ConflictException, ForbiddenException, Injectable, NotFoundException
+} from '@nestjs/common';
 import { PaginationResult, PostStatus } from '@project/types';
 
 import { TagRepository } from '../tag/tag.repository';
@@ -84,6 +86,7 @@ export class PostService {
     existedPost.publishDate = undefined;
     existedPost.createdAt = undefined;
     existedPost.updatedAt = undefined;
+    existedPost.likesUserIds = [];
 
     return await this.postRepository.save(existedPost);
   }
@@ -92,5 +95,22 @@ export class PostService {
     query.status = PostStatus.Draft;
     query.userId = userId;
     return this.postRepository.find(query);
+  }
+
+  public async toggleLike(id: string, userId: string): Promise<PostEntity> {
+    const post = await this.postRepository.findById(id);
+
+    if (post.status === PostStatus.Draft) {
+      throw new ForbiddenException(`Likes for post "${id}" are not allowed because of status "${PostStatus.Draft}"`);
+    }
+
+    const userIdIndex = post.likesUserIds.findIndex((id) => id === userId);
+    if (userIdIndex === -1) {
+      post.likesUserIds.push(userId);
+    } else {
+      post.likesUserIds.splice(userIdIndex, 1);
+    }
+
+    return this.postRepository.update(id, post);
   }
 }

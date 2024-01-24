@@ -45,17 +45,6 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
   }
 
   public async findById(id: string): Promise<PostEntity> {
-    // this.client.$extends({ result: {
-    //   post: {
-    //     commentsCount: {
-    //       needs: { comments: true },
-    //       compute(post) {
-    //         return post.comments.length;
-    //       },
-    //     }
-    //   },
-    // }});
-
     const document = await this.client.post.findFirst({
       where: { id },
       include: {
@@ -91,6 +80,7 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
         photo: pojoEntity.photo,
         url: pojoEntity.url,
         urlDescription: pojoEntity.urlDescription,
+        likesUserIds: pojoEntity.likesUserIds,
         publishDate: new Date(pojoEntity.publishDate),
         isRepost: pojoEntity.isRepost,
         status: pojoEntity.status,
