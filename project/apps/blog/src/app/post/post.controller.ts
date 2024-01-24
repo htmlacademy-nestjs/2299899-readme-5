@@ -43,11 +43,13 @@ export class PostController {
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtAuthGuard)
   public async destroy(@Param('id') id: string) {
     await this.postService.deletePost(id);
   }
 
   @Patch('/:id')
+  @UseGuards(JwtAuthGuard)
   public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.postService.updatePost(id, dto);
     return fillDto(PostRdo, updatedPost.toPOJO());
