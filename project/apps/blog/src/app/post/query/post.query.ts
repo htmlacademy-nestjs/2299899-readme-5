@@ -1,12 +1,14 @@
 import { Transform } from 'class-transformer';
 import {
-    IsArray, IsBoolean, IsEnum, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID
+    IsArray, IsBoolean, IsEnum, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID,
+    Matches, MaxLength, MinLength
 } from 'class-validator';
 
 import { PostType, SortDirection, SortOption } from '@project/types';
 
 import {
-    DEFAULT_PAGE_COUNT, DEFAULT_POST_COUNT_LIMIT, DEFAULT_SORT_DIRECTION
+    DEFAULT_PAGE_COUNT, DEFAULT_POST_COUNT_LIMIT, DEFAULT_SORT_DIRECTION, PostValidationMessage,
+    TAG_PATTERN, TagLength
 } from '../post.const';
 
 export class PostQuery {
@@ -27,6 +29,14 @@ export class PostQuery {
   @IsMongoId()
   @IsOptional()
   public userId?: string;
+
+  @MinLength(TagLength.Min, { each: true, message: PostValidationMessage.TagsMinLength })
+  @MaxLength(TagLength.Max, { each: true, message: PostValidationMessage.TagsMaxLength })
+  @Matches(TAG_PATTERN, { each: true, message: PostValidationMessage.TagsPattern })
+  @Transform(({ value }) => (value as string).toLowerCase())
+  @IsString()
+  @IsOptional()
+  public tag?: string;
 
   @IsBoolean()
   @IsOptional()
