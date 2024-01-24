@@ -2,7 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { Prisma } from '@prisma/client';
 import { BasePostgresRepository } from '@project/core';
 import { PrismaClientService } from '@project/shared-libs/blog/models';
-import { PaginationResult, Post, PostType } from '@project/types';
+import { PaginationResult, Post, PostStatus, PostType, SortOption } from '@project/types';
 
 import { PostEntity } from './post.entity';
 import { PostQuery } from './query/post.query';
@@ -110,9 +110,14 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
       where.isRepost = query?.isRepost;
     }
 
-    if (query?.sortDirection) {
-      orderBy.createdAt = query.sortDirection;
+    if (query.sortOption === SortOption.PublishDate) {
+      orderBy.publishDate = query.sortDirection;
+    } else if (query.sortOption === SortOption.Likes) {
+      orderBy.publishDate = query.sortDirection;
+    } else if (query.sortOption === SortOption.Discussed) {
+      orderBy.publishDate = query.sortDirection;
     }
+    where.status = PostStatus.Published;
 
     const [records, postCount] = await Promise.all([
       this.client.post.findMany({ where, orderBy, skip, take,

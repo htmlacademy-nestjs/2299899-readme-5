@@ -1,9 +1,9 @@
 import { Transform } from 'class-transformer';
 import {
-    IsArray, IsBoolean, IsEnum, IsIn, IsMongoId, IsNumber, IsOptional, IsUUID
+    IsArray, IsBoolean, IsEnum, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID
 } from 'class-validator';
 
-import { PostType, SortDirection } from '@project/types';
+import { PostType, SortDirection, SortOption } from '@project/types';
 
 import {
     DEFAULT_PAGE_COUNT, DEFAULT_POST_COUNT_LIMIT, DEFAULT_SORT_DIRECTION
@@ -15,9 +15,9 @@ export class PostQuery {
   @IsOptional()
   public limit = DEFAULT_POST_COUNT_LIMIT;
 
-  @IsUUID('all', { each: true })
-  @IsArray()
   @IsEnum(PostType)
+  @IsString()
+  @IsNotEmpty()
   @IsOptional()
   public type?: string;
 
@@ -28,6 +28,10 @@ export class PostQuery {
   @IsBoolean()
   @IsOptional()
   public isRepost?: boolean;
+
+  @IsIn(Object.values(SortOption))
+  @IsOptional()
+  public sortOption: SortOption = SortOption.PublishDate;
 
   @IsIn(Object.values(SortDirection))
   @IsOptional()

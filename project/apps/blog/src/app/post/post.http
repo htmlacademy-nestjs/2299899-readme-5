@@ -3,13 +3,13 @@ GET http://localhost:3001/api/posts HTTP/1.1
 
 ###
 
-# Get posts with filter
-GET http://localhost:3001/api/posts?limit=3&sortDirection=asc&types[]=41282128-b732-4443-8f75-abd1f0e03a04&page=3 HTTP/1.1
+# Get posts with type
+GET http://localhost:3001/api/posts?type=Видео HTTP/1.1
 
 ###
 
 # Get posts by page
-GET http://localhost:3001/api/posts?page=2 HTTP/1.1
+GET http://localhost:3001/api/posts?page=1 HTTP/1.1
 
 ###
 
