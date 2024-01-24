@@ -1,4 +1,12 @@
-import { ArrayNotEmpty, IsArray, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
+import {
+    ArrayMaxSize, ArrayNotEmpty, IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, Matches,
+    MaxLength, MinLength
+} from 'class-validator';
+
+import {
+    TransformArrayLowerCaseNoDiblicates
+} from '../decorators/transform-array-lower-case-no-dublicates.decorator';
+import { MAX_TAGS_COUNT, PostValidationMessage, TAG_PATTERN, TagLength } from '../post.const';
 
 export class UpdatePostDto {
   @IsString()
@@ -30,11 +38,6 @@ export class UpdatePostDto {
   @IsOptional()
   public content?: string;
 
-  @IsArray()
-  @ArrayNotEmpty()
-  @IsOptional()
-  public tags?: string[];
-
   @IsString()
   @IsNotEmpty()
   @IsOptional()
@@ -45,4 +48,14 @@ export class UpdatePostDto {
   @ArrayNotEmpty()
   @IsOptional()
   public comments: string[];
+
+  @MinLength(TagLength.Min, { each: true, message: PostValidationMessage.TagsMinLength })
+  @MaxLength(TagLength.Max, { each: true, message: PostValidationMessage.TagsMaxLength })
+  @Matches(TAG_PATTERN, { each: true, message: PostValidationMessage.TagsPattern })
+  @ArrayMaxSize(MAX_TAGS_COUNT, { message: PostValidationMessage.TagsCountMax })
+  @TransformArrayLowerCaseNoDiblicates()
+  @IsString({ each: true })
+  @IsArray()
+  @IsOptional()
+  public tags?: string[];
 }

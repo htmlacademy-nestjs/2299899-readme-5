@@ -1,73 +1,82 @@
 import {
-    ArrayMaxSize, IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength,
+    ArrayMaxSize, IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength,
     ValidateIf
 } from 'class-validator';
 
 import { PostType } from '@project/types';
 
-import { MAX_TAGS_COUNT, PostValidationMessage, VideoTitleLength } from '../post.const';
+import {
+    TransformArrayLowerCaseNoDiblicates
+} from '../decorators/transform-array-lower-case-no-dublicates.decorator';
+import {
+    MAX_TAGS_COUNT, PostValidationMessage, TAG_PATTERN, TagLength, VideoTitleLength
+} from '../post.const';
 
 export class CreatePostDto {
+  @IsEnum(PostType)
   @IsString()
   @IsNotEmpty()
-  @IsEnum(PostType)
   public type: string;
 
-  @ValidateIf((body) => body.type === PostType.Video)
-  @IsString()
-  @IsNotEmpty()
   @MinLength(VideoTitleLength.Min, { message: PostValidationMessage.VideoTitleMinLength })
   @MaxLength(VideoTitleLength.Max, { message: PostValidationMessage.VideoTitleMaxLength })
+  @IsString()
+  @IsNotEmpty()
+  @ValidateIf((body) => body.type === PostType.Video)
   public videoTitle: string;
 
-  @ValidateIf((body) => body.type === PostType.Video)
   @IsString()
   @IsNotEmpty()
+  @ValidateIf((body) => body.type === PostType.Video)
   public videoUrl: string;
 
-  @ValidateIf((body) => body.type === PostType.Text)
   @IsString()
   @IsNotEmpty()
+  @ValidateIf((body) => body.type === PostType.Text)
   public textTitle: string;
 
-  @ValidateIf((body) => body.type === PostType.Text)
   @IsString()
   @IsNotEmpty()
+  @ValidateIf((body) => body.type === PostType.Text)
   public textAnons: string;
 
-  @ValidateIf((body) => body.type === PostType.Text)
   @IsString()
   @IsNotEmpty()
+  @ValidateIf((body) => body.type === PostType.Text)
   public text: string;
 
-  @ValidateIf((body) => body.type === PostType.Cite)
   @IsString()
   @IsNotEmpty()
+  @ValidateIf((body) => body.type === PostType.Cite)
   public cite: string;
 
-  @ValidateIf((body) => body.type === PostType.Cite)
   @IsString()
   @IsNotEmpty()
+  @ValidateIf((body) => body.type === PostType.Cite)
   public citeAuthor: string;
 
-  @ValidateIf((body) => body.type === PostType.Photo)
   @IsString()
   @IsNotEmpty()
+  @ValidateIf((body) => body.type === PostType.Photo)
   public photo: string;
 
-  @ValidateIf((body) => body.type === PostType.Url)
   @IsString()
   @IsNotEmpty()
+  @ValidateIf((body) => body.type === PostType.Url)
   public url: string;
 
-  @ValidateIf((body) => body.type === PostType.Url)
   @IsString()
   @IsNotEmpty()
+  @ValidateIf((body) => body.type === PostType.Url)
   public urlDescription: string;
 
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
+  @MinLength(TagLength.Min, { each: true, message: PostValidationMessage.TagsMinLength })
+  @MaxLength(TagLength.Max, { each: true, message: PostValidationMessage.TagsMaxLength })
+  @Matches(TAG_PATTERN, { each: true, message: PostValidationMessage.TagsPattern })
   @ArrayMaxSize(MAX_TAGS_COUNT, { message: PostValidationMessage.TagsCountMax })
+  @TransformArrayLowerCaseNoDiblicates()
+  @IsString({ each: true })
+  @IsArray()
+  @IsOptional()
   public tags?: string[];
 }

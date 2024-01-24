@@ -21,7 +21,7 @@ export class PostService {
   }
 
   public async createPost(dto: CreatePostDto, userId: string): Promise<PostEntity> {
-    const tags = await this.tagRepository.findOrCreate(dto.tags);
+    const tags = await this.tagRepository.findOrCreate(dto.tags ?? []);
     const newPost = PostEntity.fromDto(dto, userId, tags);
     await this.postRepository.save(newPost);
 
