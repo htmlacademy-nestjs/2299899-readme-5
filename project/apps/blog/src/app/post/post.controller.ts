@@ -37,6 +37,17 @@ export class PostController {
     return fillDto(PostRdo, newPost.toPOJO());
   }
 
+  @Get('/drafts')
+  @UseGuards(JwtAuthGuard)
+  public async drafts(@Query() query: PostQuery, @Req() { user }: RequestWithTokenPayload) {
+    const postsPagination = await this.postService.getAllDrafts(query, user.userId);
+    const result = {
+      ...postsPagination,
+      entities: postsPagination.entities.map((post) => fillDto(PostRdo, post.toPOJO())),
+    }
+    return fillDto(PostPaginationRdo, result);
+  }
+
   @Get('/:id')
   public async show(@Param('id') id: string) {
     const post = await this.postService.getPost(id);

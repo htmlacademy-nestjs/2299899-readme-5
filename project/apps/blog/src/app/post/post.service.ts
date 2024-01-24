@@ -1,5 +1,4 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { fillDto } from '@project/helpers';
 import { PaginationResult, PostStatus } from '@project/types';
 
 import { TagRepository } from '../tag/tag.repository';
@@ -17,6 +16,7 @@ export class PostService {
   ) {}
 
   public async getAllPosts(query?: PostQuery): Promise<PaginationResult<PostEntity>> {
+    query.status = PostStatus.Published;
     return this.postRepository.find(query);
   }
 
@@ -86,5 +86,11 @@ export class PostService {
     existedPost.updatedAt = undefined;
 
     return await this.postRepository.save(existedPost);
+  }
+
+  public async getAllDrafts(query?: PostQuery, userId?: string): Promise<PaginationResult<PostEntity>> {
+    query.status = PostStatus.Draft;
+    query.userId = userId;
+    return this.postRepository.find(query);
   }
 }

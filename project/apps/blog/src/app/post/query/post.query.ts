@@ -21,6 +21,9 @@ export class PostQuery {
   @IsOptional()
   public type?: string;
 
+  @IsOptional()
+  public status?: string;
+
   @IsMongoId()
   @IsOptional()
   public userId?: string;

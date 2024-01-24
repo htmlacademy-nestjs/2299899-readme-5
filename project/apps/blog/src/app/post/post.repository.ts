@@ -110,6 +110,12 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
       where.isRepost = query?.isRepost;
     }
 
+    if (query?.status) {
+      where.status = query?.status;
+    } else {
+      where.status = PostStatus.Published;
+    }
+
     if (query.sortOption === SortOption.PublishDate) {
       orderBy.publishDate = query.sortDirection;
     } else if (query.sortOption === SortOption.Likes) {
@@ -117,7 +123,6 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     } else if (query.sortOption === SortOption.Discussed) {
       orderBy.publishDate = query.sortDirection;
     }
-    where.status = PostStatus.Published;
 
     const [records, postCount] = await Promise.all([
       this.client.post.findMany({ where, orderBy, skip, take,

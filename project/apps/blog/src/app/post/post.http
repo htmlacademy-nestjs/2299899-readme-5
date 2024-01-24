@@ -3,6 +3,12 @@ GET http://localhost:3001/api/posts HTTP/1.1
 
 ###
 
+# Get all users drafts
+GET http://localhost:3001/api/posts/drafts HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
+
+###
+
 # Get posts with type
 GET http://localhost:3001/api/posts?type=Видео HTTP/1.1
 
