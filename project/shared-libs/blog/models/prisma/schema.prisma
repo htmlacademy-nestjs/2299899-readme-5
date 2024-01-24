@@ -42,7 +42,7 @@ model Post {
 
 model Tag {
   id          String        @id @default(uuid())
-  title       String
+  title       String        @unique
   posts       Post[]
   createdAt   DateTime      @default(now()) @map("created_at")
   updatedAt   DateTime      @updatedAt @map("updated_at")
@@ -61,7 +61,6 @@ model Comment {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@index([postId])
   @@map("comments")
 }
 

@@ -1,6 +1,7 @@
 import { Entity } from '@project/core';
-import { Comment, Post, PostStatus, PostType } from '@project/types';
+import { Post, PostStatus, PostType } from '@project/types';
 
+import { CommentEntity } from '../comment/comment.entity';
 import { TagEntity } from '../tag/tag.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 
@@ -19,7 +20,7 @@ export class PostEntity implements Post, Entity<string, Post> {
   public urlDescription: string;
   public tags: TagEntity[];
   public userId: string;
-  public comments: Comment[];
+  public comments: CommentEntity[];
   public createdAt?: Date;
   public updatedAt?: Date;
   public publishDate?: Date;
@@ -43,7 +44,7 @@ export class PostEntity implements Post, Entity<string, Post> {
     this.urlDescription = data.urlDescription ?? undefined;
     this.userId = data.userId;
     this.tags = data.tags.map((tag) => TagEntity.fromObject(tag));
-    this.comments = [];
+    this.comments = data.comments.map((comment) => CommentEntity.fromObject(comment));;
     this.createdAt = data.createdAt ?? undefined;
     this.updatedAt = data.updatedAt ?? undefined;
     this.publishDate = data.publishDate ?? undefined;
@@ -71,7 +72,7 @@ export class PostEntity implements Post, Entity<string, Post> {
       urlDescription: this.urlDescription,
       userId: this.userId,
       tags: this.tags,
-      comments: this.comments,
+      comments: this.comments.map((entity) => entity.toPOJO()),
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       publishDate: this.publishDate,

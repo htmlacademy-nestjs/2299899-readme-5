@@ -113,7 +113,6 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     if (query?.tag) {
       where.tags = { some: { title: query.tag }};
     }
-    console.log(where);
 
     if (query?.status) {
       where.status = query?.status;

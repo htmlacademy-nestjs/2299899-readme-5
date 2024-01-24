@@ -74,10 +74,10 @@ CREATE TABLE "_PostToTag" (
 );
 
 -- CreateIndex
-CREATE INDEX "tags_title_idx" ON "tags"("title");
+CREATE UNIQUE INDEX "tags_title_key" ON "tags"("title");
 
 -- CreateIndex
-CREATE INDEX "comments_post_id_idx" ON "comments"("post_id");
+CREATE INDEX "tags_title_idx" ON "tags"("title");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_PostToTag_AB_unique" ON "_PostToTag"("A", "B");
