@@ -17,6 +17,7 @@ export interface Post {
   userId: string;
   tags: PostTag[];
   comments: Comment[];
+  commentsCount?: number;
   createdAt?: Date;
   updatedAt?: Date;
   publishDate?: Date;

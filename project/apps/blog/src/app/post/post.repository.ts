@@ -45,12 +45,23 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
   }
 
   public async findById(id: string): Promise<PostEntity> {
+    // this.client.$extends({ result: {
+    //   post: {
+    //     commentsCount: {
+    //       needs: { comments: true },
+    //       compute(post) {
+    //         return post.comments.length;
+    //       },
+    //     }
+    //   },
+    // }});
+
     const document = await this.client.post.findFirst({
       where: { id },
       include: {
         tags: true,
         comments: true,
-      }
+      },
     });
 
     if (!document) {
@@ -125,7 +136,7 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     } else if (query.sortOption === SortOption.Likes) {
       orderBy.publishDate = query.sortDirection;
     } else if (query.sortOption === SortOption.Discussed) {
-      orderBy.publishDate = query.sortDirection;
+      orderBy.comments = { _count: query.sortDirection };
     }
 
     const [records, postCount] = await Promise.all([

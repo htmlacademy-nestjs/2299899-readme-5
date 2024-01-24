@@ -50,6 +50,9 @@ export class PostRdo {
   public comments: string[];
 
   @Expose()
+  public commentsCount: number;
+
+  @Expose()
   public publishDate: Date;
 
   @Expose()

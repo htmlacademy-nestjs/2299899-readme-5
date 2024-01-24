@@ -3,6 +3,11 @@ GET http://localhost:3001/api/posts HTTP/1.1
 
 ###
 
+# Get all posts order by comments count
+GET http://localhost:3001/api/posts?sortOption=discussed HTTP/1.1
+
+###
+
 # Get all users drafts
 GET http://localhost:3001/api/posts/drafts HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
@@ -104,7 +109,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlY
 ###
 
 # Delete the post by id
-DELETE http://localhost:3001/api/posts/7ccf69b6-1ed3-4c0d-b39a-fcbf12bdfe88 HTTP/1.1
+DELETE http://localhost:3001/api/posts/5562f2a9-dd9c-4601-b10f-9a09c6a1b497 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
 
 ###

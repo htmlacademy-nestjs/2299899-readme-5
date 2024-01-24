@@ -44,7 +44,7 @@ export class PostEntity implements Post, Entity<string, Post> {
     this.urlDescription = data.urlDescription ?? undefined;
     this.userId = data.userId;
     this.tags = data.tags.map((tag) => TagEntity.fromObject(tag));
-    this.comments = data.comments.map((comment) => CommentEntity.fromObject(comment));;
+    this.comments = data.comments.map((comment) => CommentEntity.fromObject(comment));
     this.createdAt = data.createdAt ?? undefined;
     this.updatedAt = data.updatedAt ?? undefined;
     this.publishDate = data.publishDate ?? undefined;
@@ -73,6 +73,7 @@ export class PostEntity implements Post, Entity<string, Post> {
       userId: this.userId,
       tags: this.tags,
       comments: this.comments.map((entity) => entity.toPOJO()),
+      commentsCount: this.comments.length,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       publishDate: this.publishDate,
