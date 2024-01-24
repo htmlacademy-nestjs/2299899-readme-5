@@ -7,6 +7,7 @@ import { RequestWithTokenPayload } from '@project/types';
 
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { PostAuthorGuard } from './guards/post-author.guard';
 import { PostService } from './post.service';
 import { PostQuery } from './query/post.query';
 import { PostPaginationRdo } from './rdo/post-pagination.rdo';
@@ -43,12 +44,14 @@ export class PostController {
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(PostAuthorGuard)
   @UseGuards(JwtAuthGuard)
   public async destroy(@Param('id') id: string) {
     await this.postService.deletePost(id);
   }
 
   @Patch('/:id')
+  @UseGuards(PostAuthorGuard)
   @UseGuards(JwtAuthGuard)
   public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.postService.updatePost(id, dto);
