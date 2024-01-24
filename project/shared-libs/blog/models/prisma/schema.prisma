@@ -28,6 +28,11 @@ model Post {
   userId         String        @map("user_id")
   comments       Comment[]
   favorite       Favorite[]
+  publishDate    DateTime      @default(now()) @map("publish_date")
+  isRepost       Boolean       @default(false) @map("is_repost")
+  status         String
+  repostedUserId String?       @map("reposted_user_id")
+  repostedPostId String?       @map("reposted_post_id")
   createdAt      DateTime      @default(now()) @map("created_at")
   updatedAt      DateTime      @updatedAt @map("updated_at")
   TagsOnPosts    TagsOnPosts[]

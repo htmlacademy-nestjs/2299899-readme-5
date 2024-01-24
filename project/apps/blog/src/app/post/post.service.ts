@@ -46,14 +46,22 @@ export class PostService {
     let hasChanges = false;
 
     for (const [key, value] of Object.entries(dto)) {
-      if (value !== undefined && key !== 'type' && postExists[key] !== value) {
+
+      if (value !== undefined && postExists[key] !== value) {
         postExists[key] = value;
         hasChanges = true;
       }
 
-      if (isSamePostTypes && !hasChanges) return postExists;
-
-      return this.postRepository.update(id, postExists);
+      if (key === 'publishDate') {
+        postExists[key] = new Date(value);
+        hasChanges = true;
+      }
     }
+
+    if (isSamePostTypes && !hasChanges) {
+      return postExists;
+    }
+
+    return this.postRepository.update(id, postExists);
   }
 }

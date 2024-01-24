@@ -5,6 +5,7 @@ import { PrismaClient } from '@prisma/client';
 const TYPE_TITLES = ['Видео', 'Текст', 'Цитата', 'Фото', 'Ссылка'];
 const MOCK_USER_IDS = ['65aeb270b4b011262dfa6ca5', '65aeb275b4b011262dfa6ca9'];
 const MOCK_TAGS = ['tag_1', 'tag_2', 'tag_3'];
+const STATUSES = ['Опубликована', 'Черновик'];
 
 function getMockTypes() {
   return TYPE_TITLES.map((title) => ({ id: uuidv4(), title }));
@@ -34,6 +35,7 @@ function getMockPosts(mockTags: Record<string, string>[]) {
       urlDescription: type === 'Ссылка' ? `url_description_${i}` : undefined,
       userId: MOCK_USER_IDS[Math.floor(Math.random() * MOCK_USER_IDS.length)],
       tags: [mockTags[Math.floor(Math.random() * mockTags.length)].id],
+      status: STATUSES[Math.floor(Math.random() * STATUSES.length)],
     });
   }
 
@@ -72,6 +74,7 @@ async function seedDb(prismaClient: PrismaClient) {
         url: post.url,
         urlDescription: post.urlDescription,
         userId: post.userId,
+        status: post.status,
         // tags: post.tags.length ? {
         //   create: post.tags,
         // } : undefined,

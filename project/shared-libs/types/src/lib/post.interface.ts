@@ -19,4 +19,9 @@ export interface Post {
   comments: Comment[];
   createdAt?: Date;
   updatedAt?: Date;
+  publishDate?: Date;
+  isRepost: boolean;
+  status: string;
+  repostedUserId?: string;
+  repostedPostId?: string;
 }

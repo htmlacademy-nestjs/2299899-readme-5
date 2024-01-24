@@ -28,6 +28,7 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     const record = await this.client.post.create({
       data: {
         ...pojoEntity,
+        publishDate: new Date(),
         tags: { connect: pojoEntity.tags.map((tag) => ({ id: tag.id })) },
         comments: { connect: [] }
       },
@@ -79,6 +80,11 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
         photo: pojoEntity.photo,
         url: pojoEntity.url,
         urlDescription: pojoEntity.urlDescription,
+        publishDate: new Date(pojoEntity.publishDate),
+        isRepost: pojoEntity.isRepost,
+        status: pojoEntity.status,
+        repostedUserId: pojoEntity.repostedUserId,
+        repostedPostId: pojoEntity.repostedPostId,
       },
       include: { tags: true, comments: true },
     });

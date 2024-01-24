@@ -1,5 +1,5 @@
 import { Entity } from '@project/core';
-import { Comment, Post, PostType } from '@project/types';
+import { Comment, Post, PostStatus, PostType } from '@project/types';
 
 import { TagEntity } from '../tag/tag.entity';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -22,6 +22,11 @@ export class PostEntity implements Post, Entity<string, Post> {
   public comments: Comment[];
   public createdAt?: Date;
   public updatedAt?: Date;
+  public publishDate?: Date;
+  public isRepost: boolean;
+  public status: string;
+  public repostedUserId?: string;
+  public repostedPostId?: string;
 
   public populate(data: Post): PostEntity {
     this.id = data.id ?? undefined;
@@ -41,6 +46,11 @@ export class PostEntity implements Post, Entity<string, Post> {
     this.comments = [];
     this.createdAt = data.createdAt ?? undefined;
     this.updatedAt = data.updatedAt ?? undefined;
+    this.publishDate = data.publishDate ?? undefined;
+    this.isRepost = data.isRepost;
+    this.status = data.status;
+    this.repostedUserId = data.repostedUserId;
+    this.repostedPostId = data.repostedPostId;
 
     return this;
   }
@@ -64,6 +74,11 @@ export class PostEntity implements Post, Entity<string, Post> {
       comments: this.comments,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      publishDate: this.publishDate,
+      isRepost: this.isRepost,
+      status: this.status,
+      repostedUserId: this.repostedUserId,
+      repostedPostId: this.repostedPostId,
     }
   }
 
@@ -86,6 +101,8 @@ export class PostEntity implements Post, Entity<string, Post> {
     entity.urlDescription = dto.urlDescription,
     entity.userId = userId,
     entity.tags = tags;
+    entity.isRepost = false;
+    entity.status = PostStatus.Published;
 
     return entity;
   }

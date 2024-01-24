@@ -1,5 +1,5 @@
 import {
-    ArrayMaxSize, ArrayNotEmpty, IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, Matches,
+    ArrayMaxSize, IsArray, IsDateString, IsEnum, IsNotEmpty, IsOptional, IsString, Matches,
     MaxLength, MinLength, ValidateIf
 } from 'class-validator';
 
@@ -94,4 +94,8 @@ export class UpdatePostDto {
   @IsArray()
   @IsOptional()
   public tags?: string[];
+
+  @IsDateString()
+  @IsOptional()
+  public publishDate?: string;
 }

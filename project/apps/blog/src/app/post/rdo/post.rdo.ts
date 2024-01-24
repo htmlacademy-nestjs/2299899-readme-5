@@ -48,4 +48,25 @@ export class PostRdo {
 
   @Expose()
   public comments: string[];
+
+  @Expose()
+  public publishDate: Date;
+
+  @Expose()
+  public isRepost: boolean;
+
+  @Expose()
+  public status: string;
+
+  @Expose()
+  public repostedUserId?: string;
+
+  @Expose()
+  public repostedPostId?: string;
+
+  @Expose()
+  public createdAt: Date;
+
+  @Expose()
+  public updatedAt: Date;
 }

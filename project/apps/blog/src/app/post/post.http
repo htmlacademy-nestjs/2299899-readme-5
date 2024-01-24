@@ -19,7 +19,7 @@ GET http://localhost:3001/api/posts?userId=65aeb270b4b011262dfa6ca5 HTTP/1.1
 ###
 
 # Get post by id
-GET http://localhost:3001/api/posts/638257a9-e5e2-45b6-b19e-dfe42f8cc35d HTTP/1.1
+GET http://localhost:3001/api/posts/965838a2-91ef-4e00-b99f-f3c5334f9e29 HTTP/1.1
 
 ###
 
@@ -99,13 +99,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlY
 ###
 
 # Update post by id
-PATCH http://localhost:3001/api/posts/d2f3b530-dd7d-4528-97dc-999019105ad5 HTTP/1.1
+PATCH http://localhost:3001/api/posts/965838a2-91ef-4e00-b99f-f3c5334f9e29 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIxMWQ4Mzg4NjNiZDFmMjE4NTFmOGQiLCJlbWFpbCI6InVzZXIyM0Bub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ1c2VyIiwibmFtZSI6Iktla3MiLCJpYXQiOjE3MDYxMDYzODgsImV4cCI6MTcwNjUzODM4OH0.OP9xuN8RRbu0a5S9zUdSQxP1uW4mgv6--EKZeoz-R4M
 
 {
-  "url": " ",
-  "videoTitle": "changed_ed_title_changed_title"
+  "cite": "Я не не запрещаю вам срать",
+  "citeAuthor": "Стетхем",
+  "publishDate": "2024-01-01T00:00:11.000Z"
 }
 
 ###
