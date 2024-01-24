@@ -9,6 +9,7 @@ import { RequestWithTokenPayload } from '@project/types';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostAuthorGuard } from './guards/post-author.guard';
+import { PostNotAuthorGuard } from './guards/post-not-author.guard';
 import { PostUpdateInterceptor } from './interceptors/post-update.interceptor';
 import { PostService } from './post.service';
 import { PostQuery } from './query/post.query';
@@ -17,15 +18,7 @@ import { PostRdo } from './rdo/post.rdo';
 
 @Controller('posts')
 export class PostController {
-  constructor(
-    private readonly postService: PostService,
-  ) {}
-
-  @Get('/:id')
-  public async show(@Param('id') id: string) {
-    const post = await this.postService.getPost(id);
-    return fillDto(PostRdo, post.toPOJO());
-  }
+  constructor(private readonly postService: PostService) {}
 
   @Get('/')
   public async index(@Query() query: PostQuery) {
@@ -44,12 +37,10 @@ export class PostController {
     return fillDto(PostRdo, newPost.toPOJO());
   }
 
-  @Delete('/:id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(PostAuthorGuard)
-  @UseGuards(JwtAuthGuard)
-  public async destroy(@Param('id') id: string) {
-    await this.postService.deletePost(id);
+  @Get('/:id')
+  public async show(@Param('id') id: string) {
+    const post = await this.postService.getPost(id);
+    return fillDto(PostRdo, post.toPOJO());
   }
 
   @Patch('/:id')
@@ -59,5 +50,21 @@ export class PostController {
   public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.postService.updatePost(id, dto);
     return fillDto(PostRdo, updatedPost.toPOJO());
+  }
+
+  @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(PostAuthorGuard)
+  @UseGuards(JwtAuthGuard)
+  public async destroy(@Param('id') id: string) {
+    await this.postService.deletePost(id);
+  }
+
+  @Post('/:id/repost')
+  @UseGuards(PostNotAuthorGuard)
+  @UseGuards(JwtAuthGuard)
+  public async repost(@Param('id') id: string, @Req() { user }: RequestWithTokenPayload) {
+    const repostedPost = await this.postService.repostPost(id, user.userId);
+    return fillDto(PostRdo, repostedPost.toPOJO());
   }
 }

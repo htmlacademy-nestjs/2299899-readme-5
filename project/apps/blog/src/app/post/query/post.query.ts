@@ -1,5 +1,7 @@
 import { Transform } from 'class-transformer';
-import { IsArray, IsEnum, IsIn, IsMongoId, IsNumber, IsOptional, IsUUID } from 'class-validator';
+import {
+    IsArray, IsBoolean, IsEnum, IsIn, IsMongoId, IsNumber, IsOptional, IsUUID
+} from 'class-validator';
 
 import { PostType, SortDirection } from '@project/types';
 
@@ -15,13 +17,17 @@ export class PostQuery {
 
   @IsUUID('all', { each: true })
   @IsArray()
-  @IsOptional()
   @IsEnum(PostType)
+  @IsOptional()
   public type?: string;
 
   @IsMongoId()
   @IsOptional()
   public userId?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  public isRepost?: boolean;
 
   @IsIn(Object.values(SortDirection))
   @IsOptional()

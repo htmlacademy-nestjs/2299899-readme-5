@@ -98,11 +98,21 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     const where: Prisma.PostWhereInput = {};
     const orderBy: Prisma.PostOrderByWithRelationInput = {};
 
-    if (query?.type) where.type = query.type;
+    if (query?.type) {
+      where.type = query.type;
+    }
 
-    if (query?.userId) where.userId = query.userId;
+    if (query?.userId) {
+      where.userId = query.userId;
+    }
 
-    if (query?.sortDirection) orderBy.createdAt = query.sortDirection;
+    if (query?.isRepost) {
+      where.isRepost = query?.isRepost;
+    }
+
+    if (query?.sortDirection) {
+      orderBy.createdAt = query.sortDirection;
+    }
 
     const [records, postCount] = await Promise.all([
       this.client.post.findMany({ where, orderBy, skip, take,

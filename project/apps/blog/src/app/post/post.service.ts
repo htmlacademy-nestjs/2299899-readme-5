@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { fillDto } from '@project/helpers';
-import { PaginationResult } from '@project/types';
+import { PaginationResult, PostStatus } from '@project/types';
 
 import { TagRepository } from '../tag/tag.repository';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -63,5 +63,28 @@ export class PostService {
     }
 
     return this.postRepository.update(id, postExists);
+  }
+
+  public async repostPost(id: string, userId: string): Promise<PostEntity> {
+    const existedPost = await this.postRepository.findById(id);
+    const query = new PostQuery();
+    query.isRepost = true;
+    query.userId = userId;
+    const userReposts = await this.postRepository.find(query);
+
+    if (userReposts.entities.find((repost) => repost.repostedPostId)) {
+      throw new ConflictException(`Post "${id}" is already reposted by user "${userId}"`);
+    }
+
+    existedPost.repostedPostId = existedPost.id;
+    existedPost.repostedUserId = existedPost.userId;
+    existedPost.userId = userId;
+    existedPost.id = undefined;
+    existedPost.isRepost = true;
+    existedPost.publishDate = undefined;
+    existedPost.createdAt = undefined;
+    existedPost.updatedAt = undefined;
+
+    return await this.postRepository.save(existedPost);
   }
 }
