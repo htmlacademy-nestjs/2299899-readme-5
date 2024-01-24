@@ -1,35 +1,50 @@
 import { Expose, Type } from 'class-transformer';
 
-import { PostTypeRdo } from '../../post-type/rdo/post-type.rdo';
+import { TagRdo } from '../../tag/rdo/tag.rdo';
 
 export class PostRdo {
   @Expose()
   public id: string;
 
   @Expose()
-  @Type(() => PostTypeRdo)
-  public type: PostTypeRdo[];
+  public type: string[];
 
   @Expose()
-  public title: string;
+  public videoTitle?: string;
 
   @Expose()
-  public url: string;
+  public videoUrl?: string;
 
   @Expose()
-  public photo: string;
+  public textTitle?: string;
 
   @Expose()
-  public anons: string;
+  public textAnons?: string;
 
   @Expose()
-  public content: string;
+  public text?: string;
 
   @Expose()
-  public tags: string[];
+  public cite?: string;
+
+  @Expose()
+  public citeAuthor?: string;
+
+  @Expose()
+  public photo?: string;
+
+  @Expose()
+  public url?: string;
+
+  @Expose()
+  public urlDescription?: string;
 
   @Expose()
   public userId: string;
+
+  @Expose()
+  @Type(() => TagRdo)
+  public tags: TagRdo[];
 
   @Expose()
   public comments: string[];

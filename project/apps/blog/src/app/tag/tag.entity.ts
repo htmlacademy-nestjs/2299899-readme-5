@@ -1,26 +1,26 @@
 import { Entity } from '@project/core';
-import { PostType } from '@project/types';
+import { PostTag } from '@project/types';
 
-export class PostTypeEntity implements PostType, Entity<string, PostType> {
+export class TagEntity implements PostTag, Entity<string, PostTag> {
   public id?: string;
   public title: string;
   public createdAt?: Date;
   public updatedAt?: Date;
 
-  constructor(data: PostType) {
-    if (!data.title) throw new Error('PostType is required');
+  constructor(data: PostTag) {
+    if (!data.title) throw new Error('Post tag is required');
 
     this.populate(data);
   }
 
-  public populate(data: PostType): void {
+  public populate(data: PostTag): void {
     this.id = data.id ?? undefined;
     this.title = data.title;
     this.createdAt = data.createdAt ?? undefined;
     this.updatedAt = data.updatedAt ?? undefined;
   }
 
-  public toPOJO(): PostType {
+  public toPOJO(): PostTag {
     return {
       id: this.id,
       title: this.title,
@@ -29,7 +29,7 @@ export class PostTypeEntity implements PostType, Entity<string, PostType> {
     }
   }
 
-  static fromObject(data: PostType): PostTypeEntity {
-    return new PostTypeEntity(data);
+  static fromObject(data: PostTag): TagEntity {
+    return new TagEntity(data);
   }
 }

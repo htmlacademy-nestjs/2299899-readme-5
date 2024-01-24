@@ -3,28 +3,37 @@ import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient } from '@prisma/client';
 
 const TYPE_TITLES = ['Видео', 'Текст', 'Цитата', 'Фото', 'Ссылка'];
-
 const MOCK_USER_IDS = ['65aeb270b4b011262dfa6ca5', '65aeb275b4b011262dfa6ca9'];
+const MOCK_TAGS = ['tag_1', 'tag_2', 'tag_3'];
 
 function getMockTypes() {
   return TYPE_TITLES.map((title) => ({ id: uuidv4(), title }));
 }
 
-function getMockPosts(mockTypes: Record<string, string>[]) {
+function getMockTags() {
+  return MOCK_TAGS.map((title) => ({ id: uuidv4(), title }));
+}
+
+function getMockPosts(mockTags: Record<string, string>[]) {
   const posts: Record<string, string | any>[] = [];
 
   for (let i = 1; i < 27; ++i) {
+    const type = TYPE_TITLES[Math.floor(Math.random() * TYPE_TITLES.length)];
     posts.push({
       id: uuidv4(),
-      title: `Title_${i}`,
-      url: `url_${i}`,
-      photo: `photo_${i}`,
-      anons: `anons_${i}`,
-      content: `content_${i}`,
-      tags: ['tag_1', 'tag_2'],
+      type,
+      videoTitle: type === 'Видео' ? `video_title_${i}` : undefined,
+      videoUrl: type === 'Видео' ? `video_url_${i}` : undefined,
+      textTitle: type === 'Текст' ? `text_title_${i}` : undefined,
+      textAnons: type === 'Текст' ? `text_anons_${i}` : undefined,
+      text: type === 'Текст' ? `text_content_${i}` : undefined,
+      cite: type === 'Цитата' ? `cite_${i}` : undefined,
+      citeAuthor: type === 'Цитата' ? `cite_author_${i}` : undefined,
+      photo: type === 'Фото' ? `photo_file_path_${i}` : undefined,
+      url: type === 'Ссылка' ? `url_${i}` : undefined,
+      urlDescription: type === 'Ссылка' ? `url_description_${i}` : undefined,
       userId: MOCK_USER_IDS[Math.floor(Math.random() * MOCK_USER_IDS.length)],
-      description: `Description_${i}.`,
-      type: { connect: { id: mockTypes[Math.floor(Math.random() * mockTypes.length)].id } },
+      tags: [mockTags[Math.floor(Math.random() * mockTags.length)].id],
     });
   }
 
@@ -33,13 +42,15 @@ function getMockPosts(mockTypes: Record<string, string>[]) {
 
 async function seedDb(prismaClient: PrismaClient) {
   const mockTypes = getMockTypes();
-  for (const type of mockTypes) {
-    await prismaClient.type.upsert({
-      where: { id: type.id },
+  const mockTags = getMockTags();
+
+  for (const tag of mockTags) {
+    await prismaClient.tag.upsert({
+      where: { id: tag.id },
       update: {},
       create: {
-        id: type.id,
-        title: type.title
+        id: tag.id,
+        title: tag.title
       }
     });
   }
@@ -50,16 +61,20 @@ async function seedDb(prismaClient: PrismaClient) {
       data: {
         id: post.id,
         type: post.type,
-        title: post.title,
-        url: post.url,
+        videoTitle: post.videoTitle,
+        videoUrl: post.videoUrl,
+        textTitle: post.textTitle,
+        textAnons: post.textAnons,
+        text: post.text,
+        cite: post.cite,
+        citeAuthor: post.citeAuthor,
         photo: post.photo,
-        anons: post.anons,
-        content: post.content,
-        tags: post.tags,
+        url: post.url,
+        urlDescription: post.urlDescription,
         userId: post.userId,
-        comments: post.comments ? {
-          create: post.comments
-        } : undefined,
+        // tags: post.tags.length ? {
+        //   create: post.tags,
+        // } : undefined,
       }
     })
   }

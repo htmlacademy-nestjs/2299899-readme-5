@@ -1,40 +1,73 @@
-import { ArrayNotEmpty, IsArray, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+    ArrayMaxSize, IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength,
+    ValidateIf
+} from 'class-validator';
+
+import { PostType } from '@project/types';
+
+import { MAX_TAGS_COUNT, PostValidationMessage, VideoTitleLength } from '../post.const';
 
 export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
+  @IsEnum(PostType)
   public type: string;
 
+  @ValidateIf((body) => body.type === PostType.Video)
   @IsString()
   @IsNotEmpty()
-  public title: string;
+  @MinLength(VideoTitleLength.Min, { message: PostValidationMessage.VideoTitleMinLength })
+  @MaxLength(VideoTitleLength.Max, { message: PostValidationMessage.VideoTitleMaxLength })
+  public videoTitle: string;
 
+  @ValidateIf((body) => body.type === PostType.Video)
   @IsString()
   @IsNotEmpty()
-  public url: string;
+  public videoUrl: string;
 
+  @ValidateIf((body) => body.type === PostType.Text)
+  @IsString()
+  @IsNotEmpty()
+  public textTitle: string;
+
+  @ValidateIf((body) => body.type === PostType.Text)
+  @IsString()
+  @IsNotEmpty()
+  public textAnons: string;
+
+  @ValidateIf((body) => body.type === PostType.Text)
+  @IsString()
+  @IsNotEmpty()
+  public text: string;
+
+  @ValidateIf((body) => body.type === PostType.Cite)
+  @IsString()
+  @IsNotEmpty()
+  public cite: string;
+
+  @ValidateIf((body) => body.type === PostType.Cite)
+  @IsString()
+  @IsNotEmpty()
+  public citeAuthor: string;
+
+  @ValidateIf((body) => body.type === PostType.Photo)
   @IsString()
   @IsNotEmpty()
   public photo: string;
 
+  @ValidateIf((body) => body.type === PostType.Url)
   @IsString()
   @IsNotEmpty()
-  public anons: string;
+  public url: string;
 
+  @ValidateIf((body) => body.type === PostType.Url)
   @IsString()
   @IsNotEmpty()
-  public content: string;
+  public urlDescription: string;
 
-  @IsString()
-  @IsNotEmpty()
-  public tags: string[];
-
-  @IsString()
-  @IsNotEmpty()
-  public userId: string;
-
-  @IsUUID('all', { each: true })
+  @IsOptional()
   @IsArray()
-  @ArrayNotEmpty()
-  public comments: string[];
+  @IsString({ each: true })
+  @ArrayMaxSize(MAX_TAGS_COUNT, { message: PostValidationMessage.TagsCountMax })
+  public tags?: string[];
 }

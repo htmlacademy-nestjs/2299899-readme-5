@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
-import { IsArray, IsIn, IsMongoId, IsNumber, IsOptional, IsUUID } from 'class-validator';
+import { IsArray, IsEnum, IsIn, IsMongoId, IsNumber, IsOptional, IsUUID } from 'class-validator';
 
-import { SortDirection } from '@project/types';
+import { PostType, SortDirection } from '@project/types';
 
 import {
     DEFAULT_PAGE_COUNT, DEFAULT_POST_COUNT_LIMIT, DEFAULT_SORT_DIRECTION
@@ -16,7 +16,8 @@ export class PostQuery {
   @IsUUID('all', { each: true })
   @IsArray()
   @IsOptional()
-  public type?: string[];
+  @IsEnum(PostType)
+  public type?: string;
 
   @IsMongoId()
   @IsOptional()

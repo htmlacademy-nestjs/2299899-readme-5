@@ -12,34 +12,39 @@ datasource db {
 }
 
 model Post {
-  id        String     @id @default(uuid()) @map("id")
-  type      Type       @relation(fields: [typeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  typeId    String     @map("type_id")
-  title     String
-  url       String
-  photo     String
-  anons     String
-  content   String
-  tags      String[]
-  userId    String     @map("user_id")
-  comments  Comment[]
-  favorite  Favorite[]
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @updatedAt @map("updated_at")
+  id             String        @id @default(uuid()) @map("id")
+  type           String
+  videoTitle     String?       @map("video_title")
+  videoUrl       String?       @map("video_url")
+  textTitle      String?       @map("text_title")
+  textAnons      String?       @map("text_anons")
+  text           String?
+  cite           String?
+  citeAuthor     String?       @map("cite_author")
+  photo          String?
+  url            String?
+  urlDescription String?       @map("url_description")
+  tags           Tag[]
+  userId         String        @map("user_id")
+  comments       Comment[]
+  favorite       Favorite[]
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  TagsOnPosts    TagsOnPosts[]
 
-  @@index([title])
   @@map("posts")
 }
 
-model Type {
-  id        String   @id @default(uuid())
-  title     String
-  posts     Post[]
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+model Tag {
+  id          String        @id @default(uuid())
+  title       String
+  posts       Post[]
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  TagsOnPosts TagsOnPosts[]
 
   @@index([title])
-  @@map("types")
+  @@map("tags")
 }
 
 model Comment {
@@ -64,4 +69,16 @@ model Favorite {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("favorites")
+}
+
+model TagsOnPosts {
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@id([postId, tagId])
+  @@map("tags_on_posts")
 }

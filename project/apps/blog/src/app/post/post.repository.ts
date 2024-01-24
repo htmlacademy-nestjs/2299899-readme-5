@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { BasePostgresRepository } from '@project/core';
 import { PrismaClientService } from '@project/shared-libs/blog/models';
-import { PaginationResult, Post } from '@project/types';
+import { PaginationResult, Post, PostType } from '@project/types';
 
 import { PostEntity } from './post.entity';
 import { PostQuery } from './query/post.query';
@@ -28,7 +28,7 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     const record = await this.client.post.create({
       data: {
         ...pojoEntity,
-        type: { connect: { id: pojoEntity.type.id } },
+        tags: { connect: pojoEntity.tags.map((tag) => ({ id: tag.id })) },
         comments: { connect: [] }
       },
     });
@@ -47,12 +47,18 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     const document = await this.client.post.findFirst({
       where: { id },
       include: {
-        type: true,
+        tags: true,
         comments: true,
       }
     });
 
-    if (!document) throw new NotFoundException(`Post with id ${id} not found.`);
+    if (!document) {
+      throw new NotFoundException(`Post with id ${id} not found.`);
+    }
+
+    if (!Object.values(PostType).includes(document.type as PostType)) {
+      throw new ConflictException(`Wrong post type "${document.type}"`)
+    }
 
     return this.createEntityFromDocument(document);
   }
@@ -62,14 +68,19 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     const updatedPost = await this.client.post.update({
       where: { id },
       data: {
-        title: pojoEntity.title,
-        url: pojoEntity.url,
+        type: pojoEntity.type as PostType,
+        videoTitle: pojoEntity.videoTitle,
+        videoUrl: pojoEntity.videoUrl,
+        textTitle: pojoEntity.textTitle,
+        textAnons: pojoEntity.textAnons,
+        text: pojoEntity.text,
+        cite: pojoEntity.cite,
+        citeAuthor: pojoEntity.citeAuthor,
         photo: pojoEntity.photo,
-        anons: pojoEntity.anons,
-        content: pojoEntity.content,
-        tags: pojoEntity.tags,
+        url: pojoEntity.url,
+        urlDescription: pojoEntity.urlDescription,
       },
-      include: { type: true, comments: true },
+      include: { tags: true, comments: true },
     });
 
     return this.createEntityFromDocument(updatedPost);
@@ -81,7 +92,7 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     const where: Prisma.PostWhereInput = {};
     const orderBy: Prisma.PostOrderByWithRelationInput = {};
 
-    if (query?.type) where.type = { id: { in: query.type } };
+    if (query?.type) where.type = query.type;
 
     if (query?.userId) where.userId = query.userId;
 
@@ -89,7 +100,7 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
 
     const [records, postCount] = await Promise.all([
       this.client.post.findMany({ where, orderBy, skip, take,
-        include: { type: true, comments: true },
+        include: { tags: true, comments: true },
       }),
       this.getPostCount(where),
     ])

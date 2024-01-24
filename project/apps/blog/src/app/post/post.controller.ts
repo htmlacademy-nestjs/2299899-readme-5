@@ -1,7 +1,9 @@
 import {
-    Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query
+    Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Req, UseGuards
 } from '@nestjs/common';
+import { JwtAuthGuard } from '@project/core';
 import { fillDto } from '@project/helpers';
+import { RequestWithTokenPayload } from '@project/types';
 
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -33,8 +35,9 @@ export class PostController {
   }
 
   @Post('/')
-  public async create(@Body() dto: CreatePostDto) {
-    const newPost = await this.postService.createPost(dto);
+  @UseGuards(JwtAuthGuard)
+  public async create(@Req() { user }: RequestWithTokenPayload, @Body() dto: CreatePostDto) {
+    const newPost = await this.postService.createPost(dto, user.userId);
     return fillDto(PostRdo, newPost.toPOJO());
   }
 

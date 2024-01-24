@@ -1,9 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class PostTypeRdo {
-  @Expose()
-  public id: string;
-
+export class TagRdo {
   @Expose()
   public title: string;
 }

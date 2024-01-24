@@ -1,16 +1,21 @@
 import { Comment } from './comment.interface';
-import { PostType } from './post-type.interface';
+import { PostTag } from './post-tag.interface';
 
 export interface Post {
   id?: string;
-  type: PostType;
-  title: string;
+  type: string;
+  videoTitle: string;
+  videoUrl: string;
+  textTitle: string;
+  textAnons: string;
+  text: string;
+  cite: string;
+  citeAuthor: string;
+  photo: string
   url: string;
-  photo: string;
-  anons: string;
-  content: string;
+  urlDescription: string;
   userId: string;
-  tags: string[];
+  tags: PostTag[];
   comments: Comment[];
   createdAt?: Date;
   updatedAt?: Date;
