@@ -9,7 +9,9 @@ import {
     TransformArrayLowerCaseNoDiblicates
 } from '../decorators/transform-array-lower-case-no-dublicates.decorator';
 import {
-    MAX_TAGS_COUNT, PostValidationMessage, TAG_PATTERN, TagLength, VideoTitleLength
+    CiteAuthorLength, CiteLength, MAX_TAGS_COUNT, PostValidationMessage, TAG_PATTERN, TagLength,
+    TextAnonsLength, TextLength, TextTitleLength, URL_DESCRIPTION_MAX_LENGTH, URL_PATTERN,
+    VIDEO_URL_PATTERN, VideoTitleLength
 } from '../post.const';
 
 export class CreatePostDto {
@@ -25,31 +27,42 @@ export class CreatePostDto {
   @ValidateIf((body) => body.type === PostType.Video)
   public videoTitle: string;
 
+  @Matches(VIDEO_URL_PATTERN, { message: PostValidationMessage.VideoUrlPattern })
   @IsString()
   @IsNotEmpty()
   @ValidateIf((body) => body.type === PostType.Video)
   public videoUrl: string;
 
+  @MinLength(TextTitleLength.Min, { message: PostValidationMessage.TextTitleMinLength })
+  @MaxLength(TextTitleLength.Max, { message: PostValidationMessage.TextTitleMaxLength })
   @IsString()
   @IsNotEmpty()
   @ValidateIf((body) => body.type === PostType.Text)
   public textTitle: string;
 
+  @MinLength(TextAnonsLength.Min, { message: PostValidationMessage.TextAnonsMinLength })
+  @MaxLength(TextAnonsLength.Max, { message: PostValidationMessage.TextAnonsMaxLength })
   @IsString()
   @IsNotEmpty()
   @ValidateIf((body) => body.type === PostType.Text)
   public textAnons: string;
 
+  @MinLength(TextLength.Min, { message: PostValidationMessage.TextMinLength })
+  @MaxLength(TextLength.Max, { message: PostValidationMessage.TextMaxLength })
   @IsString()
   @IsNotEmpty()
   @ValidateIf((body) => body.type === PostType.Text)
   public text: string;
 
+  @MinLength(CiteLength.Min, { message: PostValidationMessage.CiteMinLength })
+  @MaxLength(CiteLength.Max, { message: PostValidationMessage.CiteMaxLength })
   @IsString()
   @IsNotEmpty()
   @ValidateIf((body) => body.type === PostType.Cite)
   public cite: string;
 
+  @MinLength(CiteAuthorLength.Min, { message: PostValidationMessage.CiteAuthorMinLength })
+  @MaxLength(CiteAuthorLength.Max, { message: PostValidationMessage.CiteAuthorMaxLength })
   @IsString()
   @IsNotEmpty()
   @ValidateIf((body) => body.type === PostType.Cite)
@@ -60,13 +73,15 @@ export class CreatePostDto {
   @ValidateIf((body) => body.type === PostType.Photo)
   public photo: string;
 
+  @Matches(URL_PATTERN, { message: PostValidationMessage.UrlInvalid })
   @IsString()
   @IsNotEmpty()
   @ValidateIf((body) => body.type === PostType.Url)
   public url: string;
 
+  @MaxLength(URL_DESCRIPTION_MAX_LENGTH, { message: PostValidationMessage.UrlDescriptionMaxLength })
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ValidateIf((body) => body.type === PostType.Url)
   public urlDescription: string;
 

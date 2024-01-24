@@ -26,12 +26,12 @@ GET http://localhost:3001/api/posts/638257a9-e5e2-45b6-b19e-dfe42f8cc35d HTTP/1.
 # Create a new post of "Видео" type
 POST http://localhost:3001/api/posts HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIxMWQ4Mzg4NjNiZDFmMjE4NTFmOGQiLCJlbWFpbCI6InVzZXIyM0Bub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ1c2VyIiwibmFtZSI6Iktla3MiLCJpYXQiOjE3MDYxMDYyNDgsImV4cCI6MTcwNjUzODI0OH0.NErcb6KgSiUutiuBdBMN2H2E3Pry0iYd_IPBG6VEenk
 
 {
   "type": "Видео",
   "videoTitle": "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "videoUrl": "http://youtube.com/1",
+  "videoUrl": "https://www.youtube.com/watch?v=cwyTleTL06Y",
   "tags": ["tag_1", "DAFUQ"]
 }
 
@@ -44,7 +44,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlY
 
 {
   "type": "Текст",
-  "textTitle": "pmdfniofgijbiojfn",
+  "textTitle": "pmdfniofgijbiojfn;ls,dv;jdfijb",
   "textAnons": "text anons text anons text anons text anons",
   "text": "Расширенный текст публикации",
   "tags": ["tag_1", "DAFUQ"]
@@ -86,7 +86,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlY
 
 {
   "type": "Ссылка",
-  "url": "Я запрещаю вам срать",
+  "url": "https://www.youtube.com/watch?v=cwyTleTL06Y",
   "urlDescription": "Description"
 }
 
@@ -99,13 +99,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlY
 ###
 
 # Update post by id
-PATCH http://localhost:3001/api/posts/7ccf69b6-1ed3-4c0d-b39a-fcbf12bdfe88 HTTP/1.1
+PATCH http://localhost:3001/api/posts/d2f3b530-dd7d-4528-97dc-999019105ad5 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIxMWQ4Mzg4NjNiZDFmMjE4NTFmOGQiLCJlbWFpbCI6InVzZXIyM0Bub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ1c2VyIiwibmFtZSI6Iktla3MiLCJpYXQiOjE3MDYxMDYzODgsImV4cCI6MTcwNjUzODM4OH0.OP9xuN8RRbu0a5S9zUdSQxP1uW4mgv6--EKZeoz-R4M
 
 {
-  "url": "dafuq",
-  "videoTitle": "И вновь привет"
+  "url": " ",
+  "videoTitle": "changed_ed_title_changed_title"
 }
 
 ###

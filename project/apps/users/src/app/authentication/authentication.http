@@ -4,7 +4,7 @@ Content-Type: application/json
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlNzUxYzBjMzA4MWUxOTNjMDI5Y2YiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1OTM4NjM1LCJleHAiOjE3MDU5Mzg2OTV9.VVS68aX4K6qxq4-ksJAZDuOQRnDMnMYNkUaWGtaaMh4
 
 {
-  "email": "user2@notfound.local",
+  "email": "user23@notfound.local",
   "name": "Keks",
   "password": "123456"
 }
@@ -16,7 +16,7 @@ POST http://localhost:3004/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user2@notfound.local",
+  "email": "user23@notfound.local",
   "password": "123456"
 }
 

@@ -1,5 +1,6 @@
 import {
-    Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Req, UseGuards
+    Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Req, UseGuards,
+    UseInterceptors
 } from '@nestjs/common';
 import { JwtAuthGuard } from '@project/core';
 import { fillDto } from '@project/helpers';
@@ -8,6 +9,7 @@ import { RequestWithTokenPayload } from '@project/types';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostAuthorGuard } from './guards/post-author.guard';
+import { PostUpdateInterceptor } from './interceptors/post-update.interceptor';
 import { PostService } from './post.service';
 import { PostQuery } from './query/post.query';
 import { PostPaginationRdo } from './rdo/post-pagination.rdo';
@@ -51,6 +53,7 @@ export class PostController {
   }
 
   @Patch('/:id')
+  @UseInterceptors(PostUpdateInterceptor)
   @UseGuards(PostAuthorGuard)
   @UseGuards(JwtAuthGuard)
   public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
