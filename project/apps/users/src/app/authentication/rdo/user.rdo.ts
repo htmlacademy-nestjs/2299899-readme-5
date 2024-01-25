@@ -44,4 +44,18 @@ export class UserRdo {
   })
   @Expose()
   public registerDate: string;
+
+  @ApiProperty({
+    description: 'User\'s posts number.',
+    example: '1',
+  })
+  @Expose()
+  public postsCount: string;
+
+  @ApiProperty({
+    description: 'User\'s subscribers number.',
+    example: '2',
+  })
+  @Expose()
+  public subscribersCount: string;
 }
