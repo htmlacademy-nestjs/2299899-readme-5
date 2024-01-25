@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { JwtAccessStrategy } from '@project/core';
 import { FileStorageConfigModule } from '@project/shared-libs/config/file-storage';
 
 import { FileModel, FileSchema } from './file.model';
@@ -32,6 +33,7 @@ import { UploaderService } from './uploader.service';
   providers: [
     UploaderService,
     FileRepository,
+    JwtAccessStrategy,
   ],
   controllers: [
     UploaderController,

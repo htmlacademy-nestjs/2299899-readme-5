@@ -1,5 +1,6 @@
 # Upload avatar
 POST http://localhost:3002/api/files/upload/avatar HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -14,6 +15,7 @@ Content-Type: image/jpeg
 
 # Upload file with not allowed extension
 POST http://localhost:3002/api/files/upload/avatar HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -27,6 +29,7 @@ Content-Disposition: form-data; name="file"; filename="uploader.http"
 
 # Upload avatar wrong size
 POST http://localhost:3002/api/files/upload/avatar HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -41,6 +44,7 @@ Content-Type: image/jpeg
 
 # Upload photo wrong format
 POST http://localhost:3002/api/files/upload/photo HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -55,6 +59,7 @@ Content-Type: image/jpeg
 
 # Try upload no file
 POST http://localhost:3002/api/files/upload/photo HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
 
 
 ###
