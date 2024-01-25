@@ -8,6 +8,7 @@ import { MongoIdValidationPipe } from '@project/core';
 import { fillDto } from '@project/helpers';
 
 import { UploadedFileRdo } from './rdo/uploaded-file.rdo';
+import { UploadTarget } from './uploader.const';
 import { UploaderService } from './uploader.service';
 
 @Controller('files')
@@ -16,10 +17,17 @@ export class UploaderController {
     private readonly uploaderService: UploaderService,
   ) {}
 
-  @Post('/upload')
+  @Post('/upload/avatar')
   @UseInterceptors(FileInterceptor('file'))
-  public async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    const fileEntity = await this.uploaderService.saveFile(file);
+  public async uploadAvatar(@UploadedFile() file: Express.Multer.File) {
+    const fileEntity = await this.uploaderService.saveFile(file, UploadTarget.Avatar);
+    return fillDto(UploadedFileRdo, fileEntity.toPOJO());
+  }
+
+  @Post('/upload/photo')
+  @UseInterceptors(FileInterceptor('file'))
+  public async uploadPhoto(@UploadedFile() file: Express.Multer.File) {
+    const fileEntity = await this.uploaderService.saveFile(file, UploadTarget.Photo);
     return fillDto(UploadedFileRdo, fileEntity.toPOJO());
   }
 

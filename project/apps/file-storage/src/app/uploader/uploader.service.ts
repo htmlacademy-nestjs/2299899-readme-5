@@ -2,18 +2,19 @@ import 'multer';
 
 import dayjs from 'dayjs';
 import { ensureDir } from 'fs-extra';
-import { extension } from 'mime-types';
+import { extension, lookup } from 'mime-types';
 import { randomUUID } from 'node:crypto';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { FileStorageConfig } from '@project/shared-libs/config/file-storage';
 import { StoredFile } from '@project/types';
 
 import { FileEntity } from './file.entity';
 import { FileRepository } from './file.repository';
+import { ALLOWED_EXTENSIONS, AllowedSize, UploadTarget } from './uploader.const';
 
 @Injectable()
 export class UploaderService {
@@ -39,31 +40,38 @@ export class UploaderService {
     return join(year, month);
   }
 
-  public async writeFile(file: Express.Multer.File): Promise<StoredFile> {
-    try {
-      const uploadDirectoryPath = this.getUploadDirectoryPath();
-      const subDirectory = this.getSubUploadDirectoryPath();
-      const fileExtension = extension(file.mimetype);
-      const filename = `${randomUUID()}.${fileExtension}`;
-      const path = this.getDestinationFilePath(filename);
-
-      await ensureDir(join(uploadDirectoryPath, subDirectory));
-      await writeFile(path, file.buffer);
-
-      return {
-        fileExtension: fileExtension || '',
-        filename,
-        path,
-        subDirectory,
-      };
-    } catch (error) {
-      this.logger.error(`Error while saving file: ${error.message}`);
-      throw new Error(`Can't save file`);
+  public async writeFile(file: Express.Multer.File, target: UploadTarget): Promise<StoredFile> {
+    if (!file) {
+      throw new BadRequestException(`Upload file is required`);
     }
+
+    const uploadDirectoryPath = this.getUploadDirectoryPath();
+    const subDirectory = this.getSubUploadDirectoryPath();
+    const fileExtension = file.originalname.split('.').at(-1);
+    const filename = `${randomUUID()}.${fileExtension}`;
+    const path = this.getDestinationFilePath(filename);
+
+    if (!fileExtension || lookup(fileExtension) !== file.mimetype || !ALLOWED_EXTENSIONS[target].includes(fileExtension)) {
+      throw new BadRequestException(`Extension "${fileExtension}" not allowed`);
+    }
+
+    if (file.size > AllowedSize[target]) {
+      throw new BadRequestException(`Max file size is ${AllowedSize[target]} bytes`);
+    }
+
+    await ensureDir(join(uploadDirectoryPath, subDirectory));
+    await writeFile(path, file.buffer);
+
+    return {
+      fileExtension: fileExtension || '',
+      filename,
+      path,
+      subDirectory,
+    };
   }
 
-  public async saveFile(file: Express.Multer.File): Promise<FileEntity> {
-    const storedFile = await this.writeFile(file);
+  public async saveFile(file: Express.Multer.File, target: UploadTarget): Promise<FileEntity> {
+    const storedFile = await this.writeFile(file, target);
     const fileEntity = FileEntity.fromObject({
       hashName: storedFile.filename,
       mimetype: file.mimetype,

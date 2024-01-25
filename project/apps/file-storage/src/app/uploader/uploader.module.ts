@@ -27,11 +27,14 @@ import { UploaderService } from './uploader.service';
         }]
       }
     }),
-    MongooseModule.forFeature([
-      { name: FileModel.name, schema: FileSchema }
-    ]),
+    MongooseModule.forFeature([{ name: FileModel.name, schema: FileSchema }]),
   ],
-  providers: [UploaderService, FileRepository],
-  controllers: [UploaderController],
+  providers: [
+    UploaderService,
+    FileRepository,
+  ],
+  controllers: [
+    UploaderController,
+  ],
 })
 export class UploaderModule {}
