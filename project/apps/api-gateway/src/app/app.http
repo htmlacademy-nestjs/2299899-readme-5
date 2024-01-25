@@ -120,6 +120,71 @@ GET http://localhost:3000/api/blog/0b300137-836d-4eba-838e-0a91cd63d1c2 HTTP/1.1
 ###
 
 # Get uploaded file info
-GET http://localhost:3000/api/files/65b2d9aab06a0d028d76b84e HTTP/1.1
+GET http://localhost:3000/api/files/65b2e759b06a0d028d76b87a HTTP/1.1
+
+###
+
+# Update post of "Видео" type
+PATCH  http://localhost:3000/api/blog/f0f58540-24fd-4f73-8086-4c9cf1c47d70 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMTU0LCJleHAiOjE3MDY2NDUxNTR9.lHM6xxWTqgSCgcU7QcJDsgRjeQ8q9fJqDNMZox1OPRY
+
+{
+  "videoTitle": "new title super lengthy at least 20 symbols"
+}
+
+###
+
+# Update post of "Текст" type
+PATCH  http://localhost:3000/api/blog/dc5e6381-f2d4-4f45-a980-631b49883812 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMTU0LCJleHAiOjE3MDY2NDUxNTR9.lHM6xxWTqgSCgcU7QcJDsgRjeQ8q9fJqDNMZox1OPRY
+
+{
+  "textTitle": "new title super lengthy at least 20 symbols"
+}
+
+###
+
+# Update post of "Цитата" type
+PATCH http://localhost:3000/api/blog/0cee6a4c-fbbb-4b3b-b8d3-2234b73f05d9 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMTU0LCJleHAiOjE3MDY2NDUxNTR9.lHM6xxWTqgSCgcU7QcJDsgRjeQ8q9fJqDNMZox1OPRY
+
+{
+  "cite": "Я больше не запрещаю вам срать"
+}
+
+###
+
+# Update post of "Фото" type
+PATCH  http://localhost:3000/api/blog/1b0cd0c7-1fd1-4583-a049-02d1ab27a062 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMTU0LCJleHAiOjE3MDY2NDUxNTR9.lHM6xxWTqgSCgcU7QcJDsgRjeQ8q9fJqDNMZox1OPRY
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="test_avatar_0.4Mb.jpeg"
+Content-Type: image/jpeg
+
+< ../../assets/test_avatar_0.4Mb.jpeg
+
+--boundary--
+
+###
+
+# Update post of "Ссылка" type
+PATCH  http://localhost:3000/api/blog/dcee69ad-fb47-46bb-9c98-25ab592c0f6a HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMzA3LCJleHAiOjE3MDY2NDUzMDd9.RNlCgKj6P5VjPu8ZK5WVeOGI1S5RljTDlKUF9Z5lwcE
+Content-Type: application/json
+
+{
+  "urlDescription": "Description new and shiny"
+}
+
+###
+
+# Delete the post by id
+DELETE http://localhost:3000/api/blog/0b300137-836d-4eba-838e-0a91cd63d1c2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMzA3LCJleHAiOjE3MDY2NDUzMDd9.RNlCgKj6P5VjPu8ZK5WVeOGI1S5RljTDlKUF9Z5lwcE
 
 ###

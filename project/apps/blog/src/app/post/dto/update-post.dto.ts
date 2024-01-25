@@ -24,12 +24,14 @@ export class UpdatePostDto {
   @MaxLength(VideoTitleLength.Max, { message: PostValidationMessage.VideoTitleMaxLength })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ValidateIf((body) => body.type === PostType.Video)
   public videoTitle?: string;
 
   @Matches(VIDEO_URL_PATTERN, { message: PostValidationMessage.VideoUrlPattern })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ValidateIf((body) => body.type === PostType.Video)
   public videoUrl?: string;
 
@@ -37,6 +39,7 @@ export class UpdatePostDto {
   @MaxLength(TextTitleLength.Max, { message: PostValidationMessage.TextTitleMaxLength })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ValidateIf((body) => body.type === PostType.Text)
   public textTitle?: string;
 
@@ -44,6 +47,7 @@ export class UpdatePostDto {
   @MaxLength(TextAnonsLength.Max, { message: PostValidationMessage.TextAnonsMaxLength })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ValidateIf((body) => body.type === PostType.Text)
   public textAnons?: string;
 
@@ -51,6 +55,7 @@ export class UpdatePostDto {
   @MaxLength(TextLength.Max, { message: PostValidationMessage.TextMaxLength })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ValidateIf((body) => body.type === PostType.Text)
   public text?: string;
 
@@ -58,6 +63,7 @@ export class UpdatePostDto {
   @MaxLength(CiteLength.Max, { message: PostValidationMessage.CiteMaxLength })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ValidateIf((body) => body.type === PostType.Cite)
   public cite?: string;
 
@@ -65,17 +71,20 @@ export class UpdatePostDto {
   @MaxLength(CiteAuthorLength.Max, { message: PostValidationMessage.CiteAuthorMaxLength })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ValidateIf((body) => body.type === PostType.Cite)
   public citeAuthor?: string;
 
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ValidateIf((body) => body.type === PostType.Photo)
   public photo?: string;
 
   @Matches(URL_PATTERN, { message: PostValidationMessage.UrlInvalid })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ValidateIf((body) => body.type === PostType.Url)
   public url?: string;
 
