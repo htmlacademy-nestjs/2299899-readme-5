@@ -43,8 +43,8 @@ function getConfig(): ApiGatewayConfig {
     fileStoragePort: parseInt(process.env.FILE_STORAGE_PORT || `${DefaultPorts.FileStorage}`, 10),
     notificationsPort: parseInt(process.env.NOTIFICATIONS_PORT || `${DefaultPorts.Notifications}`, 10),
     usersPort: parseInt(process.env.USERS_PORT || `${DefaultPorts.Users}`, 10),
-    httpClientTimeout: parseInt(process.env.HTTP_CLIENT_MAX_REDIRECTS || `${HttpClientDefaults.MaxRedirects}`, 10),
-    httpClientMaxRedirects: parseInt(process.env.HTTP_CLIENT_TIMEOUT || `${HttpClientDefaults.Timeout}`,10),
+    httpClientMaxRedirects: parseInt(process.env.HTTP_CLIENT_MAX_REDIRECTS || `${HttpClientDefaults.MaxRedirects}`, 10),
+    httpClientTimeout: parseInt(process.env.HTTP_CLIENT_TIMEOUT || `${HttpClientDefaults.Timeout}`,10),
   };
 
   validateConfig(config);

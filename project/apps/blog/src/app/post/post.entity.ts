@@ -109,6 +109,8 @@ export class PostEntity implements Post, Entity<string, Post> {
     entity.tags = tags;
     entity.isRepost = false;
     entity.status = PostStatus.Published;
+    entity.comments = [];
+    entity.likesUserIds = [];
 
     return entity;
   }

@@ -28,10 +28,11 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
 
   public async save(entity: PostEntity): Promise<PostEntity> {
     const pojoEntity = entity.toPOJO();
+    delete pojoEntity.commentsCount;
+    delete pojoEntity.likesCount;
     const record = await this.client.post.create({
       data: {
         ...pojoEntity,
-        publishDate: new Date(),
         tags: { connect: pojoEntity.tags.map((tag) => ({ id: tag.id })) },
         comments: { connect: [] }
       },

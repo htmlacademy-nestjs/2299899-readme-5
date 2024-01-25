@@ -5,6 +5,8 @@ import { Body, Controller, Inject, Post, Req, UseFilters } from '@nestjs/common'
 import { ConfigType } from '@nestjs/config';
 import { apiGatewayConfig } from '@project/shared-libs/config/api-gateway';
 
+import { AppPath, ROOT_PATH } from './app.const';
+import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 
@@ -16,9 +18,15 @@ export class UsersController {
     @Inject(apiGatewayConfig.KEY) private readonly config: ConfigType<typeof apiGatewayConfig>,
   ) {}
 
+  @Post('register')
+  public async create(@Body() dto: CreateUserDto) {
+    const response = await this.httpService.axiosRef.post(`${ROOT_PATH}:${this.config.usersPort}${AppPath.Register}`, dto);
+    return response.data;
+  }
+
   @Post('login')
-  public async login(@Body() loginUserDto: LoginUserDto) {
-    const { data } = await this.httpService.axiosRef.post(`http://localhost:${this.config.usersPort}/api/auth/login`, loginUserDto);
+  public async login(@Body() dto: LoginUserDto) {
+    const { data } = await this.httpService.axiosRef.post(`http://localhost:${this.config.usersPort}/api/auth/login`, dto);
     return data;
   }
 

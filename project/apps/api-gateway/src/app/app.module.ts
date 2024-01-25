@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { ApiGatewayConfigModule } from '@project/shared-libs/config/api-gateway';
 
 import { BlogController } from './blog.controller';
+import { FilesController } from './files.controller';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { UsersController } from './users.controller';
 
@@ -21,6 +22,7 @@ import { UsersController } from './users.controller';
   controllers: [
     BlogController,
     UsersController,
+    FilesController,
   ],
   providers: [
     CheckAuthGuard,

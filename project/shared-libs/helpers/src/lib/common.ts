@@ -51,3 +51,5 @@ export function parseTime(time: string): TimeAndUnit {
 
   return { value, unit };
 }
+
+export const getAuthHeader = (token: string) => ({ headers: { 'Authorization': token } });

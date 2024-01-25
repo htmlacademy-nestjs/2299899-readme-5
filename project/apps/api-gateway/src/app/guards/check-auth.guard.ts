@@ -17,6 +17,7 @@ export class CheckAuthGuard implements CanActivate {
     });
 
     request['user'] = data;
+
     return true;
   }
 }

@@ -3,10 +3,8 @@ POST http://localhost:3000/api/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user@notfound.local",
-  "username": "keks",
+  "email": "user111@notfound.local",
   "name": "Keks",
-  "birthDate": "2012-02-22",
   "password": "123456"
 }
 
@@ -25,20 +23,103 @@ Content-Type: application/json
 
 # Get new JWT pair
 POST http://localhost:3000/api/users/refresh HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsInVzZXJuYW1lIjoia2VrcyIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1ODQyMjU1LCJleHAiOjE3MDU4NDIzMTV9.htZ_Gr_lGeFkPZfGL2pjxLJ_KDX0nZPq3BtzaxAesVc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwidG9rZW5JZCI6IjBlYTUxMjVmLTc3YjMtNDMxOC1iYTM3LTM0NjNhYzJiZjcwNiIsImlhdCI6MTcwNjIxMzEzOSwiZXhwIjoxNzA2NjQ1MTM5fQ.XAAXYadTLkn8t5vXUDyY0FDJvG0bX0m_x1Szbjcpjd8
 
 ###
 
-# Create a new post
+# Create a new post of "Видео" type
 POST http://localhost:3000/api/blog HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsInVzZXJuYW1lIjoia2VrcyIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA1ODQyMjU1LCJleHAiOjE3MDU4NDIzMTV9.htZ_Gr_lGeFkPZfGL2pjxLJ_KDX0nZPq3BtzaxAesVc
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMTU0LCJleHAiOjE3MDY2NDUxNTR9.lHM6xxWTqgSCgcU7QcJDsgRjeQ8q9fJqDNMZox1OPRY
+
+{
+  "type": "Видео",
+  "videoTitle": "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "videoUrl": "https://www.youtube.com/watch?v=cwyTleTL06Y",
+  "tags": ["tag_1", "DAFUQ"]
+}
+
+###
+
+# Create a new post of "Текст" type
+POST http://localhost:3000/api/blog HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMTU0LCJleHAiOjE3MDY2NDUxNTR9.lHM6xxWTqgSCgcU7QcJDsgRjeQ8q9fJqDNMZox1OPRY
+
+{
+  "type": "Текст",
+  "textTitle": "pmdfniofgijbiojfn;ls,dv;jdfijb",
+  "textAnons": "text anons text anons text anons text anonsssgdfgplfghpkpfgh",
+  "text": "Расширенный текст публикации тексттексттексттексттексттексттексттексттексттексттексттексттексттексттексттексттексттексттексттексттексттекст",
+  "tags": ["tag_1", "DAFUQ"]
+}
+
+###
+
+# Create a new post of "Цитата" type
+POST http://localhost:3000/api/blog HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMTU0LCJleHAiOjE3MDY2NDUxNTR9.lHM6xxWTqgSCgcU7QcJDsgRjeQ8q9fJqDNMZox1OPRY
+
+{
+  "type": "Цитата",
+  "cite": "Я запрещаю вам срать",
+  "citeAuthor": "Стэтхем",
+  "tags": ["Стетхэм", "Пацан", "тЕГ_1"]
+}
+
+###
+
+# Create a new post of "Фото" type
+POST http://localhost:3000/api/blog HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMTU0LCJleHAiOjE3MDY2NDUxNTR9.lHM6xxWTqgSCgcU7QcJDsgRjeQ8q9fJqDNMZox1OPRY
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="test_photo_0.5Mb.png"
+Content-Type: image/png
+
+< ../../assets/test_photo_0.5Mb.png
+
+--boundary
+Content-Disposition: form-data; name="type"
+
+Фото
+--boundary
+Content-Disposition: form-data; name="tags"
+
+тег_1
+--boundary
+Content-Disposition: form-data; name="tags"
+
+тег_1
+--boundary
+Content-Disposition: form-data; name="tags"
+
+ТЕГ_1
+--boundary--
+
+###
+
+# Create a new post of "Ссылка" type
+POST http://localhost:3000/api/blog HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMzA3LCJleHAiOjE3MDY2NDUzMDd9.RNlCgKj6P5VjPu8ZK5WVeOGI1S5RljTDlKUF9Z5lwcE
 Content-Type: application/json
 
 {
-  "title": "Check",
-  "descriptio": "Description_check",
-  "content": "Content_check",
-  "tags": ["tag_1", "tag_2"]
+  "type": "Ссылка",
+  "url": "https://www.youtube.com/watch?v=cwyTleTL06Y",
+  "urlDescription": "Description"
 }
+
+###
+
+# Get post
+GET http://localhost:3000/api/blog/0b300137-836d-4eba-838e-0a91cd63d1c2 HTTP/1.1
+
+###
+
+# Get uploaded file info
+GET http://localhost:3000/api/files/65b2d9aab06a0d028d76b84e HTTP/1.1
 
 ###
