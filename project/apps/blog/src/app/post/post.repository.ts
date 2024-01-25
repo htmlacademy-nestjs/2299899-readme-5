@@ -8,6 +8,7 @@ import {
 
 import { PostEntity } from './post.entity';
 import { PostQuery } from './query/post.query';
+import { SearchPostsQuery } from './query/search-posts.query';
 
 @Injectable()
 export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
@@ -99,7 +100,7 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
     const where: Prisma.PostWhereInput = {};
-    const orderBy: Prisma.PostOrderByWithRelationInput = {};
+    const orderBy: Prisma.PostOrderByWithRelationAndSearchRelevanceInput = {};
 
     if (query?.type) {
       where.type = query.type;
@@ -131,6 +132,52 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
 
     const [records, postCount] = await Promise.all([
       this.client.post.findMany({ where, orderBy, skip, take,
+        include: { tags: true, comments: true },
+      }),
+      this.getPostCount(where),
+    ]);
+
+    if (query.sortOption === SortOption.Likes) {
+      records.sort((recordA, recordB) => {
+        const lengthA = recordA.likesUserIds.length;
+        const lengthB = recordB.likesUserIds.length;
+        return query.sortDirection === SortDirection.Desc ? lengthB - lengthA : lengthA - lengthB;
+      });
+    }
+
+    return {
+      entities: records.map((record) => this.createEntityFromDocument(record)),
+      currentPage: query?.page,
+      totalPages: this.calculatePostsPage(postCount, take),
+      itemsPerPage: take,
+      totalItems: postCount,
+    }
+  }
+
+  public async findByTitle(query?: SearchPostsQuery): Promise<PaginationResult<PostEntity>> {
+    const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
+    const take = query?.limit;
+    const where: Prisma.PostWhereInput = {};
+    const orderBy: Prisma.PostOrderByWithRelationAndSearchRelevanceInput = {};
+
+    where.status = PostStatus.Published;
+    where.OR = [
+      { textTitle: { search: query.title.split(' ').join(' | ') } },
+      { videoTitle: { search: query.title.split(' ').join(' | ') } },
+    ];
+
+    if (query.sortOption === SortOption.PublishDate) {
+      orderBy.publishDate = query.sortDirection;
+    } else if (query.sortOption === SortOption.Discussed) {
+      orderBy.comments = { _count: query.sortDirection };
+    }
+
+    const [records, postCount] = await Promise.all([
+      this.client.post.findMany({
+        where,
+        orderBy,
+        skip,
+        take,
         include: { tags: true, comments: true },
       }),
       this.getPostCount(where),

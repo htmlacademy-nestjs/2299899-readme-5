@@ -51,7 +51,7 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
   public async findByPostId(postId: string, query?: CommentQuery): Promise<PaginationResult<CommentEntity>> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
-    const orderBy: Prisma.CommentOrderByWithRelationInput = {};
+    const orderBy: Prisma.CommentOrderByWithRelationAndSearchRelevanceInput = {};
     orderBy.createdAt = SortDirection.Desc;
 
     console.log(query);

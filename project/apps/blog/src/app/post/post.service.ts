@@ -9,6 +9,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { PostEntity } from './post.entity';
 import { PostRepository } from './post.repository';
 import { PostQuery } from './query/post.query';
+import { SearchPostsQuery } from './query/search-posts.query';
 
 @Injectable()
 export class PostService {
@@ -112,5 +113,9 @@ export class PostService {
     }
 
     return this.postRepository.update(id, post);
+  }
+
+  public async searchByTitle(query: SearchPostsQuery): Promise<PaginationResult<PostEntity>> {
+    return this.postRepository.findByTitle(query);
   }
 }

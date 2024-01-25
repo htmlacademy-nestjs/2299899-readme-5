@@ -34,6 +34,11 @@ GET http://localhost:3001/api/posts?tag=тег_1 HTTP/1.1
 
 ###
 
+# Search posts by words in title
+POST http://localhost:3001/api/posts/search?title=text video HTTP/1.1
+
+###
+
 # Get posts with filter by user
 GET http://localhost:3001/api/posts?userId=65aeb270b4b011262dfa6ca5 HTTP/1.1
 

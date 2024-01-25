@@ -13,6 +13,7 @@ import { PostNotAuthorGuard } from './guards/post-not-author.guard';
 import { PostUpdateInterceptor } from './interceptors/post-update.interceptor';
 import { PostService } from './post.service';
 import { PostQuery } from './query/post.query';
+import { SearchPostsQuery } from './query/search-posts.query';
 import { PostPaginationRdo } from './rdo/post-pagination.rdo';
 import { PostRdo } from './rdo/post.rdo';
 
@@ -41,6 +42,16 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   public async drafts(@Query() query: PostQuery, @Req() { user }: RequestWithTokenPayload) {
     const postsPagination = await this.postService.getAllDrafts(query, user.userId);
+    const result = {
+      ...postsPagination,
+      entities: postsPagination.entities.map((post) => fillDto(PostRdo, post.toPOJO())),
+    }
+    return fillDto(PostPaginationRdo, result);
+  }
+
+  @Post('/search')
+  public async search(@Query() query: SearchPostsQuery) {
+    const postsPagination = await this.postService.searchByTitle(query);
     const result = {
       ...postsPagination,
       entities: postsPagination.entities.map((post) => fillDto(PostRdo, post.toPOJO())),
@@ -82,7 +93,7 @@ export class PostController {
   @Post('/:id/likes')
   @UseGuards(JwtAuthGuard)
   public async toggleLike(@Param('id') id: string, @Req() { user }: RequestWithTokenPayload) {
-    const updatedPost = await this.postService.toggleLike(id, user.userId);;
+    const updatedPost = await this.postService.toggleLike(id, user.userId);
     return fillDto(PostRdo, updatedPost.toPOJO());
   }
 }
