@@ -21,3 +21,22 @@ export enum PasswordLength {
   Min = 6,
   Max = 12,
 }
+
+export enum UsersApiMessage {
+  UserCreated = 'New user has been successfully created',
+  UserCreateForbidden = 'Allowed only for not authorized users',
+  LoginSuccess = 'User has been successfully logged',
+  LoginError = 'Wrong password or login',
+  RefreshOk = 'Get a new access/refresh tokens',
+  ChangePasswordSuccess = 'Successfully changed user\'s password',
+  ChangePasswordValidationError = 'Password validation error',
+  ChangePasswordUnauthorized = 'Unauthorized',
+  UserRead = 'User read success',
+  UserNotFound = 'User not found',
+}
+
+export const API_AUTH_HEADER = {
+  name: 'Authorization',
+  description: 'Authorization JWT token',
+  required: true,
+}
