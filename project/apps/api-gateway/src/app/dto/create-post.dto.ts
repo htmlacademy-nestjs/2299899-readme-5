@@ -47,6 +47,7 @@ export class CreatePostDto {
   public tags?: string[];
 
   @ApiProperty({
+    name: 'file',
     type: 'file',
     properties: {
       file: {
@@ -54,6 +55,7 @@ export class CreatePostDto {
         format: 'binary',
       },
     },
+    description: 'Photo or avatar picture',
   })
   public readonly file: Express.Multer.File;
 }

@@ -2,7 +2,7 @@ import 'multer';
 
 import dayjs from 'dayjs';
 import { ensureDir } from 'fs-extra';
-import { extension, lookup } from 'mime-types';
+import { lookup } from 'mime-types';
 import { randomUUID } from 'node:crypto';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -18,7 +18,6 @@ import { ALLOWED_EXTENSIONS, AllowedSize, UploadTarget } from './uploader.const'
 
 @Injectable()
 export class UploaderService {
-  private readonly logger = new Logger(UploaderService.name);
   private readonly DATE_FORMAT = 'YYYY MM';
 
   constructor(

@@ -48,6 +48,7 @@ export class UpdatePostDto {
   public tags?: string[];
 
   @ApiProperty({
+    name: 'file',
     type: 'file',
     properties: {
       file: {
@@ -55,6 +56,8 @@ export class UpdatePostDto {
         format: 'binary',
       },
     },
+    description: 'Photo or avatar picture',
+    required: false,
   })
   public readonly file: Express.Multer.File;
 }

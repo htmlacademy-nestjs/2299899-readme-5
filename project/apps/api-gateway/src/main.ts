@@ -13,15 +13,13 @@ import { GLOBAL_PREFIX } from './const';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix(GLOBAL_PREFIX);
 
   const config = new DocumentBuilder()
     .setTitle('The "API Gateway" service')
     .setDescription('API Gateway service')
     .setVersion('1.0')
     .build();
-
-  app.setGlobalPrefix(GLOBAL_PREFIX);
-
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('spec', app, document);
 
