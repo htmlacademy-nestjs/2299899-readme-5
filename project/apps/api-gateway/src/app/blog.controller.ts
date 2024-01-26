@@ -93,6 +93,12 @@ export class BlogController {
     return data;
   }
 
+  @Get('/newsletter')
+  @UseGuards(CheckAuthGuard)
+  public async newsletter(@Token() token: string) {
+    await this.httpService.axiosRef.get(`${ROOT_PATH}:${this.config.blogPort}/api/posts/newsletter`, getAuthHeader(token));
+  }
+
   @Get('/:id')
   public async read(@Param('id') id: string) {
     const { data } = await this.httpService.axiosRef.get(`http://localhost:${this.config.blogPort}/api/posts/${id}`)

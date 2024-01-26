@@ -269,3 +269,9 @@ Content-Type: application/json
 }
 
 ###
+
+# Send newsletter
+GET http://localhost:3000/api/blog/newsletter HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIzMTk0N2MzNzdhNTk2ZjhlMGYzMDIiLCJlbWFpbCI6InVzZXIxMTdAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjM2Mjg5LCJleHAiOjE3MDY2NjgyODl9.ASfiKtCKagMssB6YYFUNurZfcThL7QfIZ7PDMwp8BuY
+
+###
