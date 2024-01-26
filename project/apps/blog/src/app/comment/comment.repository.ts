@@ -4,7 +4,6 @@ import { BasePostgresRepository } from '@project/core';
 import { PrismaClientService } from '@project/shared-libs/blog/models';
 import { Comment, PaginationResult, SortDirection } from '@project/types';
 
-import { MAX_COMMENTS_COUNT } from './comment.const';
 import { CommentEntity } from './comment.entity';
 import { CommentQuery } from './query/comment.query';
 
@@ -17,7 +16,6 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
   }
 
   public async save(entity: CommentEntity): Promise<CommentEntity> {
-    console.log(entity);
     const record = await this.client.comment.create({
       data: {
         message: entity.message,
@@ -35,7 +33,9 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
       where: { id },
     });
 
-    if (!record) throw new NotFoundException(`Comment with id ${id} not found.`);
+    if (!record) {
+      throw new NotFoundException(`Comment with id ${id} not found.`);
+    }
 
     return this.createEntityFromDocument(record);
   }
@@ -53,8 +53,6 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
     const take = query?.limit;
     const orderBy: Prisma.CommentOrderByWithRelationAndSearchRelevanceInput = {};
     orderBy.createdAt = SortDirection.Desc;
-
-    console.log(query);
 
     const [comments, commentsCount] = await Promise.all([
       this.client.comment.findMany({
@@ -76,8 +74,6 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
   }
 
   public async deleteById(id: string): Promise<void> {
-    await this.client.comment.delete({
-      where: { id },
-    });
+    await this.client.comment.delete({ where: { id } });
   }
 }

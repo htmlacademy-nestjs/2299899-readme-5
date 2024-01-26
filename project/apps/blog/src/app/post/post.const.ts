@@ -68,3 +68,17 @@ export enum PostValidationMessage {
   TagsMinLength = `Each tag min length is ${TagLength.Min} symbols`,
   TagsMaxLength = `Each tag max length is ${TagLength.Max} symbols`,
 }
+
+export enum PostsApiMessage {
+  PostsReadAll = 'List of posts',
+  Unauthorized = 'Required jwt token authorization',
+  PostCreated = 'New post created',
+  ValidationFailed = 'Bad request, failed request validation',
+  PostRead = 'Single post',
+  PostNotFound = 'Post with provided id not found',
+  PostUpdate = 'Post updated successfully',
+  PostDelete = 'Post deleted',
+  PostAuthorForbidden = 'Forbidden, post doesn\'t belong to the user',
+  PostNotAuthorForbidden = 'Forbidden, post belongs to the user',
+  PostLikeForbidden = 'Forbidden, likes aren\'t allowed for posts with status "Черновик"',
+}

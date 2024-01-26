@@ -13,3 +13,19 @@ export enum CommentValidationMessage {
   CommentMinLength = `Comment min length is ${CommentLength.Min} symbols`,
   CommentMaxLength = `Comment max length is ${CommentLength.Max} symbols`,
 }
+
+export enum CommentApiMessage {
+  ReadComments = 'Read paginated comments',
+  CommentCreate = 'Comment created successfully',
+  Unauthorized = 'Unauthorized',
+  ValidationFailed = 'Comment validation error',
+  CommentDelete = 'Comment deleted',
+  CommentNotFound = 'Comment not found',
+  CommentForbidden = 'Not allowed',
+}
+
+export const API_AUTH_HEADER = {
+  name: 'Authorization',
+  description: 'Authorization JWT token',
+  required: true,
+}

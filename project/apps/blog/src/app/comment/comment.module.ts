@@ -7,8 +7,16 @@ import { CommentRepository } from './comment.repository';
 import { CommentService } from './comment.service';
 
 @Module({
-  imports: [PostModule, PrismaClientModule],
-  controllers: [CommentController],
-  providers: [CommentService, CommentRepository],
+  imports: [
+    PostModule,
+    PrismaClientModule,
+  ],
+  controllers: [
+    CommentController,
+  ],
+  providers: [
+    CommentService,
+    CommentRepository,
+  ],
 })
 export class CommentModule {}

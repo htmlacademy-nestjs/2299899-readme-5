@@ -24,6 +24,9 @@ export enum BlogMessage {
   ValidationFailed = 'Bad request, failed request validation',
   LikeToggled = 'Post like toggled',
   CommentCreate = 'Comment created',
+  PostAuthorForbidden = 'Forbidden, post doesn\'t belong to the user',
+  PostNotAuthorForbidden = 'Forbidden, post belongs to the user',
+  PostLikeForbidden = 'Forbidden, likes aren\'t allowed for posts with status "Черновик"',
 }
 
 export enum UsersMessage {

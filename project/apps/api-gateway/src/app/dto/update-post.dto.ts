@@ -44,7 +44,7 @@ export class UpdatePostDto {
   @ApiProperty({ description: '"Ссылка" post url description', example: "Url description", required: false })
   public urlDescription?: string;
 
-  @ApiProperty({ description: 'List of tags', example: "['tag_1', 'ТЕГ_2', 'Стэтхем']", required: false })
+  @ApiProperty({ description: 'List of tags', example: ['tag_1', 'ТЕГ_2', 'Стэтхем'], required: false })
   public tags?: string[];
 
   @ApiProperty({

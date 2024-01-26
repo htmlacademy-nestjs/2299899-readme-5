@@ -144,7 +144,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlY
 ###
 
 # Toggle like on post
-POST http://localhost:3001/api/posts/166fd1b8-6348-42c3-88bd-a3ac5ca6b6bd/likes HTTP/1.1
+POST http://localhost:3001/api/posts/016a5b7c-d9e6-4934-9614-78f8549f0303/likes HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWFlYjI3NWI0YjAxMTI2MmRmYTZjYTkiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTcwNjA5ODU0NCwiZXhwIjoxNzA2NTMwNTQ0fQ.Np48aDQey3fkMpiVbDnTZIkdSaE9ZeSP3pkDOAUZUzY
 
 ###
