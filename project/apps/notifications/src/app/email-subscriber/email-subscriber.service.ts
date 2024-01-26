@@ -19,7 +19,9 @@ export class EmailSubscriberService {
       return existedSubscriber;
     }
 
-    return this.emailSubscriberRepository.create(new EmailSubscriberEntity().populate({ ...subscriber, notificationDate: new Date()}));
+    const subscriberEntity = new EmailSubscriberEntity().populate({ ...subscriber, notificationDate: new Date()});
+
+    return this.emailSubscriberRepository.create(subscriberEntity);
   }
 
   public async getSubscriber(email: string) {

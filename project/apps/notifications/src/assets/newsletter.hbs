@@ -38,11 +38,17 @@
     {{#if urlDescription}}
       <p><b>{{urlDescription}}</b></p>
     {{/if}}
+
     <p>Tags: {{tags}}</p>
     <p>Author: {{userId}}</p>
     <p>Publish date: {{publishDate}}</p>
-    <p>Likes: {{likesCount}}</p>
-    <p>Comments: {{commentsCount}}</p>
+
+    {{#if likesCount}}
+      <p>Likes: {{likesCount}}</p>
+    {{/if}}
+    {{#if commentsCount}}
+      <p>Comments: {{commentsCount}}</p>
+    {{/if}}
   </li>
   {{/each}}
 </ul>

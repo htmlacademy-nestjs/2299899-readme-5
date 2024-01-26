@@ -18,7 +18,7 @@ export class EmailSubscriberController {
   @RabbitSubscribe({
     exchange: 'readme_notifications_income',
     routingKey: RabbitRouting.AddSubscriber,
-    queue: 'readme_notifications_income',
+    queue: 'readme_notifications_income_subscriber',
   })
   public async create(subscriber: CreateSubscriberDto) {
     const extendedSubscriber: Subscriber = { ...subscriber, notificationDate: new Date() };
@@ -29,7 +29,7 @@ export class EmailSubscriberController {
   @RabbitSubscribe({
     exchange: 'readme_notifications_income',
     routingKey: RabbitRouting.SendNewsletter,
-    queue: 'readme_notifications_income',
+    queue: 'readme_notifications_income_newsletter',
   })
   public async sendNewsletter(dto: NewsletterDto) {
     const { email, posts } = dto;
