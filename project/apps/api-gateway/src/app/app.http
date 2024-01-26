@@ -264,8 +264,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyY
 Content-Type: application/json
 
 {
-  "currentPassword": "123456",
-  "newPassword": "qwerty"
+  "currentPassword": "qwerty",
+  "newPassword": "123"
 }
 
 ###

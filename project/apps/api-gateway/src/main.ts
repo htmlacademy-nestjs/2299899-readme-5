@@ -13,6 +13,7 @@ import { GLOBAL_PREFIX } from './const';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   const config = new DocumentBuilder()
     .setTitle('The "API Gateway" service')
     .setDescription('API Gateway service')

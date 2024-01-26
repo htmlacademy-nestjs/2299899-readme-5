@@ -146,6 +146,10 @@ export class PostRepository extends BasePostgresRepository<PostEntity, Post> {
       });
     }
 
+    if (records.length === 0) {
+      throw new NotFoundException('Posts not found');
+    }
+
     return {
       entities: records.map((record) => this.createEntityFromDocument(record)),
       currentPage: query?.page,
