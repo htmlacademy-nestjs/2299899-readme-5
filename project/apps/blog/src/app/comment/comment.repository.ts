@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { BasePostgresRepository } from '@project/core';
 import { PrismaClientService } from '@project/shared-libs/blog/models';
-import { Comment } from '@project/types';
+import { Comment, PaginationResult, SortDirection } from '@project/types';
 
-import { MAX_COMMENTS_COUNT } from './comment.const';
 import { CommentEntity } from './comment.entity';
+import { CommentQuery } from './query/comment.query';
 
 @Injectable()
 export class CommentRepository extends BasePostgresRepository<CommentEntity, Comment> {
@@ -19,7 +20,7 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
       data: {
         message: entity.message,
         userId: entity.userId,
-        postId: entity.userId,
+        postId: entity.postId,
       },
     });
 
@@ -30,19 +31,49 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
   public async findById(id: string): Promise<CommentEntity> {
     const record = await this.client.comment.findFirst({
       where: { id },
-      take: MAX_COMMENTS_COUNT,
     });
 
-    if (!record) throw new NotFoundException(`Comment with id ${id} not found.`);
+    if (!record) {
+      throw new NotFoundException(`Comment with id ${id} not found.`);
+    }
 
     return this.createEntityFromDocument(record);
   }
 
-  public async findByPostId(postId: string): Promise<CommentEntity[]> {
-    const records = await this.client.comment.findMany({
-      where: { postId },
-    });
+  private async getCommentsCount(where: Prisma.CommentWhereInput): Promise<number> {
+    return this.client.comment.count({ where });
+  }
 
-    return records.map((record) => this.createEntityFromDocument(record));
+  private calculateCommentsPage(totalCount: number, limit: number): number {
+    return Math.ceil(totalCount / limit);
+  }
+
+  public async findByPostId(postId: string, query?: CommentQuery): Promise<PaginationResult<CommentEntity>> {
+    const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
+    const take = query?.limit;
+    const orderBy: Prisma.CommentOrderByWithRelationAndSearchRelevanceInput = {};
+    orderBy.createdAt = SortDirection.Desc;
+
+    const [comments, commentsCount] = await Promise.all([
+      this.client.comment.findMany({
+        where: { postId },
+        orderBy,
+        skip,
+        take,
+      }),
+      this.getCommentsCount({ postId }),
+    ]);
+
+    return {
+      entities: comments.map((comment) => this.createEntityFromDocument(comment)),
+      currentPage: query?.page,
+      totalPages: this.calculateCommentsPage(commentsCount, take),
+      itemsPerPage: take,
+      totalItems: commentsCount,
+    }
+  }
+
+  public async deleteById(id: string): Promise<void> {
+    await this.client.comment.delete({ where: { id } });
   }
 }

@@ -50,15 +50,6 @@
         ]
       }
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
-      "options": {
-        "jestConfig": "apps/users/jest.config.ts"
-      }
-    },
     "db:lint": {
       "executor": "nx:run-commands",
       "options": {

@@ -8,12 +8,13 @@ import { SALT_ROUNDS } from './blog-user.const';
 export class BlogUserEntity implements AuthUser, Entity<string> {
   public id: string;
   public email: string;
-  public username: string;
   public name: string;
   public avatar: string;
-  public birthDate: Date;
   public role: UserRole;
   public passwordHash: string;
+  public postsCount: number;
+  public subscribersCount: number;
+  public createdAt?: Date;
 
   constructor(user: AuthUser) {
     this.populate(user);
@@ -23,23 +24,26 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
     return {
       id: this.id,
       email: this.email,
-      username: this.username,
       name: this.name,
       avatar: this.avatar,
-      birthDate: this.birthDate,
       role: this.role,
       passwordHash: this.passwordHash,
+      registerDate: this.createdAt,
+      postsCount: this.postsCount,
+      subscribersCount: this.subscribersCount,
     }
   }
 
   public populate(data: AuthUser): void {
+    this.id = data.id;
     this.email = data.email;
-    this.username = data.username;
     this.name = data.name;
     this.avatar = data.avatar;
-    this.birthDate = data.birthDate;
     this.role = data.role;
     this.passwordHash = data.passwordHash;
+    this.createdAt = data.createdAt;
+    this.postsCount = data.postsCount;
+    this.subscribersCount = data.subscribersCount;
   }
 
   public async setPassword(password: string): Promise<BlogUserEntity> {

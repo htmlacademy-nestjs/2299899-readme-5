@@ -1,100 +1,89 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { PrismaClient } from '@prisma/client';
 
-const TYPE_UUID_1 = '39614113-7ad5-45b6-8093-06455437e1e2';
-const TYPE_UUID_2 = 'efd775e2-df55-4e0e-a308-58249f5ea202';
-const TYPE_UUID_3 = '39614113-df55-45b6-a308-06455437e1e2';
-const TYPE_UUID_4 = 'efd775e2-df55-4e0e-a308-06455437e1e2';
-const TYPE_UUID_5 = '39614113-7ad5-4e0e-8093-06455437e1e2';
+const TYPE_TITLES = ['Видео', 'Текст', 'Цитата', 'Фото', 'Ссылка'];
+const MOCK_USER_IDS = ['65aeb270b4b011262dfa6ca5', '65aeb275b4b011262dfa6ca9'];
+const MOCK_TAGS = ['tag_1', 'tag_2', 'tag_3'];
+const STATUSES = ['Опубликована', 'Черновик'];
 
-const POST_UUID_1 = '6d308040-96a2-4162-bea6-2338e9976540';
-const POST_UUID_2 = 'ab04593b-da99-4fe3-8b4b-e06d82e2efdd';
-
-const USER_ID_1 = 'ab04593b-96a2-4fe3-bea6-e06d82e2efdd';
-const USER_ID_2 = '6d308040-da99-4162-8b4b-2338e9976540';
-
-function getTypes() {
-  return [
-    { id: TYPE_UUID_1, title: 'Видео' },
-    { id: TYPE_UUID_2, title: 'Текст' },
-    { id: TYPE_UUID_3, title: 'Цитата' },
-    { id: TYPE_UUID_4, title: 'Фото' },
-    { id: TYPE_UUID_5, title: 'Ссылка' },
-  ];
+function getMockTypes() {
+  return TYPE_TITLES.map((title) => ({ id: uuidv4(), title }));
 }
 
-function getPosts() {
-  return [
-    {
-      id: POST_UUID_1,
-      title: 'Title_1',
-      url: 'url_1',
-      photo: 'photo_1',
-      anons: 'anons_1',
-      content: 'content_1',
-      tags: ['tag_1', 'tag_2'],
-      userId: USER_ID_1,
-      description: 'Description_1.',
-      type: { connect: { id: TYPE_UUID_1 } },
-    },
-    {
-      id: POST_UUID_2,
-      title: 'Title_2',
-      url: 'url_2',
-      photo: 'photo_2',
-      anons: 'anons_2',
-      content: 'content_2',
-      tags: ['tag_3'],
-      userId: USER_ID_2,
-      description: 'description_2',
-      type: { connect: { id: TYPE_UUID_2 } },
-      comments: [
-          {
-            message: 'Message_1.',
-            userId: USER_ID_1,
-          },
-          {
-            message: 'Message_2.',
-            userId: USER_ID_2,
-          }
-      ]
-    }
-  ]
+function getMockTags() {
+  return MOCK_TAGS.map((title) => ({ id: uuidv4(), title }));
+}
+
+function getMockPosts(mockTags: Record<string, string>[]) {
+  const posts: Record<string, string | any>[] = [];
+
+  for (let i = 1; i < 27; ++i) {
+    const type = TYPE_TITLES[Math.floor(Math.random() * TYPE_TITLES.length)];
+    posts.push({
+      id: uuidv4(),
+      type,
+      videoTitle: type === 'Видео' ? `video_title_${i}` : undefined,
+      videoUrl: type === 'Видео' ? `video_url_${i}` : undefined,
+      textTitle: type === 'Текст' ? `text_title_${i}` : undefined,
+      textAnons: type === 'Текст' ? `text_anons_${i}` : undefined,
+      text: type === 'Текст' ? `text_content_${i}` : undefined,
+      cite: type === 'Цитата' ? `cite_${i}` : undefined,
+      citeAuthor: type === 'Цитата' ? `cite_author_${i}` : undefined,
+      photo: type === 'Фото' ? `photo_file_path_${i}` : undefined,
+      url: type === 'Ссылка' ? `url_${i}` : undefined,
+      urlDescription: type === 'Ссылка' ? `url_description_${i}` : undefined,
+      userId: MOCK_USER_IDS[Math.floor(Math.random() * MOCK_USER_IDS.length)],
+      tags: [mockTags[Math.floor(Math.random() * mockTags.length)].id],
+      status: STATUSES[Math.floor(Math.random() * STATUSES.length)],
+    });
+  }
+
+  return posts;
 }
 
 async function seedDb(prismaClient: PrismaClient) {
-  const mockTypes = getTypes();
-  for (const type of mockTypes) {
-    await prismaClient.type.upsert({
-      where: { id: type.id },
+  const mockTypes = getMockTypes();
+  const mockTags = getMockTags();
+
+  for (const tag of mockTags) {
+    await prismaClient.tag.upsert({
+      where: { id: tag.id },
       update: {},
       create: {
-        id: type.id,
-        title: type.title
+        id: tag.id,
+        title: tag.title
       }
     });
   }
 
-  const mockPosts = getPosts();
+  const mockPosts = getMockPosts(mockTypes);
   for (const post of mockPosts) {
     await prismaClient.post.create({
       data: {
         id: post.id,
         type: post.type,
-        title: post.title,
-        url: post.url,
+        videoTitle: post.videoTitle,
+        videoUrl: post.videoUrl,
+        textTitle: post.textTitle,
+        textAnons: post.textAnons,
+        text: post.text,
+        cite: post.cite,
+        citeAuthor: post.citeAuthor,
         photo: post.photo,
-        anons: post.anons,
-        content: post.content,
-        tags: post.tags,
+        url: post.url,
+        urlDescription: post.urlDescription,
         userId: post.userId,
-        comments: post.comments ? {
-          create: post.comments
-        } : undefined,
+        status: post.status,
+        likesUserIds: [],
+        // tags: post.tags.length ? {
+        //   create: post.tags,
+        // } : undefined,
       }
     })
   }
 
-  console.info('🤘️ Database was filled');
+  console.info('🤘️ Database readme_blog was filled');
 }
 
 async function bootstrap() {

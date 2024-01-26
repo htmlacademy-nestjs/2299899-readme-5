@@ -1,36 +1,59 @@
 import { Entity } from '@project/core';
-import { Comment, Post } from '@project/types';
+import { Post, PostStatus, PostType } from '@project/types';
 
-import { PostTypeEntity } from '../post-type/post-type.entity';
+import { CommentEntity } from '../comment/comment.entity';
+import { TagEntity } from '../tag/tag.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 
 export class PostEntity implements Post, Entity<string, Post> {
   public id?: string;
-  public type: PostTypeEntity;
-  public title: string;
+  public type: string;
+  public videoTitle: string;
+  public videoUrl: string;
+  public textTitle: string;
+  public textAnons: string;
+  public text: string;
+  public cite: string;
+  public citeAuthor: string;
+  public photo: string
   public url: string;
-  public photo: string;
-  public anons: string;
-  public content: string;
-  public tags: string[];
+  public urlDescription: string;
+  public tags: TagEntity[];
   public userId: string;
-  public comments: Comment[];
+  public comments: CommentEntity[];
+  public likesUserIds: string[];
   public createdAt?: Date;
   public updatedAt?: Date;
+  public publishDate?: Date;
+  public isRepost: boolean;
+  public status: string;
+  public repostedUserId?: string;
+  public repostedPostId?: string;
 
   public populate(data: Post): PostEntity {
     this.id = data.id ?? undefined;
-    this.title = data.title;
-    this.type = new PostTypeEntity(data.type);
-    this.url = data.url;
-    this.photo = data.url;
-    this.anons = data.anons;
-    this.content = data.content;
-    this.tags = data.tags;
+    this.type = data.type;
+    this.videoTitle = data.videoTitle ?? undefined;
+    this.videoUrl = data.videoUrl ?? undefined;
+    this.textTitle = data.textTitle ?? undefined;
+    this.textAnons = data.textAnons ?? undefined;
+    this.text = data.text ?? undefined;
+    this.cite = data.cite ?? undefined;
+    this.citeAuthor = data.citeAuthor ?? undefined;
+    this.photo = data.photo ?? undefined;
+    this.url = data.url ?? undefined;
+    this.urlDescription = data.urlDescription ?? undefined;
     this.userId = data.userId;
-    this.comments = [];
+    this.tags = data.tags.map((tag) => TagEntity.fromObject(tag));
+    this.comments = data.comments.map((comment) => CommentEntity.fromObject(comment));
+    this.likesUserIds = data.likesUserIds;
     this.createdAt = data.createdAt ?? undefined;
     this.updatedAt = data.updatedAt ?? undefined;
+    this.publishDate = data.publishDate ?? undefined;
+    this.isRepost = data.isRepost;
+    this.status = data.status;
+    this.repostedUserId = data.repostedUserId;
+    this.repostedPostId = data.repostedPostId;
 
     return this;
   }
@@ -39,16 +62,29 @@ export class PostEntity implements Post, Entity<string, Post> {
     return {
       id: this.id,
       type: this.type,
-      title: this.title,
-      url: this.url,
+      videoTitle: this.videoTitle,
+      videoUrl: this.videoUrl,
+      textTitle: this.textTitle,
+      textAnons: this.textAnons,
+      text: this.text,
+      cite: this.cite,
+      citeAuthor: this.citeAuthor,
       photo: this.photo,
-      anons: this.anons,
-      content: this.content,
+      url: this.url,
+      urlDescription: this.urlDescription,
       userId: this.userId,
       tags: this.tags,
-      comments: this.comments,
+      comments: this.comments.map((entity) => entity.toPOJO()),
+      commentsCount: this.comments.length,
+      likesUserIds: this.likesUserIds,
+      likesCount: this.likesUserIds.length,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      publishDate: this.publishDate,
+      isRepost: this.isRepost,
+      status: this.status,
+      repostedUserId: this.repostedUserId,
+      repostedPostId: this.repostedPostId,
     }
   }
 
@@ -56,16 +92,25 @@ export class PostEntity implements Post, Entity<string, Post> {
     return new PostEntity().populate(data);
   }
 
-  static fromDto(dto: CreatePostDto, postType: PostTypeEntity): PostEntity {
+  static fromDto(dto: CreatePostDto, userId: string, tags: TagEntity[]): PostEntity {
     const entity = new PostEntity();
-    entity.type = postType;
-    entity.title = dto.title;
-    entity.url = dto.url;
-    entity.photo = dto.photo;
-    entity.anons = dto.anons;
-    entity.content = dto.content;
-    entity.tags = dto.tags;
-    entity.userId = dto.userId;
+    entity.type = dto.type as PostType;
+    entity.videoTitle = dto.videoTitle,
+    entity.videoUrl = dto.videoUrl,
+    entity.textTitle = dto.textTitle,
+    entity.textAnons = dto.textAnons,
+    entity.text = dto.text,
+    entity.cite = dto.cite,
+    entity.citeAuthor = dto.citeAuthor,
+    entity.photo = dto.photo,
+    entity.url = dto.url,
+    entity.urlDescription = dto.urlDescription,
+    entity.userId = userId,
+    entity.tags = tags;
+    entity.isRepost = false;
+    entity.status = PostStatus.Published;
+    entity.comments = [];
+    entity.likesUserIds = [];
 
     return entity;
   }

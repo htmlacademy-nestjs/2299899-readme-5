@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { ENV_USERS_FILE_PATH } from '../const';
 import applicationConfig from './app.config';
 import jwtConfig from './jwt.config';
 import mongoConfig from './mongo.config';
 import rabbitConfig from './rabbit.config';
-
-const ENV_USERS_FILE_PATH = 'apps/users/users.env';
 
 @Module({
   imports: [ConfigModule.forRoot({

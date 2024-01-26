@@ -3,7 +3,7 @@ import * as Joi from 'joi';
 
 import { ConfigType, registerAs } from '@nestjs/config';
 
-import { MONGO_PORTS } from './mongo/mongo.const';
+import { MongoPort } from '../const';
 import { MongoConfiguration } from './mongo/mongo.env';
 
 export interface MongoConfig {
@@ -17,7 +17,7 @@ export interface MongoConfig {
 
 const dbValidationSchema = Joi.object({
   host: Joi.string().hostname().required(),
-  port: Joi.number().port().default(MONGO_PORTS.DEFAULT),
+  port: Joi.number().port().default(MongoPort.DEFAULT),
   name: Joi.string().required(),
   user: Joi.string().required(),
   password: Joi.string().required(),
@@ -27,7 +27,7 @@ const dbValidationSchema = Joi.object({
 function validateMongoConfig(config: MongoConfig): void {
   const { error } = dbValidationSchema.validate(config, { abortEarly: true });
   if (error) {
-    throw new Error(`[DB Config Validation Error]: ${error.message}`);
+    throw new Error(`[Users DB Config Validation Error]: ${error.message}`);
   }
 }
 
@@ -35,7 +35,7 @@ async function getDbConfig(): Promise<MongoConfiguration> {
   const config = plainToClass(MongoConfiguration, {
     host: process.env.MONGO_HOST,
     name: process.env.MONGO_DB,
-    port: process.env.MONGO_PORT ? parseInt(process.env.MONGO_PORT, 10) : MONGO_PORTS.DEFAULT,
+    port: process.env.MONGO_PORT ? parseInt(process.env.MONGO_PORT, 10) : MongoPort.DEFAULT,
     user: process.env.MONGO_USER,
     password: process.env.MONGO_PASSWORD,
     authBase: process.env.MONGO_AUTH_BASE

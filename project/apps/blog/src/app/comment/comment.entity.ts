@@ -5,8 +5,8 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 
 export class CommentEntity implements Comment, Entity<string, Comment> {
   public id?: string;
-  public createdAt: Date;
-  public updatedAt: Date;
+  public createdAt?: Date;
+  public updatedAt?: Date;
   public postId?: string;
   public message: string;
   public userId: string;
@@ -37,13 +37,12 @@ export class CommentEntity implements Comment, Entity<string, Comment> {
     return new CommentEntity().populate(data);
   }
 
-  static fromDto(dto: CreateCommentDto, postId: string): CommentEntity {
+  static fromDto(dto: CreateCommentDto, postId: string, userId: string): CommentEntity {
     return new CommentEntity()
       .populate({
         ...dto,
         postId,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        userId,
       });
   }
 }

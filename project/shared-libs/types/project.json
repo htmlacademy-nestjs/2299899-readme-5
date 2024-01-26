@@ -10,13 +10,6 @@
       "options": {
         "lintFilePatterns": ["shared-libs/types/**/*.ts"]
       }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "shared-libs/types/jest.config.ts"
-      }
     }
   },
   "tags": []

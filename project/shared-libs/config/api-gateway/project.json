@@ -1,0 +1,16 @@
+{
+  "name": "shared-libs-config-api-gateway",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "shared-libs/config/api-gateway/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["shared-libs/config/api-gateway/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

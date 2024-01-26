@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { ENV_FILE_PATH } from '../const';
 import fileStorageConfig from './file-storage.config';
-
-const ENV_FILE_PATH = 'apps/file-storage/file-storage.env';
+import jwtConfig from './jwt.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      load: [fileStorageConfig],
+      load: [fileStorageConfig, jwtConfig],
       envFilePath: ENV_FILE_PATH,
     }),
   ]

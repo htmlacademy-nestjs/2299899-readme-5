@@ -8,30 +8,14 @@ import { AuthUser, UserRole } from '@project/types';
   timestamps: true,
 })
 export class BlogUserModel extends Document implements AuthUser {
-  @Prop({
-    required: true,
-    unique: true,
-  })
+  @Prop({ required: true, unique: true })
   public email: string;
 
-  @Prop({
-    required: true,
-    unique: true,
-  })
-  username: string;
-
-  @Prop({
-    required: true,
-  })
+  @Prop({ required: true })
   name: string;
 
   @Prop()
   avatar: string;
-
-  @Prop({
-    required: true,
-  })
-  birthDate: Date;
 
   @Prop({
     required: true,
@@ -41,10 +25,17 @@ export class BlogUserModel extends Document implements AuthUser {
   })
   role: UserRole;
 
-  @Prop({
-    required: true,
-  })
+  @Prop({ required: true })
   public passwordHash: string;
+
+  @Prop()
+  public registerDate: Date;
+
+  @Prop({ required: true, default: 0 })
+  public postsCount: number;
+
+  @Prop({ required: true, default: 0 })
+  public subscribersCount: number;
 }
 
 export const BlogUserSchema = SchemaFactory.createForClass(BlogUserModel);

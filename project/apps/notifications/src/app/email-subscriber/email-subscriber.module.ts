@@ -21,6 +21,7 @@ import { EmailSubscriberService } from './email-subscriber.service';
   providers: [
     EmailSubscriberService,
     EmailSubscriberRepository,
+    EmailSubscriberController,
   ],
 })
 export class EmailSubscriberModule {}

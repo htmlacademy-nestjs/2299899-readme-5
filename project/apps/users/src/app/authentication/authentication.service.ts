@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import * as crypto from 'node:crypto';
 
 import {
@@ -14,15 +13,14 @@ import { Token, User, UserRole } from '@project/types';
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { BlogUserRepository } from '../blog-user/blog-user.repository';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
-import {
-    AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG
-} from './authentication.const';
+import { AuthUserErrorMessage } from './authentication.const';
+import { ChangeUserPasswordDto } from './dto/change-user-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
-export class AuthneticationService {
-  private readonly logger = new Logger(AuthneticationService.name);
+export class AuthenticationService {
+  private readonly logger = new Logger(AuthenticationService.name);
 
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
@@ -32,17 +30,21 @@ export class AuthneticationService {
   ) {}
 
   public async register(dto: CreateUserDto) {
-    const { email, username, name, birthDate, password } = dto;
+    const { email, name, password } = dto;
     const blogUser = {
-      email, username, name, role: UserRole.User,
-      avatar: '', birthDate: dayjs(birthDate).toDate(),
-      registerDate: dayjs().toDate(),
+      email,
+      name,
+      role: UserRole.User,
+      avatar: '',
+      registerDate: new Date(),
       passwordHash: '',
+      postsCount: 0,
+      subscribersCount: 0,
     };
     const existUser = await this.blogUserRepository.findByEmail(email);
 
     if (existUser) {
-      throw new ConflictException(AUTH_USER_EXISTS);
+      throw new ConflictException(AuthUserErrorMessage.UserExists);
     }
 
     const userEntity = await new BlogUserEntity(blogUser).setPassword(password);
@@ -55,11 +57,11 @@ export class AuthneticationService {
     const existUser = await this.blogUserRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(AuthUserErrorMessage.UserNotFound);
     }
 
     if (!await existUser.comparePassword(password)) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
+      throw new UnauthorizedException(AuthUserErrorMessage.WrongPassword);
     }
 
     return existUser;
@@ -68,7 +70,9 @@ export class AuthneticationService {
   public async getUser(id: string) {
     const existedUser = await this.blogUserRepository.findById(id);
 
-    if (!existedUser) throw new NotFoundException(`User with id ${id} not found`);
+    if (!existedUser) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
 
     return existedUser;
   }
@@ -76,7 +80,9 @@ export class AuthneticationService {
   public async getUserByEmail(email: string) {
     const existedUser = await this.blogUserRepository.findByEmail(email);
 
-    if (!existedUser) throw new NotFoundException(`User with email ${email} not found`);
+    if (!existedUser) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
 
     return existedUser;
   }
@@ -97,5 +103,16 @@ export class AuthneticationService {
       this.logger.error(`[Token generation error]: ${error.message}`);
       throw new HttpException('Token creation error.', HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  public async changeUserPassword(id: string, dto: ChangeUserPasswordDto): Promise<BlogUserEntity> {
+    const userData = await this.getUser(id);
+
+    if (!await userData.comparePassword(dto.currentPassword)) {
+      throw new UnauthorizedException(AuthUserErrorMessage.WrongPassword);
+    }
+
+    await userData.setPassword(dto.newPassword);
+    return await this.blogUserRepository.update(id, userData);
   }
 }

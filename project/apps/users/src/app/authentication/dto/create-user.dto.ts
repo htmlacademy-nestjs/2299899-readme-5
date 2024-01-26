@@ -1,42 +1,26 @@
-import { IsEmail, IsISO8601, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 
-import { AUTH_USER_DATEBIRTH_NOT_VALID, AUTH_USER_EMAIL_NOT_VALID } from '../authentication.const';
+import { AuthUserErrorMessage, PasswordLength, UsernameLength } from '../authentication.const';
 
 export class CreateUserDto {
-  @ApiProperty({
-    description: 'Unique user\'s email.',
-    example: 'user@user.com',
-  })
-  @IsEmail({}, { message: AUTH_USER_EMAIL_NOT_VALID })
+  @ApiProperty({ description: 'Unique user\'s email.', example: 'user@user.com' })
+  @IsNotEmpty({ message: AuthUserErrorMessage.EmailRequired })
+  @IsEmail({}, { message: AuthUserErrorMessage.EmailNotValid })
   email: string;
 
-  @ApiProperty({
-    description: 'User\'s login/username.',
-    example: 'keks',
-  })
+  @ApiProperty({ description: 'User\'s lastname and firstname.', example: 'John Doe' })
+  @IsNotEmpty({ message: AuthUserErrorMessage.UsernameRequired })
   @IsString()
-  username: string;
-
-  @ApiProperty({
-    description: 'User\'s firstname and lastname.',
-    example: 'John Doe',
-  })
-  @IsString()
+  @MinLength(UsernameLength.Min, { message: AuthUserErrorMessage.UsernameMinLength })
+  @MaxLength(UsernameLength.Max, { message: AuthUserErrorMessage.UsernameMaxLength })
   name: string;
 
-  @ApiProperty({
-    description: 'User\'s date of birth.',
-    example: '2002-02-02',
-  })
-  @IsISO8601({}, { message: AUTH_USER_DATEBIRTH_NOT_VALID })
-  birthDate: string;
-
-  @ApiProperty({
-    description: 'User\'s password.',
-    example: '123456',
-  })
+  @ApiProperty({ description: 'User\'s password.', example: '123456' })
+  @IsNotEmpty({ message: AuthUserErrorMessage.PasswordRequired })
   @IsString()
+  @MinLength(PasswordLength.Min, { message: AuthUserErrorMessage.PasswordMinLength })
+  @MaxLength(PasswordLength.Max, { message: AuthUserErrorMessage.PasswordMaxLength })
   password: string;
 }

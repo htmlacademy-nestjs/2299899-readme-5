@@ -1,1 +1,4 @@
-export const EMAIL_ADD_SUBSCRIBER_SUBJECT = 'Subscribtion success';
+export enum EmailSubject {
+  AddSubscriber = 'Subscribtion success',
+  Newsletter = 'Selection of new publications',
+}

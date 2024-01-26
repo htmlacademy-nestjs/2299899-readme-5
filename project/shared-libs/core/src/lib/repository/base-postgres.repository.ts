@@ -10,7 +10,9 @@ export abstract class BasePostgresRepository<EntityType extends Entity<EntityIdT
   ) {}
 
   protected createEntityFromDocument(document: DocumentType): EntityType | null {
-    if (!document) return null;
+    if (!document) {
+      return null;
+    }
 
     return this.createEntity(document);
   }

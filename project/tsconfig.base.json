@@ -21,6 +21,12 @@
       "@project/shared-libs/blog/models": [
         "shared-libs/blog/models/src/index.ts"
       ],
+      "@project/shared-libs/config/api-gateway": [
+        "shared-libs/config/api-gateway/src/index.ts"
+      ],
+      "@project/shared-libs/config/blog": [
+        "shared-libs/config/blog/src/index.ts"
+      ],
       "@project/shared-libs/config/file-storage": [
         "shared-libs/config/file-storage/src/index.ts"
       ],
