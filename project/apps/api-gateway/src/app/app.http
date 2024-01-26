@@ -188,3 +188,67 @@ DELETE http://localhost:3000/api/blog/0b300137-836d-4eba-838e-0a91cd63d1c2 HTTP/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMzA3LCJleHAiOjE3MDY2NDUzMDd9.RNlCgKj6P5VjPu8ZK5WVeOGI1S5RljTDlKUF9Z5lwcE
 
 ###
+
+# Create a new comment for post
+POST http://localhost:3000/api/blog/0cee6a4c-fbbb-4b3b-b8d3-2234b73f05d9/comments HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMzA3LCJleHAiOjE3MDY2NDUzMDd9.RNlCgKj6P5VjPu8ZK5WVeOGI1S5RljTDlKUF9Z5lwcE
+Content-Type: application/json
+
+{
+  "message": "This is text"
+}
+
+###
+
+# Toggle like for post
+POST http://localhost:3000/api/blog/0cee6a4c-fbbb-4b3b-b8d3-2234b73f05d9/likes HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMzA3LCJleHAiOjE3MDY2NDUzMDd9.RNlCgKj6P5VjPu8ZK5WVeOGI1S5RljTDlKUF9Z5lwcE
+
+###
+
+# Get all posts
+GET http://localhost:3000/api/blog HTTP/1.1
+
+###
+
+# Get all posts order by comments count
+GET http://localhost:3000/api/blog?sortOption=discussed HTTP/1.1
+
+###
+
+# Get all posts order by likes
+GET http://localhost:3000/api/blog?sortOption=likes HTTP/1.1
+
+###
+
+# Get posts with type
+GET http://localhost:3000/api/blog?type=Видео HTTP/1.1
+
+###
+
+# Get posts by page
+GET http://localhost:3000/api/blog?page=2 HTTP/1.1
+
+###
+
+# Repost
+POST http://localhost:3000/api/blog/f5446ea3-84d2-4d76-b410-9b0d7cab7e31/repost HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMzA3LCJleHAiOjE3MDY2NDUzMDd9.RNlCgKj6P5VjPu8ZK5WVeOGI1S5RljTDlKUF9Z5lwcE
+
+###
+
+# Get posts by tag
+GET http://localhost:3000/api/blog?tag=тег_1 HTTP/1.1
+
+###
+
+# Get all user's drafts
+GET http://localhost:3000/api/blog/drafts HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMzA3LCJleHAiOjE3MDY2NDUzMDd9.RNlCgKj6P5VjPu8ZK5WVeOGI1S5RljTDlKUF9Z5lwcE
+
+###
+
+# Search posts by words in title
+POST http://localhost:3000/api/blog/search?title=text video HTTP/1.1
+
+###
