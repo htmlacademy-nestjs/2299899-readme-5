@@ -252,3 +252,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyY
 POST http://localhost:3000/api/blog/search?title=text video HTTP/1.1
 
 ###
+
+# Get user by ID
+GET http://localhost:3000/api/users/65b2abcc40b7f68cd6bda127 HTTP/1.1
+
+###
+
+# Change user password
+POST http://localhost:3000/api/users/change_password HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIyYWJjYzQwYjdmNjhjZDZiZGExMjciLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJLZWtzIiwiaWF0IjoxNzA2MjEzMzA3LCJleHAiOjE3MDY2NDUzMDd9.RNlCgKj6P5VjPu8ZK5WVeOGI1S5RljTDlKUF9Z5lwcE
+Content-Type: application/json
+
+{
+  "currentPassword": "123456",
+  "newPassword": "qwerty"
+}
+
+###

@@ -20,7 +20,7 @@ export class FilesController {
 
   @Get('/:id')
   public async getFile(@Param('id') id: string) {
-    const { data } = await this.httpService.axiosRef.get(`http://localhost:${this.config.fileStoragePort}/api/files/${id}`)
+    const { data } = await this.httpService.axiosRef.get(`http://localhost:${this.config.fileStoragePort}/api/files/${id}`);
     return data;
   }
 }

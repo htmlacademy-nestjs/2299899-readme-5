@@ -65,17 +65,6 @@ export class AuthenticationController {
   }
 
   @ApiResponse({
-    type: UserRdo,
-    status: HttpStatus.OK,
-    description: 'User found.'
-  })
-  @Get(':id')
-  public async show(@Param('id') id: string) {
-    const existUser = await this.authService.getUser(id);
-    return fillDto(UserRdo, existUser.toPOJO());
-  }
-
-  @ApiResponse({
     status: HttpStatus.OK,
     description: 'Get a new access/refresh tokens',
   })
@@ -104,5 +93,16 @@ export class AuthenticationController {
   @Post('change_password')
   public async changePassword(@Req() { user }: RequestWithTokenPayload, @Body() dto: ChangeUserPasswordDto) {
     return this.authService.changeUserPassword(user.userId, dto);
+  }
+
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.OK,
+    description: 'User found.'
+  })
+  @Get(':id')
+  public async show(@Param('id') id: string) {
+    const existUser = await this.authService.getUser(id);
+    return fillDto(UserRdo, existUser.toPOJO());
   }
 }
