@@ -25,7 +25,9 @@ const validationSchema = Joi.object({
 function validateConfig(config: RabbitConfig): void {
   const { error } = validationSchema.validate(config, { abortEarly: true });
 
-  if (error) throw new Error(`[Users Rabbit config validation error]: ${error.message}`);
+  if (error) {
+    throw new Error(`[Users Rabbit config validation error]: ${error.message}`);
+  }
 }
 
 function getConfig(): RabbitConfig {

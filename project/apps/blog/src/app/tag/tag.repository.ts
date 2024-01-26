@@ -3,7 +3,6 @@ import { BasePostgresRepository } from '@project/core';
 import { PrismaClientService } from '@project/shared-libs/blog/models';
 import { PostTag } from '@project/types';
 
-import { CreateTagDto } from './dto/create-tag.dto';
 import { TagEntity } from './tag.entity';
 
 @Injectable()

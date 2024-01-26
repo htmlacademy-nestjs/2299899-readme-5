@@ -66,7 +66,9 @@ const validationSchema = Joi.object({
 function validateConfig(config: NotificationsConfig): void {
   const { error } = validationSchema.validate(config, { abortEarly: true });
 
-  if (error) throw new Error(`[Notifications config validation error]: ${error.message}`);
+  if (error) {
+    throw new Error(`[Notifications config validation error]: ${error.message}`);
+  }
 }
 
 function getConfig(): NotificationsConfig {

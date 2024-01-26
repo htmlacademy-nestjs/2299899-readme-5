@@ -18,7 +18,7 @@ export class MailService {
       from: this.notificationsConfig.mail.from,
       to: subscriber.email,
       subject: EmailSubject.AddSubscriber,
-      template: './add-subscriber',
+      template: './add-subscriber.hbs',
       context: {
         user: `${subscriber.name}`,
         email: `${subscriber.email}`,

@@ -12,7 +12,10 @@ export abstract class BaseMongoRepository<EntityType extends Entity<EntityIdType
   ) {}
 
   protected createEntityFromDocument(document: DocumentType): EntityType | null {
-    if (!document) return null;
+    if (!document) {
+      return null;
+    }
+
     const entity = this.createEntity(document.toObject({ versionKey: false }));
     entity.id = document._id.toString();
     return entity;
@@ -43,7 +46,9 @@ export abstract class BaseMongoRepository<EntityType extends Entity<EntityIdType
       { new: true, runValidators: true },
     ).exec();
 
-    if (!updatedDocument) throw new NotFoundException(`Entity with id ${id} not found`);
+    if (!updatedDocument) {
+      throw new NotFoundException(`Entity with id ${id} not found`);
+    }
 
     return entity;
   }
@@ -51,6 +56,8 @@ export abstract class BaseMongoRepository<EntityType extends Entity<EntityIdType
   public async deleteById(id: EntityType['id']): Promise<void> {
     const deletedDocument = await this.model.findByIdAndDelete(id).exec();
 
-    if (!deletedDocument) throw new NotFoundException(`Entity with id ${id} not found`);
+    if (!deletedDocument) {
+      throw new NotFoundException(`Entity with id ${id} not found`);
+    }
   }
 }

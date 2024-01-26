@@ -35,7 +35,10 @@ const validationSchema = Joi.object({
 
 function validateConfig(config: FileStorageConfig): void {
   const { error } = validationSchema.validate(config, { abortEarly: true });
-  if (error) throw new Error(`[FileStorage config validation error]: ${error.message}`);
+
+  if (error) {
+    throw new Error(`[FileStorage config validation error]: ${error.message}`);
+  }
 }
 
 function getConfig(): FileStorageConfig {

@@ -19,7 +19,9 @@ const validationSchema = Joi.object({
 function validateConfig(config: JWTConfig): void {
   const { error } = validationSchema.validate(config, { abortEarly: true });
 
-  if (error) throw new Error(`[Filestorage JWTConfig Validation Error]: ${error.message}`);
+  if (error) {
+    throw new Error(`[Filestorage JWTConfig Validation Error]: ${error.message}`);
+  }
 }
 
 function getConfig(): JWTConfig {

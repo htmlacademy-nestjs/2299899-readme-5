@@ -8,8 +8,6 @@ export class TagEntity implements PostTag, Entity<string, PostTag> {
   public updatedAt?: Date;
 
   constructor(data: PostTag) {
-    if (!data.title) throw new Error('Post tag is required');
-
     this.populate(data);
   }
 

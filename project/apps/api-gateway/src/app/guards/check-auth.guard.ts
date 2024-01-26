@@ -3,6 +3,8 @@ import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/commo
 import { ConfigType } from '@nestjs/config';
 import { apiGatewayConfig } from '@project/shared-libs/config/api-gateway';
 
+import { AppPath, ROOT_PATH } from '../app.const';
+
 @Injectable()
 export class CheckAuthGuard implements CanActivate {
   constructor(
@@ -12,7 +14,7 @@ export class CheckAuthGuard implements CanActivate {
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const { data } = await this.httpService.axiosRef.post(`http://localhost:${this.config.usersPort}/api/auth/check`, {}, {
+    const { data } = await this.httpService.axiosRef.post(`${ROOT_PATH}:${this.config.usersPort}${AppPath.Users}/check`, {}, {
       headers: { 'Authorization': request.headers['authorization'] },
     });
 
