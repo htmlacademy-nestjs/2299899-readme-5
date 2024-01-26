@@ -3,7 +3,7 @@ import * as Joi from 'joi';
 import { registerAs } from '@nestjs/config';
 import { Environment } from '@project/types';
 
-import { DEFAULT_PORT } from '../const';
+import { DefaultPort } from '../const';
 
 export interface BlogConfig {
   environment: string;
@@ -12,7 +12,7 @@ export interface BlogConfig {
 
 const validationSchema = Joi.object({
   environment: Joi.string().valid(...Object.values(Environment)).required(),
-  appPort: Joi.number().port().default(DEFAULT_PORT),
+  appPort: Joi.number().port().default(DefaultPort.App),
 });
 
 function validateConfig(config: BlogConfig): void {
@@ -26,7 +26,7 @@ function validateConfig(config: BlogConfig): void {
 function getConfig(): BlogConfig {
   const config: BlogConfig = {
     environment: process.env.NODE_ENV as Environment,
-    appPort: parseInt(process.env.PORT || `${DEFAULT_PORT}`, 10),
+    appPort: parseInt(process.env.PORT || `${DefaultPort.App}`, 10),
   };
 
   validateConfig(config);

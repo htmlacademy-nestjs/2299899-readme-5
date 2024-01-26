@@ -1,10 +1,12 @@
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { Controller } from '@nestjs/common';
-import { RabbitRouting } from '@project/types';
+import { RabbitRouting, Subscriber } from '@project/types';
 
 import { MailService } from '../mail/mail.service';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
+import { NewsletterDto } from './dto/newsletter.dto';
 import { EmailSubscriberService } from './email-subscriber.service';
+import { getNewPosts } from './utils/get-new-posts.util';
 
 @Controller()
 export class EmailSubscriberController {
@@ -19,7 +21,26 @@ export class EmailSubscriberController {
     queue: 'readme_notifications_income',
   })
   public async create(subscriber: CreateSubscriberDto) {
-    this.subscriberService.addSubscriber(subscriber);
-    this.mailService.sendNotificationNewSubscriber(subscriber);
+    const extendedSubscriber: Subscriber = { ...subscriber, notificationDate: new Date() };
+    this.subscriberService.addSubscriber(extendedSubscriber);
+    this.mailService.sendNotificationNewSubscriber(extendedSubscriber);
+  }
+
+  @RabbitSubscribe({
+    exchange: 'readme_notifications_income',
+    routingKey: RabbitRouting.SendNewsletter,
+    queue: 'readme_notifications_income',
+  })
+  public async sendNewsletter(dto: NewsletterDto) {
+    const { email, posts } = dto;
+    const recepient = await this.subscriberService.getSubscriber(email);
+    if (recepient && posts.length > 0) {
+      const newPosts = getNewPosts(dto, recepient);
+
+      if (newPosts.length > 0) {
+        await this.mailService.sendNewsletter(recepient.email, newPosts);
+        this.subscriberService.updateNotificationDate(recepient);
+      }
+    }
   }
 }

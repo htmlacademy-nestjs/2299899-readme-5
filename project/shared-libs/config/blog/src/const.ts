@@ -1,3 +1,6 @@
 export const ENV_FILE_PATH = 'apps/blog/.blog.env';
 
-export const DEFAULT_PORT = 3001;
+export enum DefaultPort {
+  App = 3001,
+  Rabbit = 5672,
+}

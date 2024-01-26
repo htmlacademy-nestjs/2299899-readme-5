@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtAccessStrategy } from '@project/core';
 import { PrismaClientModule } from '@project/shared-libs/blog/models';
 
+import { NotificationsModule } from '../notifications/notifications.module';
 import { TagModule } from '../tag/tag.module';
 import { TagRepository } from '../tag/tag.repository';
 import { PostController } from './post.controller';
@@ -12,6 +13,7 @@ import { PostService } from './post.service';
   imports: [
     TagModule,
     PrismaClientModule,
+    NotificationsModule,
   ],
   controllers: [
     PostController,

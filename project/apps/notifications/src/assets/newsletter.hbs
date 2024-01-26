@@ -1,0 +1,48 @@
+<h1>Selection of new posts</h1>
+<h2>You could miss:</h2>
+
+<ul>
+  {{#each posts}}
+  <li>
+    {{#if videoTitle}}
+      <p><b>{{videoTitle}}</b></p>
+    {{/if}}
+    {{#if videoUrl}}
+      <p><b>{{videoUrl}}</b></p>
+    {{/if}}
+
+    {{#if textTitle}}
+      <p><b>{{textTitle}}</b></p>
+    {{/if}}
+    {{#if textAnons}}
+      <p><b>{{textAnons}}</b></p>
+    {{/if}}
+    {{#if text}}
+      <p><b>{{text}}</b></p>
+    {{/if}}
+
+    {{#if cite}}
+      <p><b>{{cite}}</b></p>
+    {{/if}}
+    {{#if citeAuthor}}
+      <p><b>{{citeAuthor}}</b></p>
+    {{/if}}
+
+    {{#if photo}}
+      <p><b>{{photo}}</b></p>
+    {{/if}}
+
+    {{#if url}}
+      <p><b>{{url}}</b></p>
+    {{/if}}
+    {{#if urlDescription}}
+      <p><b>{{urlDescription}}</b></p>
+    {{/if}}
+    <p>Tags: {{tags}}</p>
+    <p>Author: {{userId}}</p>
+    <p>Publish date: {{publishDate}}</p>
+    <p>Likes: {{likesCount}}</p>
+    <p>Comments: {{commentsCount}}</p>
+  </li>
+  {{/each}}
+</ul>

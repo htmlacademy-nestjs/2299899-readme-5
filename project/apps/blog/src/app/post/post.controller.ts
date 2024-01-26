@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '@project/core';
 import { fillDto } from '@project/helpers';
 import { RequestWithTokenPayload } from '@project/types';
 
+import { NotificationsService } from '../notifications/notifications.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostAuthorGuard } from './guards/post-author.guard';
@@ -19,7 +20,10 @@ import { PostRdo } from './rdo/post.rdo';
 
 @Controller('posts')
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly notificationService: NotificationsService,
+  ) {}
 
   @Get('/')
   public async index(@Query() query: PostQuery) {
@@ -57,6 +61,14 @@ export class PostController {
       entities: postsPagination.entities.map((post) => fillDto(PostRdo, post.toPOJO())),
     }
     return fillDto(PostPaginationRdo, result);
+  }
+
+  @Get('/newsletter')
+  @UseGuards(JwtAuthGuard)
+  public async newsletter(@Req() { user }: RequestWithTokenPayload, @Query() query: PostQuery) {
+    const { email, userId } = user;
+    const posts = await this.postService.getAllPosts(query);
+    this.notificationService.sendNewsletter({ email, posts: posts.entities, id: userId });
   }
 
   @Get('/:id')
