@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import {
     CallHandler, ExecutionContext, Injectable, NestInterceptor, NotFoundException
 } from '@nestjs/common';
-import { fillDto } from '@project/helpers';
 
 import { PostService } from '../post.service';
 
