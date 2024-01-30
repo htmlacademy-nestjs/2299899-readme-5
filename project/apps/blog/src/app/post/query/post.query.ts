@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
 import {
-    IsArray, IsBoolean, IsEnum, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID,
-    Matches, MaxLength, MinLength
+    IsBoolean, IsEnum, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, Matches,
+    MaxLength, MinLength
 } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
